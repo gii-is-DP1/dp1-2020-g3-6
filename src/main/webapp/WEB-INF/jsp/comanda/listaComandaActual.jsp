@@ -5,7 +5,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags"%>
 
-<petclinic:layout pageName="Comanda">
+<petclinic:layout pageName="Comanda Actual">
 	<h2>Comandas</h2>
 
 	<spring:url value="/comanda/listaComandaActual/new" var="newURL">

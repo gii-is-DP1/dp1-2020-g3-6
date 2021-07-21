@@ -70,8 +70,8 @@ public class PlatoController {
 		String vista= "platos/listaPlatos";
 		if(result.hasErrors()) {
 			log.info(String.format("Plate with name %s wasn't able to be created", plato.getName()));
-      modelMap.addAttribute("message", "el plato que estas intentanco crear es erroneo");
-		  modelMap.addAttribute("platos", plato);
+			modelMap.addAttribute("message", "el plato que estas intentanco crear es erroneo");
+			modelMap.addAttribute("platos", plato);
 			return "platos/editPlatos";
 		}else {
 			platoService.save(plato);
@@ -100,10 +100,9 @@ public class PlatoController {
 	@GetMapping(value = "{platoId}/edit")
 	public String initUpdatePlatoForm(@PathVariable("platoId") int platoId, ModelMap model) {
 		String vista= "platos/editarPlatos";
-		
-			Plato plato =  platoService.findById(platoId).get();
-			model.addAttribute(plato);
-			return vista;
+		Plato plato =  platoService.findById(platoId).get();
+		model.addAttribute(plato);
+		return vista;
 	}
 	@PostMapping(value = "/edit/{platoId}")
 
@@ -122,11 +121,11 @@ public class PlatoController {
 	@GetMapping("/{platoId}")
 	public String showPlato(@PathVariable("platoId") int platoId, ModelMap model) {
 		Plato plato= platoService.findById(platoId).get();
-		model.addAttribute("plato", plato);
 		List<Ingrediente> ls= ingredienteService.findByPlatoId(platoId);
+		
+		model.addAttribute("plato", plato);
 		model.addAttribute("ingredientes", ls);
 		return "platos/platosDetails";
-		
 	}
 
 	@GetMapping(path="/{platoId}/ingrediente/new")
@@ -135,7 +134,6 @@ public class PlatoController {
 		Collection<Producto> listaProd= (Collection<Producto>) productoService.findAll();
 		Plato plato=  platoService.findById(platoId).get();
 		Ingrediente ing=new Ingrediente();
-		
 		
 		modelMap.addAttribute("plato", plato);
 		modelMap.addAttribute("ingrediente",ing);
@@ -159,7 +157,6 @@ public class PlatoController {
     			this.ingredienteService.save(ingrediente);                
     			return "redirect:/platos/"+platoId;
             }
-			
 		}
 	}
 	

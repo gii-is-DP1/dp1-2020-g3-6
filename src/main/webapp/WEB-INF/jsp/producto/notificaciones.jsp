@@ -5,7 +5,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
 
-<petclinic:layout pageName="producto">
+<petclinic:layout pageName="Notificaciones Producto">
     <h2>FALTAN EXISTENCIAS DE LOS SIGUIENTES PRODUCTOS</h2>
 
     <table id="productoTable" class="table table-striped">
