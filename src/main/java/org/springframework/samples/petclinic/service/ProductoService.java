@@ -11,6 +11,7 @@ import org.springframework.samples.petclinic.model.Producto;
 import org.springframework.samples.petclinic.model.Proveedor;
 import org.springframework.samples.petclinic.repository.LineaPedidoRepository;
 import org.springframework.samples.petclinic.repository.ProductoRepository;
+import org.springframework.samples.petclinic.service.exceptions.DuplicatedPedidoException;
 import org.springframework.samples.petclinic.service.exceptions.PedidoPendienteException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

@@ -1,7 +1,6 @@
 package org.springframework.samples.petclinic.web;
 
 import java.util.Iterator;
-import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -75,11 +74,8 @@ public class ProveedorController {
 	@GetMapping(path = "/delete/{proveedorid}")
 	public String borrarProveedor(@PathVariable("proveedorid") int proveedorid, ModelMap modelMap) {
 		String view = "proveedor/listadoDeProveedores";
-		Optional<Proveedor> proveedor = proveedorService.findById(proveedorid);
-		if (proveedor.isPresent()) {
-			Proveedor proveedorfinal = proveedor.get();
-			proveedorfinal.setActivo(false);
-			proveedorService.save(proveedorfinal);
+		if (proveedorService.findById(proveedorid).isPresent()) {
+			proveedorService.deleteById(proveedorid);
 			modelMap.addAttribute("message", "proveedor successfuly deleted");
 			view = listadoDeProveedores(modelMap);
 		} else {
