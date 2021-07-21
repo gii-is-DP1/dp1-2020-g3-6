@@ -16,7 +16,6 @@ import org.springframework.samples.petclinic.model.PlatoPedido;
 import org.springframework.samples.petclinic.model.PlatoPedidoDTO;
 import org.springframework.samples.petclinic.service.EstadoPlatoService;
 import org.springframework.samples.petclinic.service.IngredientePedidoService;
-import org.springframework.samples.petclinic.service.IngredienteService;
 import org.springframework.samples.petclinic.service.PlatoPedidoService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -36,7 +35,6 @@ public class PlatoPedidoController {
 	
 	private PlatoPedidoService platoPedidoService;
 	private IngredientePedidoService ingredientePedidoService;
-	private IngredienteService ingredienteService;
 	private EstadoPlatoService estadoPlatoService;
 	private PlatoPedidoConverter ppConverter;
 	private EstadoPlatoFormatter estadoPlatoFormatter;
@@ -44,13 +42,12 @@ public class PlatoPedidoController {
 	
 	@Autowired
 	public PlatoPedidoController(PlatoPedidoService platoPedidoService,
-			IngredientePedidoService ingredientePedidoService, IngredienteService ingredienteService,
+			IngredientePedidoService ingredientePedidoService,
 			EstadoPlatoService estadoPlatoService, PlatoPedidoConverter ppConverter,
 			EstadoPlatoFormatter estadoPlatoFormatter, PlatoFormatter platoFormatter) {
 		super();
 		this.platoPedidoService = platoPedidoService;
 		this.ingredientePedidoService = ingredientePedidoService;
-		this.ingredienteService = ingredienteService;
 		this.estadoPlatoService = estadoPlatoService;
 		this.ppConverter = ppConverter;
 		this.estadoPlatoFormatter = estadoPlatoFormatter;
@@ -106,7 +103,7 @@ public class PlatoPedidoController {
 
 		// Asignación de ingredientespedidos a plato pedido
 		Collection<IngredientePedido> ingredientes = new ArrayList<>();
-		ingredientes = platoPedidoService.CrearIngredientesPedidos(pp);
+		ingredientes = ingredientePedidoService.CrearIngredientesPedidos(pp);
 
 		model.addAttribute("comandaId", comandaId);
 		model.addAttribute("estadosPlato", collectionEstadosPlato);
@@ -121,9 +118,7 @@ public class PlatoPedidoController {
 			@PathVariable("ingId") int ingId, @Valid IngredientePedido ingredientePedido, BindingResult result,
 			ModelMap modelMap) throws ParseException {
 		
-			ingredientePedido.setIngrediente(ingredienteService.findById(ingId).get());
-			ingredientePedido.setPp(platoPedidoService.findById(ppId).get());
-			ingredientePedidoService.save(ingredientePedido);
+			ingredientePedidoService.save(ingredientePedido, ingId, ppId);
 			log.info(String.format("IngredientOrder with ingredient %s and amount %f has been saved", ingredientePedido.getIngrediente().getProducto().getName(), ingredientePedido.getCantidadPedida()));
 			modelMap.addAttribute("message", "Añadido");
 			return initUpdatePPForm(comandaId, ppId, modelMap);

@@ -2,16 +2,13 @@ package org.springframework.samples.petclinic.web;
 
 import java.time.LocalDate;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.Optional;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.samples.petclinic.model.LineaPedido;
+import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Pedido;
-import org.springframework.samples.petclinic.model.Producto;
-import org.springframework.samples.petclinic.service.LineaPedidoService;
 import org.springframework.samples.petclinic.service.PedidoService;
 import org.springframework.samples.petclinic.service.ProductoService;
 import org.springframework.samples.petclinic.service.exceptions.DuplicatedPedidoException;
@@ -87,7 +84,7 @@ public class PedidoController {
 	
 
 	@GetMapping(path="/terminarPedido/{pedidoID}")
-	public String recargarStock(@PathVariable("pedidoID") int pedidoID, ModelMap modelMap) {
+	public String recargarStock(@PathVariable("pedidoID") int pedidoID, ModelMap modelMap) throws DataAccessException, DuplicatedPedidoException {
 		String view= "pedidos/listaPedidos";
 		Optional<Pedido> pedi = pedidoService.findById(pedidoID);
 		if(pedi.isPresent()) {

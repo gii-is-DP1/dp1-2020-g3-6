@@ -1,8 +1,6 @@
 package org.springframework.samples.petclinic.web;
 
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.mockitoSession;
-import org.springframework.mock.web.MockHttpSession;
 import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -10,27 +8,18 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
-import static org.hamcrest.CoreMatchers.any;
 import static org.hamcrest.Matchers.is;
-
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Locale;
 import java.util.Optional;
-
-import static org.mockito.ArgumentMatchers.any;
-
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.junit.jupiter.MockitoSettings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
-import org.springframework.mock.web.MockHttpSession;
 import org.springframework.samples.petclinic.configuration.SecurityConfiguration;
 import org.springframework.samples.petclinic.model.Comanda;
 import org.springframework.samples.petclinic.model.EstadoPlato;
@@ -38,7 +27,6 @@ import org.springframework.samples.petclinic.model.Ingrediente;
 import org.springframework.samples.petclinic.model.IngredientePedido;
 import org.springframework.samples.petclinic.model.Plato;
 import org.springframework.samples.petclinic.model.PlatoPedido;
-import org.springframework.samples.petclinic.model.PlatoPedidoDTO;
 import org.springframework.samples.petclinic.model.Producto;
 import org.springframework.samples.petclinic.model.Proveedor;
 import org.springframework.samples.petclinic.service.EstadoPlatoService;
@@ -91,10 +79,8 @@ public class PlatoPedidoControllerTests {
 	
 	private PlatoPedido platoPedido;
 	private Plato plato;
-	private Comanda comanda;
 	private Producto producto1;
 	private Ingrediente ingrediente;
-	private Ingrediente ingrediente2;
 	
 	private EstadoPlato estadoPlato1;
 	private EstadoPlato estadoPlato2;
@@ -148,7 +134,7 @@ public class PlatoPedidoControllerTests {
 		given(this.ingredienteService.findById(ingrediente.getId())).willReturn(Optional.of(ingrediente));
 		given(this.platoPedidoService.findById(TEST_PLATOPEDIDO_ID)).willReturn(Optional.of(platoPedido));
 		given(this.estadoPlatoService.findAll()).willReturn(estadosPlato);
-		given(this.platoPedidoService.CrearIngredientesPedidos(platoPedido)).willReturn(platosPedidos);
+		given(this.ingredientePedidoService.CrearIngredientesPedidos(platoPedido)).willReturn(platosPedidos);
 		
 	}
 

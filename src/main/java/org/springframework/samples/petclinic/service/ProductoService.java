@@ -13,6 +13,7 @@ import org.springframework.samples.petclinic.model.Producto;
 import org.springframework.samples.petclinic.model.Proveedor;
 import org.springframework.samples.petclinic.repository.LineaPedidoRepository;
 import org.springframework.samples.petclinic.repository.ProductoRepository;
+import org.springframework.samples.petclinic.service.exceptions.DuplicatedPedidoException;
 import org.springframework.samples.petclinic.service.exceptions.PedidoPendienteException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -76,7 +77,7 @@ public class ProductoService {
 	}
 	
 	//Esto es para establecer los productos una vez se recibe un Pedido
-	public void recargarStock(Integer pedidoId) throws DataAccessException{
+	public void recargarStock(Integer pedidoId) throws DataAccessException, DuplicatedPedidoException{
 		Optional<Pedido> pedi = pedidoService.findById(pedidoId);
 		Iterable<LineaPedido> lineaPedi = lineaPedidoService.findByPedidoId(pedidoId);
 		Iterator<LineaPedido> lp_it = lineaPedi.iterator();
@@ -86,11 +87,13 @@ public class ProductoService {
 			LineaPedido lp = lp_it.next();
 			Producto prod = lp.getProducto();
 			prod.setCantAct(prod.getCantAct()+lp.getCantidad());
+			save(prod);
 		}
 		
 		//Modificacion de pedido
 		Pedido p = pedi.get();
 		p.setHaLlegado(Boolean.TRUE);
 		p.setFechaEntrega(LocalDate.now());
+		pedidoService.save(p);
 	}
 }
