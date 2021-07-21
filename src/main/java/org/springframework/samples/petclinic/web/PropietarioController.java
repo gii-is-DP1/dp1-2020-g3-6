@@ -73,7 +73,6 @@ public class PropietarioController {
 			vista = listadoPropietarios(modelMap);
 		}
 		return vista;
-
 	}
 
 	@GetMapping(path = "/delete/{propietarioId}")
@@ -86,7 +85,6 @@ public class PropietarioController {
 			modelMap.addAttribute("message", "not found");
 		}
 		return "redirect:/propietarios";
-
 	}
 
 	@GetMapping(value = "/edit/{propietarioId}")

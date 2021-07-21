@@ -1,6 +1,7 @@
 package org.springframework.samples.petclinic.web;
 
 import java.util.Iterator;
+import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -58,21 +59,20 @@ public class ProveedorController {
 			modelMap.addAttribute("proveedor", proveedor);
 			return "proveedor/editProveedor";
 		}else {
-			if (proveedorService.esIgual(proveedor.getName())) {
+			//Si existe y está oculto, mostrar de nuevo y actualizar
+			if(proveedorService.findAllNames().contains(proveedor.getName())
+					&& proveedorService.findByName(proveedor.getName()).get().getActivo().equals(false)) {
+				Boolean check = proveedorService.unhide(proveedor);
+				modelMap.addAttribute("message", "El proveedor se guardo exitosamente");
+				return listadoDeProveedores(modelMap);
+			}//Si existe y no está oculto, está repetido
+			else if (proveedorService.findByName(proveedor.getName()).isPresent()) {
 				modelMap.addAttribute("message", "El proveedor ya existe");
 				modelMap.addAttribute("proveedor", proveedor);
 				return "proveedor/editProveedor";
-			} else {
-				Proveedor proveedorfinal = proveedorService.findByName(proveedor.getName());
-				if (proveedorfinal != null) {
-					proveedorfinal.setActivo(true);
-					proveedorfinal.setGmail(proveedor.getGmail());
-					proveedorfinal.setTelefono(proveedor.getTelefono());
-					proveedorService.save(proveedorfinal);
-				} else {
-					proveedor.setActivo(true);
-					proveedorService.save(proveedor);
-				}
+			}//No existe, se debe guardar en la BD
+			else {
+				proveedorService.save(proveedor);
 				modelMap.addAttribute("message", "El proveedor se guardo exitosamente");
 				view = listadoDeProveedores(modelMap);
 			}
@@ -83,11 +83,12 @@ public class ProveedorController {
 	@GetMapping(path = "/delete/{proveedorid}")
 	public String borrarProveedor(@PathVariable("proveedorid") int proveedorid, ModelMap modelMap) {
 		String view = "proveedor/listadoDeProveedores";
-		if (proveedorService.findById(proveedorid).isPresent()) {
-			proveedorService.deleteById(proveedorid);
+		Optional<Proveedor> proveedor = proveedorService.findById(proveedorid);
+		if (proveedor.isPresent()) {
+			proveedorService.hide(proveedor.get());
 			modelMap.addAttribute("message", "proveedor successfuly deleted");
 			view = listadoDeProveedores(modelMap);
-		} else {
+		}else {
 			modelMap.addAttribute("message", "proveedor not found");
 			view = listadoDeProveedores(modelMap);
 		}
@@ -113,10 +114,8 @@ public class ProveedorController {
 					&& !proveedorService.findById(proveedor.getId()).get().getName().equals(proveedor.getName())) {
 				modelMap.addAttribute("message", "El proveedor ya existe");
 				return initUpdateProveedorForm(proveedor.getId(),modelMap);
-			}
-			else {
-			proveedor.setActivo(true);
-			this.proveedorService.save(proveedor);
+			}else {
+			proveedorService.save(proveedor);
 			return "redirect:/proveedor";
 			}
 		}

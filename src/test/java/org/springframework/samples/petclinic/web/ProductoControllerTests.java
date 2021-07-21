@@ -106,7 +106,7 @@ public class ProductoControllerTests {
 		producto.setTipoProducto(tipoproducto);
 
 		BDDMockito.given(this.productoService.findById(TEST_PRODUCTO_ID)).willReturn(Optional.of(producto));
-		BDDMockito.given(this.proveedorService.findByName("proveedor_1")).willReturn(this.proveedor);
+		BDDMockito.given(this.proveedorService.findByName("proveedor_1").get()).willReturn(this.proveedor);
 		BDDMockito.given(this.lineaPedidoRepository.findByProductoId(TEST_PRODUCTO_ID))
 				.willReturn(this.producto.getLineasPedidas());
 	}

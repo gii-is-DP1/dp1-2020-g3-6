@@ -1,7 +1,6 @@
 package org.springframework.samples.petclinic.web;
 
 import java.text.ParseException;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -10,12 +9,9 @@ import java.util.Locale;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.samples.petclinic.model.LineaPedido;
-import org.springframework.samples.petclinic.model.Pedido;
 import org.springframework.samples.petclinic.model.Producto;
 import org.springframework.samples.petclinic.model.ProductoDTO;
 import org.springframework.samples.petclinic.model.TipoProducto;
-import org.springframework.samples.petclinic.service.LineaPedidoService;
 import org.springframework.samples.petclinic.service.PedidoService;
 import org.springframework.samples.petclinic.service.ProductoService;
 import org.springframework.samples.petclinic.service.ProveedorService;
@@ -39,7 +35,6 @@ public class ProductoController {
 	
 	private ProductoService productoService;
 	private ProveedorService proveedorService;
-	private LineaPedidoService lineaPedidoService;
 	private TipoProductoService tipoProductoService;
 	private PedidoService pedidoService;
 	private ProductoConverter productoConverter;
@@ -48,13 +43,11 @@ public class ProductoController {
 	
 	@Autowired
 	public ProductoController(ProductoService productoService, ProveedorService proveedorService,
-			LineaPedidoService lineaPedidoService, TipoProductoService tipoProductoService, PedidoService pedidoService,
-			ProductoConverter productoConverter, TipoProductoFormatter tipoProductoFormatter,
-			ProveedorFormatter proveedorFormatter) {
+			TipoProductoService tipoProductoService, PedidoService pedidoService, ProductoConverter productoConverter, 
+			TipoProductoFormatter tipoProductoFormatter, ProveedorFormatter proveedorFormatter) {
 		super();
 		this.productoService = productoService;
 		this.proveedorService = proveedorService;
-		this.lineaPedidoService = lineaPedidoService;
 		this.tipoProductoService = tipoProductoService;
 		this.pedidoService = pedidoService;
 		this.productoConverter = productoConverter;
@@ -179,27 +172,15 @@ public class ProductoController {
 		
 
 	@GetMapping(path="/savePedido/{productoId}")
-	public String recargarStock(@PathVariable("productoId") int productoId, ModelMap modelMap) {
+	public String guardarPedido(@PathVariable("productoId") int productoId, ModelMap modelMap) {
 		String vista= "producto/listaProducto";
-		Optional<Producto> prodOpt= productoService.findById(productoId);
-		if(prodOpt.isPresent()) {
+		if(productoService.findById(productoId).isPresent()) {
 			try {
-			Producto producto = prodOpt.get();
-			Collection<Producto> listaProducto = productoService.findByProveedor(producto);
-			Pedido pedido = new Pedido();
-			pedido.setProveedor(producto.getProveedor());
-			pedido.setFechaPedido(LocalDate.now());
-			pedido.setHaLlegado(Boolean.FALSE);
-			pedidoService.save(pedido);
-			LineaPedido lineaPedido = new LineaPedido();
-			for(Producto p : listaProducto) {
-				lineaPedido = lineaPedidoService.anadirLineaPedido(p, pedido);
-				lineaPedidoService.save(lineaPedido);
-			}
-			modelMap.addAttribute("message", "Se ha creado el pedido correctamente");
-			vista = listadoProducto(modelMap);
+				pedidoService.crearPedido(productoId);
+				modelMap.addAttribute("message", "Se ha creado el pedido correctamente");
+				vista = listadoProducto(modelMap);
 			}catch(DuplicatedPedidoException ex){
-				modelMap.addAttribute("message", "Ya hay un pedido pendiente a ese proveedor ");
+				modelMap.addAttribute("message", "Ya hay un pedido pendiente a ese proveedor");
 				vista=listadoProducto(modelMap);
 			}
 		}else {

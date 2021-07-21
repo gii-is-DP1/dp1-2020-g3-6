@@ -34,8 +34,8 @@ public class ProveedorService {
 		return proveedorRepository.findById(id);
 	}
 	
-	public Proveedor findByName(String nombre){
-		return (Proveedor) proveedorRepository.findByName(nombre);
+	public Optional<Proveedor> findByName(String nombre){
+		return proveedorRepository.findByName(nombre);
 	}
 	
 	public Iterable<Proveedor> findActivos(){
@@ -48,7 +48,7 @@ public class ProveedorService {
 	
 	@Transactional(readOnly = true)
 	public boolean esIgual(String nombre){
-		Proveedor proveedor = proveedorRepository.findByName(nombre);
+		Proveedor proveedor = proveedorRepository.findByName(nombre).get();
 		if(proveedor==null) {
 			return false;
 		}
@@ -62,16 +62,35 @@ public class ProveedorService {
 
 	@Transactional
 	public void save(Proveedor proveedor) {
-		proveedorRepository.save(proveedor);
-		log.info(String.format("Provider with name %s has been saved", proveedor.getName()));
+		if (findByName(proveedor.getName()).isPresent()) {
+			Proveedor proveedorFinal = findByName(proveedor.getName()).get();
+			proveedorFinal.setActivo(true);
+			proveedorFinal.setGmail(proveedor.getGmail());
+			proveedorFinal.setTelefono(proveedor.getTelefono());
+			proveedorRepository.save(proveedorFinal);
+			log.info(String.format("Provider with name %s has been updated", proveedorFinal.getName()));
+		} else {
+			proveedor.setActivo(true);
+			proveedorRepository.save(proveedor);
+			log.info(String.format("Provider with name %s has been created", proveedor.getName()));
+		}
 	}
 	
 	@Transactional
-	public void deleteById(Integer proveedorId) {
-		Optional<Proveedor> proveedor = findById(proveedorId);
-		Proveedor proveedorfinal = proveedor.get();
-		proveedorfinal.setActivo(false);
-		save(proveedorfinal);
-		log.info(String.format("Provider with name %s has been hidden", proveedorfinal.getName()));
+	public void hide(Proveedor proveedor) {
+		proveedor.setActivo(false);
+		log.info(String.format("Provider with name %s has been hidden", proveedor.getName()));
+		proveedorRepository.save(proveedor);
+	}
+	
+	@Transactional
+	public Boolean unhide(Proveedor proveedor) {
+		Proveedor proveedorDB = proveedorRepository.findByName(proveedor.getName()).get();
+		proveedorDB.setActivo(true);
+		proveedorDB.setGmail(proveedor.getGmail());
+		proveedorDB.setTelefono(proveedor.getTelefono());
+		log.info(String.format("Provider with name %s has been unhidden and updated", proveedor.getName()));
+		proveedorRepository.save(proveedorDB);
+		return true;
 	}
 }

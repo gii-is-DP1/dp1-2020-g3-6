@@ -1,6 +1,5 @@
 package org.springframework.samples.petclinic.web;
 
-import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Optional;
 
@@ -10,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Pedido;
 import org.springframework.samples.petclinic.service.PedidoService;
-import org.springframework.samples.petclinic.service.ProductoService;
 import org.springframework.samples.petclinic.service.exceptions.DuplicatedPedidoException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -27,13 +25,11 @@ import lombok.extern.slf4j.Slf4j;
 public class PedidoController {
 	
 	private PedidoService pedidoService;
-	private ProductoService productoService;
 	
 	@Autowired
-	public PedidoController(PedidoService pedidoService, ProductoService productoService) {
+	public PedidoController(PedidoService pedidoService) {
 		super();
 		this.pedidoService = pedidoService;
-		this.productoService = productoService;
 	}
 
 	@GetMapping()
@@ -63,15 +59,14 @@ public class PedidoController {
 	@PostMapping(path="/save")
 	public String guardarPedido(@Valid Pedido pedido,BindingResult result,ModelMap modelMap) {
 		String view= "pedidos/listaPedidos";
-		pedido.setFechaPedido(LocalDate.now());
-		pedido.setHaLlegado(Boolean.FALSE);
+		
 		if(result.hasErrors()) {
 			log.info(String.format("Order wasn't able to be created"));
 			modelMap.addAttribute("pedido", pedido);
 			return "pedidos/editPedido";
 		}else {
 			 try {                    
-				 pedidoService.save(pedido);
+				pedidoService.save(pedido);
 				modelMap.addAttribute("message", "Guardado Correctamente");
 				view=listadoDePedidos(modelMap);              
              } catch (DuplicatedPedidoException ex) {
@@ -89,9 +84,8 @@ public class PedidoController {
 		Optional<Pedido> pedi = pedidoService.findById(pedidoID);
 		if(pedi.isPresent()) {
 			Pedido p = pedi.get();
-			if (pedi.get().getHaLlegado().equals(Boolean.FALSE)) {
-				productoService.recargarStock(pedidoID);
-				
+			if (p.getHaLlegado().equals(Boolean.FALSE)) {
+				pedidoService.recargarStock(pedidoID);
 				modelMap.addAttribute("message", "Se ha finalizado el pedido correctamente");
 				modelMap.addAttribute("pedidoFinalizado", p);
 				view = listadoDePedidos(modelMap);
@@ -119,7 +113,4 @@ public class PedidoController {
 			modelMap.addAttribute("pedido",pedido);
 			return vista;	
 		}
-	
-	
-	
 }

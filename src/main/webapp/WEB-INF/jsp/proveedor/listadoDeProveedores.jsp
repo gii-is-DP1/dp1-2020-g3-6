@@ -29,7 +29,6 @@
                  	<c:out value="${proveedor.gmail} "/>
                 </td>
                 <td>
-                   
                  	<c:out value="${proveedor.telefono} "/>
                 </td>
 				<td>
