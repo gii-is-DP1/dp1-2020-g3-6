@@ -63,16 +63,7 @@ public class ProveedorController {
 				modelMap.addAttribute("proveedor", proveedor);
 				return "proveedor/editProveedor";
 			} else {
-				Proveedor proveedorfinal = proveedorService.findByName(proveedor.getName());
-				if (proveedorfinal != null) {
-					proveedorfinal.setActivo(true);
-					proveedorfinal.setGmail(proveedor.getGmail());
-					proveedorfinal.setTelefono(proveedor.getTelefono());
-					proveedorService.save(proveedorfinal);
-				} else {
-					proveedor.setActivo(true);
-					proveedorService.save(proveedor);
-				}
+				proveedorService.save(proveedor);
 				modelMap.addAttribute("message", "El proveedor se guardo exitosamente");
 				view = listadoDeProveedores(modelMap);
 			}
@@ -113,9 +104,7 @@ public class ProveedorController {
 					&& !proveedorService.findById(proveedor.getId()).get().getName().equals(proveedor.getName())) {
 				modelMap.addAttribute("message", "El proveedor ya existe");
 				return initUpdateProveedorForm(proveedor.getId(),modelMap);
-			}
-			else {
-			proveedor.setActivo(true);
+			}else {
 			this.proveedorService.save(proveedor);
 			return "redirect:/proveedor";
 			}

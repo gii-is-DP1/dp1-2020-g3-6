@@ -62,8 +62,18 @@ public class ProveedorService {
 
 	@Transactional
 	public void save(Proveedor proveedor) {
-		proveedorRepository.save(proveedor);
-		log.info(String.format("Provider with name %s has been saved", proveedor.getName()));
+		Proveedor proveedorfinal = findByName(proveedor.getName());
+		if (proveedorfinal != null) {
+			proveedorfinal.setActivo(true);
+			proveedorfinal.setGmail(proveedor.getGmail());
+			proveedorfinal.setTelefono(proveedor.getTelefono());
+			proveedorRepository.save(proveedorfinal);
+			log.info(String.format("Provider with name %s has been saved", proveedorfinal.getName()));
+		} else {
+			proveedor.setActivo(true);
+			proveedorRepository.save(proveedor);
+			log.info(String.format("Provider with name %s has been unhidden", proveedor.getName()));
+		}
 	}
 	
 	@Transactional

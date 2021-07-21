@@ -97,7 +97,6 @@ public class CamareroController {
 	@GetMapping(value = "/edit/{camareroId}")
 	public String initUpdateCamareroForm(@PathVariable("camareroId") int camareroId, ModelMap model) {
 		String vista= "camareros/editarCamareros";
-		
 		Camarero cam =  camareroService.findById(camareroId).get();
 		model.addAttribute(cam);
 		return vista;

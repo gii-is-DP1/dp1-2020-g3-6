@@ -40,7 +40,7 @@
 					<span>Platos</span>
 				</petclinic:menuItem>
 				
-				<petclinic:menuItem active="${name eq 'comanda'}" url="/comanda/listaComandaTotal"
+				<petclinic:menuItem active="${name eq 'Total Comandas'}" url="/comanda/listaComandaTotal"
 					title="comanda">
 					<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
 					<span>Comandas Realizadas</span>
@@ -62,7 +62,7 @@
  				<!-- parte de propietarios -->
  				
  				<sec:authorize access="hasAuthority('camarero')">
-				<petclinic:menuItem active="${name eq 'comanda'}" url="/comanda/listaComandaActual"
+				<petclinic:menuItem active="${name eq 'Comanda Actual'}" url="/comanda/listaComandaActual"
 					title="comanda">
 					<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
 					<span>Comandas Actuales</span>
@@ -87,19 +87,19 @@
 					<span>Pedidos</span>
 				</petclinic:menuItem>
 				
-				<petclinic:menuItem active="${name eq 'comanda'}" url="/comanda/listaComandaTotal"
+				<petclinic:menuItem active="${name eq 'Total Comandas'}" url="/comanda/listaComandaTotal"
 					title="comanda">
 					<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
 					<span>Comandas Realizadas</span>
 				</petclinic:menuItem>
 				
-				<petclinic:menuItem active="${name eq 'empleados'}" url="/producto"
+				<petclinic:menuItem active="${name eq 'producto'}" url="/producto"
 					title="producto">
 					<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
 					<span>Producto</span>
 				</petclinic:menuItem>
 				
-				<petclinic:menuItem active="${name eq 'notificaciones'}" url="/producto/notificaciones"
+				<petclinic:menuItem active="${name eq 'Notificaciones Producto'}" url="/producto/notificaciones"
 					title="Notificaciones">
 					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
 					<span>Notificaciones</span>
