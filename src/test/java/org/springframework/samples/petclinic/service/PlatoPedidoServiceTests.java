@@ -66,7 +66,7 @@ public class PlatoPedidoServiceTests {
 	void CrearIngredientesPedidos() {
 		
 		PlatoPedido platoPedido =  platoPedidoService.findById(1).get();
-		Collection<IngredientePedido> res = platoPedidoService.CrearIngredientesPedidos(platoPedido);
+		Collection<IngredientePedido> res = ingredientePedidoService.CrearIngredientesPedidos(platoPedido);
 		Integer size = res.size();
 		assertThat(size).isEqualTo(0);
 		

@@ -42,15 +42,16 @@ class IngredientePedidoTests {
 	public void save() {
 		Ingrediente in = new Ingrediente();
 		Producto p = new Producto();
+		PlatoPedido pp = new PlatoPedido();
 		p.setCantAct(5.0);
 		in.setProducto(p);
 		IngredientePedido i = new IngredientePedido();
 		i.setCantidadPedida(0.0);
 		i.setId(1);
 		i.setIngrediente(in);
-		i.setPp(new PlatoPedido());
+		i.setPp(pp);
 		
-		IngredientePedido ingrediente = ingredientePedidoService.save(i);
+		IngredientePedido ingrediente = ingredientePedidoService.save(i, in.getId(), pp.getId());
 		
 		assertThat(ingrediente.getId()).isEqualTo(1);
 	}

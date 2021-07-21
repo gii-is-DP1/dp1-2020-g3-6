@@ -67,9 +67,11 @@ public class ProveedorService {
 	}
 	
 	@Transactional
-	public void deleteById(Integer id) {
-		Proveedor proveedor = proveedorRepository.findById(id).get();
-		proveedorRepository.deleteById(id);
-		log.info(String.format("Provider with name %s has been deleted", proveedor.getName()));
+	public void deleteById(Integer proveedorId) {
+		Optional<Proveedor> proveedor = findById(proveedorId);
+		Proveedor proveedorfinal = proveedor.get();
+		proveedorfinal.setActivo(false);
+		save(proveedorfinal);
+		log.info(String.format("Provider with name %s has been hidden", proveedorfinal.getName()));
 	}
 }
