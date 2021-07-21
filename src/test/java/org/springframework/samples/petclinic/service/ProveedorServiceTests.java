@@ -30,7 +30,7 @@ public class ProveedorServiceTests {
 	//FindProveedorByName
 	@Test
 	public void esBuscarProveedor() {
-		Proveedor test = proveedorService.findByName("Makro");
+		Proveedor test = proveedorService.findByName("Makro").get();
 		assertEquals("Makro", test.getName());
 	}
 	
@@ -62,7 +62,7 @@ public class ProveedorServiceTests {
 	
 	@Test
 	public void findProveedorByNameTest() {	
-		int id=proveedorService.findByName("Makro").getId();
+		int id=proveedorService.findByName("Makro").get().getId();
 		assertEquals(id, 1);
 		
 	}
