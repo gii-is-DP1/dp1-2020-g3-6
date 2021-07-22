@@ -62,7 +62,7 @@ public class ProveedorController {
 			//Si existe y está oculto, mostrar de nuevo y actualizar
 			if(proveedorService.findAllNames().contains(proveedor.getName())
 					&& proveedorService.findByName(proveedor.getName()).get().getActivo().equals(false)) {
-				Boolean check = proveedorService.unhide(proveedor);
+				proveedorService.unhide(proveedor);
 				modelMap.addAttribute("message", "El proveedor se guardo exitosamente");
 				return listadoDeProveedores(modelMap);
 			}//Si existe y no está oculto, está repetido

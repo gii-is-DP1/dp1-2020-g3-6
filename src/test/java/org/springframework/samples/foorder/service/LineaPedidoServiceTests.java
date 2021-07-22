@@ -1,8 +1,6 @@
 package org.springframework.samples.foorder.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertEquals;
-import java.util.Iterator;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -10,16 +8,10 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.samples.foorder.model.LineaPedido;
 import org.springframework.samples.foorder.model.Pedido;
 import org.springframework.samples.foorder.model.Producto;
-import org.springframework.samples.foorder.service.LineaPedidoService;
-import org.springframework.samples.foorder.service.PedidoService;
-import org.springframework.samples.foorder.service.ProductoService;
-import org.springframework.samples.foorder.service.ProveedorService;
 import org.springframework.stereotype.Service;
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
 public class LineaPedidoServiceTests {
-	@Autowired
-	private ProveedorService proveedorService;
 	
 	@Autowired
 	private ProductoService productoService;
@@ -29,30 +21,6 @@ public class LineaPedidoServiceTests {
 	
 	@Autowired
 	private LineaPedidoService lineaPedidoService;
-	
-	//Contar cuantas lineas de pedido hay.
-	@Test
-	public void testCountWithInitialData() {
-		int count = lineaPedidoService.count();
-		assertEquals(count,2);
-	}
-	
-	//FindLineaPEdidoByProductoID
-	@Test
-	public void esBuscarLineaPedidoconProductoId() {
-		Iterable<LineaPedido> test = lineaPedidoService.findByProductoId(1);
-		Iterator<LineaPedido> it_test = test.iterator();
-		int i = 0;
-		while(it_test.hasNext()) {
-			LineaPedido lineaPedido = it_test.next();
-			int productoID = lineaPedido.getProducto().getId();
-			assertEquals(1,productoID);
-			assertThat(lineaPedido.getPedido()).isNotNull();
-			assertThat(lineaPedido.getProducto()).isNotNull();
-			i++;
-		}
-		assertEquals(i,1);
-	}
 	
 	//AñadirLineaPedido
 	@Test

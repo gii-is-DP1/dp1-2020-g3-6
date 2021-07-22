@@ -1,7 +1,5 @@
 package org.springframework.samples.foorder.service;
 
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.foorder.model.LineaPedido;
@@ -29,31 +27,14 @@ public class LineaPedidoService {
 		return lineaPedidoRepository.findAll();
 	}
 	
-	public Optional<LineaPedido> findById(Integer id) {
-		return lineaPedidoRepository.findById(id);
-	}
-	
-	public Iterable<LineaPedido> findByProductoId(int productoID) {
-		return lineaPedidoRepository.findByProductoId(productoID);
-	}
-	
 	public Iterable<LineaPedido> findByPedidoId(int pedidoID) {
 		return lineaPedidoRepository.findByPedidoId(pedidoID);
-	}
-	
-	public int count() {
-		return (int) lineaPedidoRepository.count();	
 	}
 	
 	@Transactional
 	public void save(LineaPedido lineaPedido) throws DataAccessException {
 		lineaPedidoRepository.save(lineaPedido);
 		log.info(String.format("Order with product %s has been created", lineaPedido.getProducto().getName()));
-	}
-	
-	@Transactional
-	public void deleteById(Integer id) {
-		lineaPedidoRepository.deleteById(id);
 	}
 
 	@Transactional

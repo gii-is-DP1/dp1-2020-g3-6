@@ -44,11 +44,6 @@ public class AuthoritiesService {
 		this.authoritiesRepository = authoritiesRepository;
 		this.userService = userService;
 	}
-
-	@Transactional
-	public void saveAuthorities(Authorities authorities) throws DataAccessException {
-		authoritiesRepository.save(authorities);
-	}
 	
 	@Transactional
 	public User crearUsuario(String username, String contrasena) {

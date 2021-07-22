@@ -56,14 +56,4 @@ public class IngredienteService {
 		ingredienteRepository.deleteById(id);
 		log.info(String.format("Ingredient with name %s and amount %f has been deleted", ing.getProducto().getName(), ing.getCantidadUsualPP()));
 	}
-	
-	@Transactional
-	public void deleteByPlatoId(Integer id){
-		Collection<Ingrediente> ls= ingredienteRepository.findAll();	
- 		for(Ingrediente l: ls) {
-			if(l.getPlato().getId()==id) {
-				deleteById(l.getId());
-			}
-		}
-	}
 }

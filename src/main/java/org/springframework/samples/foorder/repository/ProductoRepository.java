@@ -9,8 +9,6 @@ import org.springframework.samples.foorder.model.Proveedor;
 
 public interface ProductoRepository extends CrudRepository<Producto, Integer>{
 	
-	Collection<Producto> findAll();
-	
 	Collection<Producto> findByProveedor(Proveedor proveedor) throws DataAccessException;
 	
 }

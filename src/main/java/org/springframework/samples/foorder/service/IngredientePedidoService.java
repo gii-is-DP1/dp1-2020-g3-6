@@ -6,7 +6,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
 import org.springframework.samples.foorder.model.Ingrediente;
 import org.springframework.samples.foorder.model.IngredientePedido;
 import org.springframework.samples.foorder.model.PlatoPedido;
@@ -14,9 +13,6 @@ import org.springframework.samples.foorder.model.Producto;
 import org.springframework.samples.foorder.repository.IngredientePedidoRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import lombok.extern.slf4j.Slf4j;
-@Slf4j
 @Service
 public class IngredientePedidoService {
 	
@@ -62,13 +58,6 @@ public class IngredientePedidoService {
 		
 		ingredientePedidoRepository.save(ingredientePedido);
 		return ingredientePedido;
-	}
-	
-	@Transactional
-	public void deleteById(Integer id) {
-		IngredientePedido ip = ingredientePedidoRepository.findById(id).get();
-		ingredientePedidoRepository.deleteById(id);
-		log.info(String.format("IngredientOrder with ingredient %s and amount %f has been delete", ip.getIngrediente().getProducto().getName(), ip.getCantidadPedida()));	
 	}
 	
 	@Transactional

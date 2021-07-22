@@ -45,20 +45,6 @@ public class ProveedorService {
 	public List<String> findActivosName(){
 		return proveedorRepository.findActivosName();
 	}
-	
-	@Transactional(readOnly = true)
-	public boolean esIgual(String nombre){
-		Proveedor proveedor = proveedorRepository.findByName(nombre).get();
-		if(proveedor==null) {
-			return false;
-		}
-		else if(proveedor!=null && proveedor.getActivo()==false){
-			return false;
-		}
-		else{
-			return true;
-		}
-	}
 
 	@Transactional
 	public void save(Proveedor proveedor) {
@@ -84,13 +70,12 @@ public class ProveedorService {
 	}
 	
 	@Transactional
-	public Boolean unhide(Proveedor proveedor) {
+	public void unhide(Proveedor proveedor) {
 		Proveedor proveedorDB = proveedorRepository.findByName(proveedor.getName()).get();
 		proveedorDB.setActivo(true);
 		proveedorDB.setGmail(proveedor.getGmail());
 		proveedorDB.setTelefono(proveedor.getTelefono());
 		log.info(String.format("Provider with name %s has been unhidden and updated", proveedor.getName()));
 		proveedorRepository.save(proveedorDB);
-		return true;
 	}
 }

@@ -1,14 +1,10 @@
 package org.springframework.samples.foorder.service;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +12,6 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.samples.foorder.model.Pedido;
 import org.springframework.samples.foorder.model.Producto;
-import org.springframework.samples.foorder.service.PedidoService;
-import org.springframework.samples.foorder.service.ProductoService;
-import org.springframework.samples.foorder.service.ProveedorService;
 import org.springframework.samples.foorder.service.exceptions.DuplicatedPedidoException;
 import org.springframework.stereotype.Service;
 
@@ -34,26 +27,6 @@ public class PedidoServiceTests {
 	
 	@Autowired
 	private PedidoService pedidoService;
-	
-	//FindPedidoByProveedorID
-	@Test
-	public void findPedidoByProveedorId() {
-		Iterable<Pedido> test = this.pedidoService.findByProveedorId(1);
-		Iterator<Pedido> it_test = test.iterator();
-		List<Pedido> aux = new ArrayList<Pedido>();
-		while (it_test.hasNext()) {
-			Pedido pedido = it_test.next();
-			aux.add(pedido);
-			assertThat(pedido.getId()).isNotNull();
-		}
-		
-		int a = aux.get(0).getId();
-		assertEquals(1, a);
-		assertEquals(false, aux.get(0).getHaLlegado());
-		assertEquals("Makro", aux.get(0).getProveedor().getName());
-
-		
-	}
 	
 	//SavePedido
 	
