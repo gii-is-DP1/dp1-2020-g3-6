@@ -1,42 +1,25 @@
 package org.springframework.samples.foorder.web;
 
-import java.text.ParseException;
-import java.util.Collection;
-import java.util.Locale;
 import java.util.Optional;
-
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.foorder.model.Ingrediente;
-import org.springframework.samples.foorder.model.Producto;
 import org.springframework.samples.foorder.service.IngredienteService;
-import org.springframework.samples.foorder.service.ProductoService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import lombok.extern.slf4j.Slf4j;
-@Slf4j
 @Controller
 @RequestMapping(value = "/ingrediente")
 public class IngredienteController {
 	
 	private IngredienteService ingredienteService;
-	private ProductoFormatter productoFormatter;
-	private ProductoService productoService;
 	
 	@Autowired
-	public IngredienteController(IngredienteService ingredienteService, ProductoFormatter productoFormatter,
-			ProductoService productoService) {
+	public IngredienteController(IngredienteService ingredienteService) {
 		super();
 		this.ingredienteService = ingredienteService;
-		this.productoFormatter = productoFormatter;
-		this.productoService = productoService;
 	}
 
 	@GetMapping()
@@ -45,31 +28,6 @@ public class IngredienteController {
 		Iterable<Ingrediente> inglist = ingredienteService.findAll();
 		modelMap.addAttribute("ingrediente",inglist);
 		return vista;	
-	}
-	
-	@GetMapping(path="/new")
-	public String crearIngrediente(ModelMap modelMap) {
-		String vista= "ingrediente/newIngrediente";
-		Collection<Producto> listaProd= (Collection<Producto>) productoService.findAll();
-		modelMap.addAttribute("ingrediente",new Ingrediente());
-		modelMap.addAttribute("listaProductos", listaProd);
-		return vista;
-	}
-	
-	@PostMapping(path="/save")
-	public String guardarIngrediente(@Valid Ingrediente ing,BindingResult result,ModelMap modelMap) throws ParseException {
-		String vista= "ingrediente/listaIngredientes";
-		final Ingrediente ingFinal = ing;
-		ingFinal.setProducto(productoFormatter.parse(ing.getProducto().getName(), Locale.ENGLISH));
-		if(result.hasErrors()) {
-			log.info(String.format("Ingredient with name %s wasn't able to be created", ing.getProducto().getName()));
-			return "platosPedido/newPlatosPedido";
-		}else {
-			ingredienteService.save(ingFinal);
-			modelMap.addAttribute("message", "Guardado Correctamente");
-			vista=listadoIngrediente(modelMap);
-		}
-		return vista; 
 	}
 
 	@GetMapping(path="/delete/{ingId}")

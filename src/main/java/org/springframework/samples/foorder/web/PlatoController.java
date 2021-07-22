@@ -104,8 +104,8 @@ public class PlatoController {
 		model.addAttribute(plato);
 		return vista;
 	}
+	
 	@PostMapping(value = "/edit/{platoId}")
-
 	public String processUpdatePlatoForm(@Valid Plato plato,BindingResult result,@PathVariable("platoId") int platoId,ModelMap modelMap) {
 		String vista= "platos/editarPlatos";
 		plato.setId(platoId);

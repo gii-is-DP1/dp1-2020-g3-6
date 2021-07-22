@@ -4,7 +4,6 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.foorder.model.LineaPedido;
-import org.springframework.samples.foorder.model.ProductoDTO;
 import org.springframework.samples.foorder.service.LineaPedidoService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -40,15 +39,6 @@ public class LineaPedidoController {
 		modelMap.addAttribute("lineaPedido", lineapedido);
 		return vista;
 	}
-	
-	@GetMapping(path="/new")
-	public String crearLineaPedido(ModelMap modelMap) {
-		String view= "lineaPedido/editLineaPedido";
-		modelMap.addAttribute("lineaPedido",new LineaPedido());
-		modelMap.addAttribute("productoString", new ProductoDTO());
-		return view;
-	}
-	
 	
 	@PostMapping(path="/save")
 	public String guardarLineaPedido(@Valid LineaPedido lineaPedido,BindingResult result,ModelMap modelMap) {
