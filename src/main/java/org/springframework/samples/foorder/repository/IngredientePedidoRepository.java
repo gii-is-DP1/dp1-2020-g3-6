@@ -13,8 +13,4 @@ public interface IngredientePedidoRepository extends CrudRepository<IngredienteP
 	
 	Collection<IngredientePedido> findAll();
 	
-	@Query(value = "SELECT i.* FROM INGREDIENTE i "
-			+ "INNER JOIN INGREDIENTE_PEDIDO ip ON i.id = ip.ingrediente_id "
-			+ "WHERE ip.id = :ingrediente_pedido_id%", nativeQuery = true)
-	Ingrediente ingredienteAsociado(@Param("ingrediente_pedido_id") Integer ingrediente_pedido_id) throws DataAccessException;
 }
