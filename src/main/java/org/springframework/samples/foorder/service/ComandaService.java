@@ -1,6 +1,7 @@
 package org.springframework.samples.foorder.service;
 
 import java.security.Principal;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -43,16 +44,6 @@ public class ComandaService {
 		return comandaRepository.findById(id);
 	}
 	
-	public int count() {
-		return (int) comandaRepository.count();	
-	}
-
-	@Transactional
-	public Comanda save(Comanda comanda) {
-		log.info(String.format("Order to table  %d has been saved", comanda.getMesa()));
-		return comandaRepository.save(comanda);
-	}
-	
 	@Transactional(readOnly = true)
 	public Collection<Comanda> encontrarComandaDia(String dia) throws DataAccessException {
 		LocalDate actualDate =LocalDate.parse(dia);
@@ -87,13 +78,19 @@ public class ComandaService {
 	}
 	
 	@Transactional
+	public void save(Comanda comanda) {
+		log.info(String.format("Comanda has been saved successfully"));
+		comandaRepository.save(comanda);
+	}
+	
+	@Transactional
 	public Comanda crearComanda(Integer mesa, Principal user) {
 		Comanda comanda = new Comanda();
 		comanda.setMesa(mesa);
 		comanda.setFechaCreado(LocalDateTime.now());
 		comanda.setPrecioTotal(0.0);
 		comanda.setCamarero(camareroService.findByUser(user.getName()));
-		this.save(comanda);
+		comandaRepository.save(comanda);
 		return comanda;
 	}
 

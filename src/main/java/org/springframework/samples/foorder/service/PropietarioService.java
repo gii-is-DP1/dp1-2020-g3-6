@@ -80,7 +80,6 @@ public class PropietarioService {
 			res=true;
 		}
 		return res;
-		
 	}
 	
 	@Transactional
@@ -96,5 +95,4 @@ public class PropietarioService {
 	        }
 			return result;
 	}
-	
 }

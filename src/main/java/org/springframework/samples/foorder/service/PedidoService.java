@@ -41,10 +41,6 @@ public class PedidoService {
 	
 	public Optional<Pedido> findById(Integer id) {
 		return pedidoRepository.findById(id);
-	} 
-	
-	public Iterable<Pedido> findByProveedorId(int proveedorID) {
-		return pedidoRepository.findByProveedorId(proveedorID);
 	}
 	
 	public int count(){

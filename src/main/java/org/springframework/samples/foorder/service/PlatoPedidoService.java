@@ -27,10 +27,6 @@ public class PlatoPedidoService {
 	public Optional<PlatoPedido> findById(Integer id) {
 		return platoPedidoRepository.findById(id);
 	}
-	
-	public int count() {
-		return (int) platoPedidoRepository.count();
-	}
 
 	@Transactional
 	public PlatoPedido save(PlatoPedido pp) {

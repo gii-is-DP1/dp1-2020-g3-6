@@ -11,7 +11,6 @@ import org.springframework.samples.foorder.model.Producto;
 import org.springframework.samples.foorder.model.Proveedor;
 import org.springframework.samples.foorder.repository.LineaPedidoRepository;
 import org.springframework.samples.foorder.repository.ProductoRepository;
-import org.springframework.samples.foorder.service.exceptions.DuplicatedPedidoException;
 import org.springframework.samples.foorder.service.exceptions.PedidoPendienteException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
