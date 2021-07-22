@@ -3,9 +3,9 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="foorder" tagdir="/WEB-INF/tags" %>
 
-<petclinic:layout pageName="managers">
+<foorder:layout pageName="managers">
     <h2>Manager</h2>
 
     <table id="managersTable" class="table table-striped">
@@ -57,4 +57,4 @@
         <form method="get" action="/managers/new">
       	<button class="btn btn-default" type="submit">Crear manager</button>
   		</form>
-</petclinic:layout>
+</foorder:layout>

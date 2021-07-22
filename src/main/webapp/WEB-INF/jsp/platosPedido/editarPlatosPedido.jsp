@@ -4,18 +4,18 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="foorder" tagdir="/WEB-INF/tags" %>
 
-<petclinic:layout pageName="platopedido">
+<foorder:layout pageName="platopedido">
     <h2>Plato Pedido</h2>
     <form:form modelAttribute="platopedido" class="form-horizontal" id="add-platopedido-form" action="/platopedido/edit">
         <div class="form-group has-feedback">
             <div class="control-group">
-				<petclinic:selectField name="estadoplatodto" label="Selecciona Nuevo Estado" names="${estadosPlato}" size="6"/>
+				<foorder:selectField name="estadoplatodto" label="Selecciona Nuevo Estado" names="${estadosPlato}" size="6"/>
             </div>
       
              <div class="control-group">
-				<petclinic:selectField name="platodto" label="Confirma Plato a Modificar" names="${listaPlatos}" size="6"/>
+				<foorder:selectField name="platodto" label="Confirma Plato a Modificar" names="${listaPlatos}" size="6"/>
             </div>
         </div>
         <div class="form-group">
@@ -27,4 +27,4 @@
             </div>
         </div>
     </form:form>
-</petclinic:layout>
+</foorder:layout>

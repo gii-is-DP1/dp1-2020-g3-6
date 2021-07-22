@@ -2,9 +2,9 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="foorder" tagdir="/WEB-INF/tags" %>
 
-<petclinic:layout pageName="platos">
+<foorder:layout pageName="platos">
 
     <h2>Plato <c:out value="${plato.name}"/></h2>
 
@@ -81,4 +81,4 @@
         </c:forEach>
     </table>
 
-</petclinic:layout>
+</foorder:layout>

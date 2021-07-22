@@ -3,9 +3,9 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="foorder" tagdir="/WEB-INF/tags" %>
 
-<petclinic:layout pageName="producto">
+<foorder:layout pageName="producto">
     <h2>Producto</h2>
 
     <table id="productoTable" class="table table-striped">
@@ -69,4 +69,4 @@
     <form method="get" action="/producto/new">
       	<button class="btn btn-default" type="submit">Crear Producto</button>
   	</form>
-</petclinic:layout>
+</foorder:layout>
