@@ -42,10 +42,9 @@ class PedidoControllerTests {
 	
 	private static final int TEST_PEDIDO_ID = 1;
 	private static final int TEST_PEDIDO_ID2 = 2;
+	
+	private static final int TEST_PROVEEDOR_ID = 1;
 
-
-	@MockBean
-	private ProveedorService proveedorService;
 	@MockBean
 	private PedidoService pedidoService;
 
@@ -57,16 +56,18 @@ class PedidoControllerTests {
 	private Proveedor proveedor;
 	
 	private Collection<Pedido> lPorDia;
+	private Collection<Pedido> lPedidos;
+	private Iterable<Pedido> itPedidos;
 
 	@BeforeEach
 	void test() {
 		proveedor = new Proveedor();
-		proveedor.setId(7);
+		proveedor.setId(TEST_PROVEEDOR_ID);
 		proveedor.setName("jorge");
 		proveedor.setGmail("jorge@gmail.com");
 		proveedor.setTelefono("678678678");
 		
-		//Pedidos
+		//Pedidos 1
 		
 		pedido = new Pedido();
 		pedido.setId(TEST_PEDIDO_ID);
@@ -74,6 +75,8 @@ class PedidoControllerTests {
 		pedido.setHaLlegado(false);
 		pedido.setFechaEntrega(null);
 		pedido.setFechaPedido(LocalDate.now());
+		
+		//Pedido 2
 		
 		pedido2 = new Pedido();
 		pedido2.setId(TEST_PEDIDO_ID2);
@@ -84,17 +87,52 @@ class PedidoControllerTests {
 		
 		//Lista pedidos
 	
+		lPedidos = new ArrayList<Pedido>();
+		lPedidos.add(pedido);
+		lPedidos.add(pedido2);
+		itPedidos = lPedidos;
+		
 		lPorDia = new ArrayList<Pedido>();
 		lPorDia.add(pedido2);
 		
 		given(this.pedidoService.findById(TEST_PEDIDO_ID)).willReturn(Optional.of(pedido));
 		given(this.pedidoService.findById(TEST_PEDIDO_ID2)).willReturn(Optional.of(pedido2));
+		given(this.pedidoService.findAll()).willReturn(itPedidos);
 		given(this.pedidoService.encontrarPedidoDia("2021-01-30")).willReturn(lPorDia);
 //		given(this.proveedorService.findPedidoByProveedorId(7).iterator().next()).willReturn(pedido);
 //		given(this.proveedorService.findProveedorbyName("jorge")).willReturn(proveedor);
 //		given(this.proveedorService.findPedidoByProveedorId(7).iterator().next()).willReturn(prueba);
 
 	}
+	
+	//Test Listar Pedido - H12+E1
+	@WithMockUser(value = "spring")
+	@Test
+	void testListadoPedido() throws Exception {
+		mockMvc.perform(get("/pedidos"))
+			.andExpect(status().isOk())
+			.andExpect(view().name("pedidos/listaPedidos"));
+	}
+	
+	
+	//Test Listar Pedido por dia
+	@WithMockUser(value = "spring")
+	@Test
+	void testListadoPedidoPorDia() throws Exception {
+		mockMvc.perform(get("/pedidos/listaPedidoTotal/dia"))
+			.andExpect(status().isOk())
+			.andExpect(view().name("pedidos/listaPedidos"));
+	}	
+	
+	//Test Listar Pedido por proveedor
+		@WithMockUser(value = "spring")
+		@Test
+		void testListadoPedidoPorProveedor() throws Exception {
+			mockMvc.perform(get("/pedidos/listaPedidoTotal/dia"))
+				.andExpect(status().isOk())
+				.andExpect(view().name("pedidos/listaPedidos"));
+		}	
+			
 	
 	//Test Crear Pedido (NEW)
 	
@@ -106,14 +144,16 @@ class PedidoControllerTests {
 				.andExpect(view().name("pedidos/editPedido"));
 	}	
 	
-	
 	// Test Guardar pedido (SAVE)
 	
 	@WithMockUser(value = "spring")
     @Test
     void testSavePedidoSuccess() throws Exception {
 		mockMvc.perform(post("/pedidos/save")
-				.with(csrf()))
+				.with(csrf())
+				.param("fechaPedido", "2021/08/26")
+				.param("haLlegado", "false")
+				.param("proveedor", "1"))
 				.andExpect(view().name("pedidos/listaPedidos"));
 	}
 
@@ -153,18 +193,5 @@ class PedidoControllerTests {
 				.andExpect(model().attribute("message", is("El pedido ya se ha finalizado")))
 				.andExpect(view().name("pedidos/listaPedidos"));
 	}	
-	
-	
-
-	//H12+E1 - Listado de pedidos
-	
-	@WithMockUser(value = "spring")
-	@Test
-	void testListadoPedidoPorDia() throws Exception {
-		mockMvc.perform(get("/pedidos/listaPedidoTotal/dia")).andExpect(status().isOk())
-				.andExpect(model().attributeExists("pedido"))
-				.andExpect(view().name("pedidos/listaPedidos"));
-	}	
-	
 
 }

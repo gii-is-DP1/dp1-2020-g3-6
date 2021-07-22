@@ -102,6 +102,7 @@ public class ProveedorController {
 		model.addAttribute("proveedor", proveedor);
 		return vista;
 	}
+	
 	@PostMapping(value = "/edit")
 	public String processUpdateProveedorForm(@Valid Proveedor proveedor, BindingResult result, ModelMap modelMap) {
 		String vista = "proveedor/editarProveedor";

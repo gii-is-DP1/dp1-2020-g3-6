@@ -34,6 +34,12 @@
 					<span>Producto</span>
 				</foorder:menuItem>
 				
+				<foorder:menuItem active="${name eq 'Notificaciones Producto'}" url="/producto/notificaciones"
+					title="Notificaciones">
+					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+					<span>Notificaciones</span>
+				</foorder:menuItem>
+				
 				<foorder:menuItem active="${name eq 'platos'}" url="/platos"
 					title="platos">
 					<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
