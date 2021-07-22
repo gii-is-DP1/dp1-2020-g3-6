@@ -8,7 +8,7 @@
 # Problematic frame:
 # C  [libjimage.so+0x30ad]
 #
-# Core dump will be written. Default location: Core dumps may be processed with "/usr/share/apport/apport %p %s %c %d %P %E" (or dumping to /home/fernando/eclipse-workspace5/dp1-2020-g3-20/core.39483)
+# Core dump will be written. Default location: Core dumps may be processed with "/usr/share/apport/apport %p %s %c %d %P %E" (or dumping to /home/fernando/eclipse-workspace5/dp1-2020-g3-6/core.39483)
 #
 # If you would like to submit a bug report, please visit:
 #   https://bugs.launchpad.net/ubuntu/+source/openjdk-lts
@@ -16,6 +16,6 @@
 
 ---------------  S U M M A R Y ------------
 
-Command Line: -agentlib:jdwp=transport=dt_socket,suspend=y,address=localhost:41393 -ea -javaagent:/home/fernando/eclipse/java-2020-06/eclipse/configuration/org.eclipse.osgi/215/0/.cp/lib/javaagent-shaded.jar -Dfile.encoding=UTF-8 org.eclipse.jdt.internal.junit.runner.RemoteTestRunner -version 3 -port 44097 -testLoaderClass org.eclipse.jdt.internal.junit5.runner.JUnit5TestLoader -loaderpluginname org.eclipse.jdt.junit5.runtime -classNames org.springframework.samples.petclinic.web.PlatoPedidoControllerTest
+Command Line: -agentlib:jdwp=transport=dt_socket,suspend=y,address=localhost:41393 -ea -javaagent:/home/fernando/eclipse/java-2020-06/eclipse/configuration/org.eclipse.osgi/215/0/.cp/lib/javaagent-shaded.jar -Dfile.encoding=UTF-8 org.eclipse.jdt.internal.junit.runner.RemoteTestRunner -version 3 -port 44097 -testLoaderClass org.eclipse.jdt.internal.junit5.runner.JUnit5TestLoader -loaderpluginname org.eclipse.jdt.junit5.runtime -classNames org.springframework.samples.foorder.web.PlatoPedidoControllerTest
 
 Host: 

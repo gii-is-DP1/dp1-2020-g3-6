@@ -1,6 +1,6 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags"%>
+<%@ taglib prefix="foorder" tagdir="/WEB-INF/tags"%>
 <%@ taglib prefix="sec"
 	uri="http://www.springframework.org/security/tags"%>
 <!--  >%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%-->
@@ -23,87 +23,87 @@
 			<ul class="nav navbar-nav">
 
 				<sec:authorize access="hasAuthority('propietario')">
-				<petclinic:menuItem active="${name eq 'empleados'}" url="/empleados"
+				<foorder:menuItem active="${name eq 'empleados'}" url="/empleados"
 					title="empleados">
 					<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
 					<span>Empleados</span>
-				</petclinic:menuItem>
-				<petclinic:menuItem active="${name eq 'producto'}" url="/producto"
+				</foorder:menuItem>
+				<foorder:menuItem active="${name eq 'producto'}" url="/producto"
 					title="producto">
 					<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
 					<span>Producto</span>
-				</petclinic:menuItem>
+				</foorder:menuItem>
 				
-				<petclinic:menuItem active="${name eq 'platos'}" url="/platos"
+				<foorder:menuItem active="${name eq 'platos'}" url="/platos"
 					title="platos">
 					<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
 					<span>Platos</span>
-				</petclinic:menuItem>
+				</foorder:menuItem>
 				
-				<petclinic:menuItem active="${name eq 'Total Comandas'}" url="/comanda/listaComandaTotal"
+				<foorder:menuItem active="${name eq 'Total Comandas'}" url="/comanda/listaComandaTotal"
 					title="comanda">
 					<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
 					<span>Comandas Realizadas</span>
-				</petclinic:menuItem>
+				</foorder:menuItem>
 				
-				<petclinic:menuItem active="${name eq 'proveedor'}" url="/proveedor"
+				<foorder:menuItem active="${name eq 'proveedor'}" url="/proveedor"
 					title="proveedor">
 					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
 					<span>Proveedor</span>
-				</petclinic:menuItem>
+				</foorder:menuItem>
 				
-				<petclinic:menuItem active="${name eq 'pedidos'}" url="/pedidos"
+				<foorder:menuItem active="${name eq 'pedidos'}" url="/pedidos"
 					title="pedidos">
 					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
 					<span>Pedidos</span>
-				</petclinic:menuItem>
+				</foorder:menuItem>
  				</sec:authorize>
  				
  				<!-- parte de propietarios -->
  				
  				<sec:authorize access="hasAuthority('camarero')">
-				<petclinic:menuItem active="${name eq 'Comanda Actual'}" url="/comanda/listaComandaActual"
+				<foorder:menuItem active="${name eq 'Comanda Actual'}" url="/comanda/listaComandaActual"
 					title="comanda">
 					<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
 					<span>Comandas Actuales</span>
-				</petclinic:menuItem>
+				</foorder:menuItem>
  				</sec:authorize>
  				
  				
  				<sec:authorize access="hasAuthority('cocinero')">
-				<petclinic:menuItem active="${name eq 'platos'}" url="/platopedido"
+				<foorder:menuItem active="${name eq 'platos'}" url="/platopedido"
 					title="platos">
 					<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
 					<span>Platos Pedidos</span>
-				</petclinic:menuItem>
+				</foorder:menuItem>
  				</sec:authorize>
  				
  				
  				<sec:authorize access="hasAuthority('manager')">
  				
-				<petclinic:menuItem active="${name eq 'pedidos'}" url="/pedidos"
+				<foorder:menuItem active="${name eq 'pedidos'}" url="/pedidos"
 					title="pedidos">
 					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
 					<span>Pedidos</span>
-				</petclinic:menuItem>
+				</foorder:menuItem>
 				
-				<petclinic:menuItem active="${name eq 'Total Comandas'}" url="/comanda/listaComandaTotal"
+				<foorder:menuItem active="${name eq 'Total Comandas'}" url="/comanda/listaComandaTotal"
 					title="comanda">
 					<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
 					<span>Comandas Realizadas</span>
-				</petclinic:menuItem>
+				</foorder:menuItem>
 				
-				<petclinic:menuItem active="${name eq 'producto'}" url="/producto"
+				<foorder:menuItem active="${name eq 'producto'}" url="/producto"
 					title="producto">
 					<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
 					<span>Producto</span>
-				</petclinic:menuItem>
+				</foorder:menuItem>
 				
-				<petclinic:menuItem active="${name eq 'Notificaciones Producto'}" url="/producto/notificaciones"
+				<foorder:menuItem active="${name eq 'Notificaciones Producto'}" url="/producto/notificaciones"
 					title="Notificaciones">
 					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
 					<span>Notificaciones</span>
-				</petclinic:menuItem>
+				</foorder:menuItem>
 				
  				</sec:authorize>
 

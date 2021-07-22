@@ -3,9 +3,9 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-<%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags"%>
+<%@ taglib prefix="foorder" tagdir="/WEB-INF/tags"%>
 
-<petclinic:layout pageName="Comanda Actual">
+<foorder:layout pageName="Comanda Actual">
 	<h2>Comandas</h2>
 
 	<spring:url value="/comanda/listaComandaActual/new" var="newURL">
@@ -52,4 +52,4 @@
 			</c:forEach>
 		</tbody>
 	</table>
-</petclinic:layout>
+</foorder:layout>

@@ -4,7 +4,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="foorder" tagdir="/WEB-INF/tags" %>
 <script>
 function validarsize(){
 	var name = document.forms["producto"]["name"].value;
@@ -40,19 +40,19 @@ function validarsize(){
 	return true;
 } 
 </script>
-<petclinic:layout pageName="producto">
+<foorder:layout pageName="producto">
     <h2>Editar producto</h2>
     <form:form name="producto" modelAttribute="producto" class="form-horizontal" id="edit-producto-form"  action="/producto/edit" onsubmit="return validarsize();">
         <div class="form-group has-feedback">
-            <petclinic:inputField label="Nombre" name="name"/>
+            <foorder:inputField label="Nombre" name="name"/>
             <div class="control-group">
-				<petclinic:selectField name="tipoproductodto" label="Tipo Producto " names="${listaTipos}" size="6"/>
+				<foorder:selectField name="tipoproductodto" label="Tipo Producto " names="${listaTipos}" size="6"/>
             </div>
-            <petclinic:inputField label="Cantidad minima" name="cantMin"/>
-            <petclinic:inputField label="Cantidad actual" name="cantAct"/>
-            <petclinic:inputField label="Cantidad maxima" name="cantMax"/>
+            <foorder:inputField label="Cantidad minima" name="cantMin"/>
+            <foorder:inputField label="Cantidad actual" name="cantAct"/>
+            <foorder:inputField label="Cantidad maxima" name="cantMax"/>
             <div class="control-group">
-				<petclinic:selectField name="proveedor" label="Proveedores" names="${listaProveedores}" size="6"/>
+				<foorder:selectField name="proveedor" label="Proveedores" names="${listaProveedores}" size="6"/>
             </div>
  
         </div>
@@ -63,4 +63,4 @@ function validarsize(){
             </div>
         </div>
     </form:form>
-</petclinic:layout>
+</foorder:layout>

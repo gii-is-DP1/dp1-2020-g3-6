@@ -4,13 +4,13 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="foorder" tagdir="/WEB-INF/tags" %>
 
 <%@ taglib prefix="sec"
 	uri="http://www.springframework.org/security/tags"%>
 <!-- %@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %-->  
 
-<petclinic:layout pageName="empleados">
+<foorder:layout pageName="empleados">
 	<div class="Container-Empleados">
 		<div class="Container-camareros">
 		 	<spring:url value="/camareros" var="camareroURL"></spring:url>
@@ -50,5 +50,5 @@
   			</form>  
 		 	</h1></div>
 
-    </petclinic:layout>
+    </foorder:layout>
     

@@ -4,9 +4,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-<%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags"%>
+<%@ taglib prefix="foorder" tagdir="/WEB-INF/tags"%>
 
-<petclinic:layout pageName="platopedido">
+<foorder:layout pageName="platopedido">
 
 	<h2>
 		<c:out value="${plato.name}" />
@@ -25,7 +25,7 @@
 
 				<input type="hidden" id="cantidadPedida" name="cantidadPedida"
 					value="${ingredientePedido.cantidadPedida}" />
-				<%--	<petclinic:inputField label="cantidadPedida" name="cantidadPedida" value="${ingredientePedido.cantidadPedida}"/> --%>
+				<%--	<foorder:inputField label="cantidadPedida" name="cantidadPedida" value="${ingredientePedido.cantidadPedida}"/> --%>
 
 				<button class="btn btn-default" type="submit">Anadir Ingrediente</button>
 			</form:form>
@@ -49,4 +49,4 @@
 	</spring:url>
 	<a href="${fn:escapeXml(platopedidoURL)}">Finalizar y asignar a
 		comanda</a>--%>
-</petclinic:layout>
+</foorder:layout>

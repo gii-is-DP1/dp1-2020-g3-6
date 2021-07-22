@@ -4,7 +4,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-<%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags"%>
+<%@ taglib prefix="foorder" tagdir="/WEB-INF/tags"%>
 <script>
 function validarsize(){
 	var name = document.forms["manager"]["name"].value;
@@ -35,16 +35,16 @@ function validarsize(){
 	return true;
 } 
 </script>
-<petclinic:layout pageName="managers">
+<foorder:layout pageName="managers">
 	<h2>Manager</h2>
 	<form:form name="manager" modelAttribute="manager" class="form-horizontal" id="add-manager-form" action="/managers/edit" onsubmit="return validarsize();">
 		<div class="form-group has-feedback">
-			<petclinic:inputField label="nombre" name="name" />
-			<petclinic:inputField label="apellido" name="apellido" />
-			<petclinic:inputField label="gmail" name="gmail" />
-			<petclinic:inputField label="telefono" name="telefono" />
-			<petclinic:inputField label="usuario" name="usuario" />
-			<petclinic:inputField label="contrasena" name="contrasena" />
+			<foorder:inputField label="nombre" name="name" />
+			<foorder:inputField label="apellido" name="apellido" />
+			<foorder:inputField label="gmail" name="gmail" />
+			<foorder:inputField label="telefono" name="telefono" />
+			<foorder:inputField label="usuario" name="usuario" />
+			<foorder:inputField label="contrasena" name="contrasena" />
 		</div>
 		<div class="form-group">
 			<div class="col-sm-offset-2 col-sm-10">
@@ -53,4 +53,4 @@ function validarsize(){
 			</div>
 		</div>
 	</form:form>
-</petclinic:layout>
+</foorder:layout>
