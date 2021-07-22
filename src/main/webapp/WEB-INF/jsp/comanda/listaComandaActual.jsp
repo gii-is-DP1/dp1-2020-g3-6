@@ -12,7 +12,7 @@
 	</spring:url>
 	<form class="btn-line" action="${fn:escapeXml(newURL)}">
 		<p align="right">
-			<input name="mesa" type="number">
+			<input name="mesa" type="number" required>
 			<button class="btn btn-default" type="submit">Nueva comanda</button>
 		</p>
 	</form>

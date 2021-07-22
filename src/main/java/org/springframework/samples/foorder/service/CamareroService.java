@@ -1,6 +1,5 @@
 package org.springframework.samples.foorder.service;
 
-import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -67,19 +66,11 @@ public class CamareroService {
 		log.info(String.format("Waiter with username %s has been deleted", camarero.getUsuario()));
 	}
 
-	// Se usa para asignar un camarero a una comanda dado su usario
-	@Transactional(readOnly = true)
-	public Camarero findByUser(String user) {
-		Camarero camarero = new Camarero();
-		Iterable<Camarero> aux = camareroRepository.findAll();
-		Iterator<Camarero> it = aux.iterator();
-		while (it.hasNext()) {
-			camarero = it.next();
-			if (camarero.getUsuario().equals(user))
-				return camarero;
-		}
-		return camarero;
-	}
+    // Se usa para asignar un camarero a una comanda dado su usario
+    @Transactional(readOnly = true)
+    public Camarero findByUser(String user) {
+        return this.camareroRepository.findByUsuario(user);
+    }
 	
 	@Transactional(readOnly = true)
 	public Boolean CamareroConMismoUsuario(Camarero camarero) throws DataAccessException {
