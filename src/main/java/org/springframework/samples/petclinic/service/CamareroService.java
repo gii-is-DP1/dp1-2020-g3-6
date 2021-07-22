@@ -1,6 +1,5 @@
 package org.springframework.samples.petclinic.service;
 
-import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -70,15 +69,7 @@ public class CamareroService {
 	// Se usa para asignar un camarero a una comanda dado su usario
 	@Transactional(readOnly = true)
 	public Camarero findByUser(String user) {
-		Camarero camarero = new Camarero();
-		Iterable<Camarero> aux = camareroRepository.findAll();
-		Iterator<Camarero> it = aux.iterator();
-		while (it.hasNext()) {
-			camarero = it.next();
-			if (camarero.getUsuario().equals(user))
-				return camarero;
-		}
-		return camarero;
+		return this.camareroRepository.findByUser(user);
 	}
 	
 	@Transactional(readOnly = true)

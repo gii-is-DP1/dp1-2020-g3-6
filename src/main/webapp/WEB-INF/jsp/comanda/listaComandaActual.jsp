@@ -4,7 +4,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags"%>
-
+<script>
+	
+</script>
 <petclinic:layout pageName="Comanda">
 	<h2>Comandas</h2>
 
@@ -12,7 +14,7 @@
 	</spring:url>
 	<form class="btn-line" action="${fn:escapeXml(newURL)}">
 		<p align="right">
-			<input name="mesa" type="number">
+			<input id="mesa" name="mesa" type="number" required>
 			<button class="btn btn-default" type="submit">Nueva comanda</button>
 		</p>
 	</form>
