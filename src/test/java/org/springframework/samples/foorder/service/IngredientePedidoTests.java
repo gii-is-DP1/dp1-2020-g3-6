@@ -69,15 +69,6 @@ class IngredientePedidoTests {
 		
 		assertThat(ingrediente.getIngrediente().getId()).isEqualTo(1);
 		assertThat(ingrediente.getCantidadPedida()).isEqualTo(3.0);
-	}
-        
-        
-//    @Test
-//    void shouldReturnIngrediente() {
-//    	Ingrediente p = this.ingredientePedidoService.ingredienteAsociado(1);
-//    	assertThat(p.getCantidadUsualPP().equals(1.0));
-//    	
-//    }
-       
+	}       
 
 }

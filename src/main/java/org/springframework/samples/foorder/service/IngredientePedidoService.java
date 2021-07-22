@@ -79,11 +79,6 @@ public class IngredientePedidoService {
 		return ip;
 	}
 	
-	@Transactional(readOnly = true)
-	public Ingrediente ingredienteAsociado(Integer ingrediente_pedido_id) throws DataAccessException{
-		return ingredientePedidoRepository.ingredienteAsociado(ingrediente_pedido_id);
-	}
-	
 	@Transactional
 	public Collection<IngredientePedido> CrearIngredientesPedidos(PlatoPedido pp) {
 		Collection<Ingrediente> ingredienteList = pp.getPlato().getIngredientes();
