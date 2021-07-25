@@ -42,7 +42,6 @@ public class PedidoController {
 			if (p.getHaLlegado().equals(Boolean.FALSE)) {
 				pedidoService.recargarStock(pedidoID);
 				modelMap.addAttribute("message", "Se ha finalizado el pedido correctamente");
-				modelMap.addAttribute("pedidoFinalizado", p);
 				view = listadoDePedidos(modelMap);
 			} else {
 				modelMap.addAttribute("message", "El pedido ya se ha finalizado");
@@ -55,7 +54,7 @@ public class PedidoController {
 		return view;
 	}
 	
-	//Todas las comandas de x dia. 
+	//Todas los pedidos de x dia. 
 		@GetMapping(path="/listaPedidoTotal/dia")
 		public String listadoPedidoDia(String date, ModelMap modelMap) {
 			String vista= "pedidos/listaPedidos";

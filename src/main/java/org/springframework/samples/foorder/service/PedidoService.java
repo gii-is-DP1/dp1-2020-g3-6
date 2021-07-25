@@ -90,7 +90,7 @@ public class PedidoService {
 	}
 	
 	//Esto es para establecer los productos una vez se recibe un Pedido
-	public Pedido recargarStock(Integer pedidoId) throws DataAccessException, DuplicatedPedidoException{
+	public void recargarStock(Integer pedidoId) throws DataAccessException, DuplicatedPedidoException{
 		Optional<Pedido> pedi = findById(pedidoId);
 		Pedido p = pedi.get();
 		Iterable<LineaPedido> lineaPedi = lineaPedidoService.findByPedidoId(pedidoId);
@@ -108,7 +108,6 @@ public class PedidoService {
 		p.setHaLlegado(Boolean.TRUE);
 		p.setFechaEntrega(LocalDate.now());
 		save(p);
-		return p;
 	}
 	
 	//Esto es para encontrar los pedidos por un dia de la semana 
