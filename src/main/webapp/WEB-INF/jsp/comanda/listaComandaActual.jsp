@@ -3,6 +3,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="foorder" tagdir="/WEB-INF/tags"%>
 
 <foorder:layout pageName="Comanda Actual">
@@ -10,13 +11,15 @@
 
 	<spring:url value="/comanda/listaComandaActual/new" var="newURL">
 	</spring:url>
-	<form class="btn-line" action="${fn:escapeXml(newURL)}">
+	<div class="btn-line-comanda">
+	<form:form name="new_comanda" modelAttribute="new_comanda" id="add-comanda-form"  class="btn-line" action="${fn:escapeXml(newURL)}">
 		<p align="right">
-			<input name="mesa" type="number" required>
+			<foorder:inputField label="mesa" name="mesa"/>
 			<button class="btn btn-default" type="submit">Nueva comanda</button>
+			<input type="hidden" name="lista_comanda" value="${comanda} }">
 		</p>
-	</form>
-
+	</form:form>
+	</div>
 	<table id="comandaActualTable" class="table table-striped">
 		<thead>
 			<tr>
@@ -27,7 +30,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			<c:forEach items="${comanda}" var="comanda">
+			<c:forEach items="${list_comanda}" var="comanda">
 				<tr>
 					<td><c:out value="${comanda.mesa}" /></td>
 					<td><c:out value="${comanda.camarero.name}" /></td>
