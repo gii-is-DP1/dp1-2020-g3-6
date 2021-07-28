@@ -23,10 +23,32 @@ public class ManagerValidator implements Validator{
 
 	@Override
 	public void validate(Object target, Errors errors) {
-		Object nombreOwner = SecurityContextHolder.getContext().getAuthentication().getName();
-		Manager manager = (Manager) target;
 		
-			if (authoritiesService.findAllUsernames().contains(manager.getUsuario())){
+		Manager manager = (Manager) target;
+		String pattern = "^[a-z0-9!#$%&'+/=?^_`{|}~-]+(?:.[a-z0-9!#$%&'+/=?^_`{|}~-]+)@(?:[a-z0-9](?:[a-z0-9-][a-z0-9])?.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$" ;
+		if (manager.getApellido().length()<3||manager.getApellido().length()>50  ){
+			errors.rejectValue("apellido", "este apellido no tiene una longitud valida","este apellido no tiene una longitud valida");
+		}
+		if (manager.getName().length()<3||manager.getName().length()>50  ){
+			errors.rejectValue("name", "este nombre no tiene una longitud valida","este nombre no tiene una longitud valida");
+		}
+		
+		if (manager.getTelefono().length()<9||manager.getTelefono().length()>12  ){
+			errors.rejectValue("telefono", "este Telefono no tiene una longitud valida","este Telefono no tiene una longitud valida");
+		}
+		
+		if (manager.getUsuario().length()<3||manager.getApellido().length()>50  ){
+			errors.rejectValue("usuario", "este usuario no tiene una longitud valida","este usuario no tiene una longitud valida");
+		}
+		
+		if (manager.getContrasena().length()<3||manager.getApellido().length()>50  ){
+			errors.rejectValue("contrasena", "este contrasena no tiene una longitud valida","este contrasena no tiene una longitud valida");
+		}
+		//pattern.matches(camarero.getGmail())
+		if (!manager.getGmail().matches(pattern)){
+			errors.rejectValue("gmail", "este gmail no es valido","este gmail no es valido");
+		}
+		if (authoritiesService.findAllUsernames().contains(manager.getUsuario())){
 				errors.rejectValue("usuario", "este usuario ya está en uso", "este usuario ya está en uso");
 		}
 	}

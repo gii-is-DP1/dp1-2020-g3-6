@@ -25,7 +25,29 @@ public class CocineroValidator implements Validator{
 	public void validate(Object target, Errors errors) {
 	
 		Cocinero cocinero = (Cocinero) target;
+		String pattern = "^[a-z0-9!#$%&'+/=?^_`{|}~-]+(?:.[a-z0-9!#$%&'+/=?^_`{|}~-]+)@(?:[a-z0-9](?:[a-z0-9-][a-z0-9])?.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$" ;
+		if (cocinero.getApellido().length()<3||cocinero.getApellido().length()>50  ){
+			errors.rejectValue("apellido", "este apellido no tiene una longitud valida","este apellido no tiene una longitud valida");
+		}
+		if (cocinero.getName().length()<3||cocinero.getName().length()>50  ){
+			errors.rejectValue("name", "este nombre no tiene una longitud valida","este nombre no tiene una longitud valida");
+		}
 		
+		if (cocinero.getTelefono().length()<9||cocinero.getTelefono().length()>12  ){
+			errors.rejectValue("telefono", "este Telefono no tiene una longitud valida","este Telefono no tiene una longitud valida");
+		}
+		
+		if (cocinero.getUsuario().length()<3||cocinero.getApellido().length()>50  ){
+			errors.rejectValue("usuario", "este usuario no tiene una longitud valida","este usuario no tiene una longitud valida");
+		}
+		
+		if (cocinero.getContrasena().length()<3||cocinero.getApellido().length()>50  ){
+			errors.rejectValue("contrasena", "este contrasena no tiene una longitud valida","este contrasena no tiene una longitud valida");
+		}
+		//pattern.matches(camarero.getGmail())
+		if (!cocinero.getGmail().matches(pattern)){
+			errors.rejectValue("gmail", "este gmail no es valido","este gmail no es valido");
+		}
 			if (authoritiesService.findAllUsernames().contains(cocinero.getUsuario()) ){
 				errors.rejectValue("usuario", "este usuario ya está en uso", "este usuario ya está en uso");
 			
