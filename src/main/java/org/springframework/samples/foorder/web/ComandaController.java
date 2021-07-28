@@ -83,18 +83,16 @@ public class ComandaController {
 		if(comanda.isPresent()) {
 			Comanda res = comanda.get();
 			if(comandaService.estaFinalizado(res)) {
-					modelMap.addAttribute("message", "Esta comanda aún tiene platos por finalizar");
-					vista = listadoComandaActual(modelMap);
-					return vista;
+				modelMap.addAttribute("message", "Esta comanda aún tiene platos por finalizar");
 			}
-			if(res.getFechaFinalizado()==null) {
+			else if(res.getFechaFinalizado() == null) {
 				res.setFechaFinalizado(LocalDateTime.now());
 				modelMap.addAttribute("message", "La comanda se ha finalizado correctamente");
-				vista = listadoComandaActual(modelMap);
+				comandaService.save(res);
 			}else {
 				modelMap.addAttribute("message", "La comanda ya está finalizada");
-				vista = listadoComandaActual(modelMap);
 			}
+			vista = listadoComandaActual(modelMap);
 		}else {
 			modelMap.addAttribute("message", "La comanda pedida no existe");
 			vista = "redirect:/comanda/listaComandaActual";
