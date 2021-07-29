@@ -74,7 +74,7 @@ public class CamareroController {
 		}else {
 			camareroService.save(camarero);
 			modelMap.addAttribute("message", "Guardado correctamente");
-			vista=listadoCamareros(modelMap);
+			vista="redirect:/camareros?message='guardado_correctamente'";
 		}
 		return vista;
 	}

@@ -6,6 +6,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="foorder" tagdir="/WEB-INF/tags" %>
 <script>
+
 function validarsize(){
 	var name = document.forms["camarero"]["name"].value;
 	var apellido = document.forms["camarero"]["apellido"].value;
@@ -34,10 +35,11 @@ function validarsize(){
     }
 	return true;
 } 
+ 
 </script>
 <foorder:layout pageName="camareros">
     <h2>Camarero</h2>
-    <form:form name="camarero" modelAttribute="camarero" class="form-horizontal" id="add-camarero-form" action="/camareros/save" onsubmit="return validarsize();">
+    <form:form name="camarero" modelAttribute="camarero" class="form-horizontal" id="add-camarero-form" action="/camareros/save">
         <div class="form-group has-feedback">
             <foorder:inputField label="name" name="name"/>
             <foorder:inputField label="apellido" name="apellido"/>
