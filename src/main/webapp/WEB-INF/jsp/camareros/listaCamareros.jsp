@@ -5,9 +5,12 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="foorder" tagdir="/WEB-INF/tags" %>
 
-<foorder:layout pageName="camareros">
-    <h2>Camarero</h2>
+<script src="http://code.jquery.com/jquery-3.3.1.js"></script>
 
+
+<foorder:layout pageName="camareros">
+	<span id="message"></span>
+    <h2>Camarero</h2>
     <table id="camarerosTable" class="table table-striped">
         <thead>
         <tr>
@@ -41,12 +44,12 @@
                    <spring:url value="/camareros/delete/{camareroId}" var="camareroURL">
                    		  <spring:param name="camareroId" value="${camarero.id}"/>
                    </spring:url>
-                   <a href="${fn:escapeXml(camareroURL)}"><span class="glyphicon glyphicon-trash" aria-hidden="true">&nbsp;</a>
+                   <a href="${fn:escapeXml(camareroURL)}"><span class="glyphicon glyphicon-trash" aria-hidden="true">&nbsp;</span></a>
                    
                     <spring:url value="/camareros/edit/{camareroId}" var="camareroEditUrl">
     		  			<spring:param name="camareroId" value="${camarero.id}"/>
   					</spring:url>
-                	<a href="${fn:escapeXml(camareroEditUrl)}"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></a>
+                	<a href="${fn:escapeXml(camareroEditUrl)}"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
                 </td>
       
 <!--
@@ -60,6 +63,7 @@
                 
             </tr>
         </c:forEach>
+        <c:out value="${message}"></c:out>
          </table>
     	<form method="get" action="/camareros/new">
       	<button class="btn btn-default" type="submit">Crear camarero</button>
@@ -67,3 +71,15 @@
   		
         </tbody>
 </foorder:layout>
+
+<script>
+
+var queryString = window.location.search;
+var urlParams = new URLSearchParams(queryString);
+var message = urlParams.get('message');
+
+	
+$('#message').text(message).text();
+
+
+</script>

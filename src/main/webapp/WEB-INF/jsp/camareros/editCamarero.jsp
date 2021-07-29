@@ -39,7 +39,7 @@ function validarsize(){
 </script>
 <foorder:layout pageName="camareros">
     <h2>Camarero</h2>
-    <form:form name="camarero" modelAttribute="camarero" class="form-horizontal" id="add-camarero-form" action="/camareros/save" onsubmit="return validarsize();">
+    <form:form name="camarero" modelAttribute="camarero" class="form-horizontal" id="add-camarero-form" action="/camareros/save">
         <div class="form-group has-feedback">
             <foorder:inputField label="name" name="name"/>
             <foorder:inputField label="apellido" name="apellido"/>

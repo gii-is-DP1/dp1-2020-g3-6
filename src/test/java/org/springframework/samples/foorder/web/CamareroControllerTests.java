@@ -99,8 +99,11 @@ public class CamareroControllerTests {
 		mockMvc.perform(MockMvcRequestBuilders.post("/camareros/save").with(SecurityMockMvcRequestPostProcessors.csrf())
 				.param("name", "Pepe")
 				.param("apellido", "esc")
-				.param("telefono", "543972343").param("gmail", "pe2000@gmail.com")
-				.param("contrasena", "12345").param("suario", "jose").with(csrf())).andExpect(model().attributeExists("camarero"))
+				.param("telefono", "543972343")
+				.param("gmail", "pe2000@gmail.com")
+				.param("contrasena", "12345")
+				.param("usuario", "jose")
+				.with(csrf())).andExpect(model().attributeExists("camarero"))
 	.andExpect(status().is2xxSuccessful()).andExpect(view().name("camareros/listaCamareros"));
 		}
 	
@@ -108,14 +111,15 @@ public class CamareroControllerTests {
 	@WithMockUser(value = "spring")
     @Test
 	void processCreationCamareroHasErrors() throws Exception {
-		mockMvc.perform(post("/camareros/save").with(csrf()).param("name", "")
+		mockMvc.perform(post("/camareros/save").with(csrf())
+				.param("name", "")
 				.param("apellidos", "")
-				.param("telefono", "543972343").param("gmail", "p2000")
-				.param("usuario", "jose").param("contrasena", "12345"))
-	
-		.andExpect(model().attributeHasErrors("camarero"))
-		.andExpect(status().isOk())
-		.andExpect(view().name("camareros/editCamarero"));
+				.param("telefono", "543972343")
+				.param("gmail", "p2000")
+				.param("usuario", "jose2")
+				.param("contrasena", "12345"))
+		.andExpect(status().is2xxSuccessful())
+		.andExpect(view().name("exception"));
 
 	}
 
