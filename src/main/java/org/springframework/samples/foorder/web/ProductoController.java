@@ -18,6 +18,7 @@ import org.springframework.samples.foorder.service.ProveedorService;
 import org.springframework.samples.foorder.service.TipoProductoService;
 import org.springframework.samples.foorder.service.exceptions.DuplicatedPedidoException;
 import org.springframework.samples.foorder.service.exceptions.PedidoPendienteException;
+import org.springframework.samples.foorder.service.exceptions.PlatoPedidoPendienteException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -121,7 +122,7 @@ public class ProductoController {
 	}
 		
 	@GetMapping(path="/delete/{productoId}")
-	public String borrarProducto(@PathVariable("productoId") int productoId, ModelMap modelMap)  {
+	public String borrarProducto(@PathVariable("productoId") int productoId, ModelMap modelMap) throws PlatoPedidoPendienteException  {
 		String vista= "producto/listaProducto";
 		Optional<Producto> prod= productoService.findById(productoId);
 		if(prod.isPresent()) {
@@ -129,7 +130,8 @@ public class ProductoController {
 				productoService.deleteById(productoId);
 				modelMap.addAttribute("message", "Borrado Correctamente");
 				vista=listadoProducto(modelMap);
-			}catch (PedidoPendienteException ex) {
+			}catch (PedidoPendienteException | PlatoPedidoPendienteException ex) {
+				ex.getMessage();
 				modelMap.addAttribute("message", "No se puede borrar porque hay un pedido pendiente con ese producto");
 				vista=listadoProducto(modelMap);
 			}

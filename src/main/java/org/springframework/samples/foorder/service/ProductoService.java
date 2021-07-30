@@ -6,12 +6,15 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.samples.foorder.model.Ingrediente;
 import org.springframework.samples.foorder.model.LineaPedido;
 import org.springframework.samples.foorder.model.Producto;
 import org.springframework.samples.foorder.model.Proveedor;
+import org.springframework.samples.foorder.repository.IngredienteRepository;
 import org.springframework.samples.foorder.repository.LineaPedidoRepository;
 import org.springframework.samples.foorder.repository.ProductoRepository;
 import org.springframework.samples.foorder.service.exceptions.PedidoPendienteException;
+import org.springframework.samples.foorder.service.exceptions.PlatoPedidoPendienteException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,12 +25,14 @@ public class ProductoService {
 	
 	private ProductoRepository productoRepository;
 	private LineaPedidoRepository lineaPedidoRepository;
+	private IngredienteRepository ingredienteRepository;
 	
 	@Autowired
-	public ProductoService(ProductoRepository productoRepository, LineaPedidoRepository lineaPedidoRepository) {
+	public ProductoService(ProductoRepository productoRepository, LineaPedidoRepository lineaPedidoRepository, IngredienteRepository ingredienteRepository) {
 		super();
 		this.productoRepository = productoRepository;
 		this.lineaPedidoRepository = lineaPedidoRepository;
+		this.ingredienteRepository = ingredienteRepository;
 	}
 
 	public Iterable<Producto> findAll() throws DataAccessException {
@@ -51,7 +56,7 @@ public class ProductoService {
 	}
 	
 	@Transactional(rollbackFor = PedidoPendienteException.class)
-	public void deleteById(Integer id) throws DataAccessException, PedidoPendienteException {
+	public void deleteById(Integer id) throws DataAccessException, PedidoPendienteException, PlatoPedidoPendienteException{
 		Iterable<LineaPedido> LineasPedido = lineaPedidoRepository.findByProductoId(id);
 		Iterator<LineaPedido> it = LineasPedido.iterator();
 		Boolean HaypedidoPendiente = false;
@@ -61,11 +66,28 @@ public class ProductoService {
 		    	HaypedidoPendiente = true;
 	    	}		
 		}if (HaypedidoPendiente)  {    
-			throw new PedidoPendienteException();
-		}else {
+			throw new PedidoPendienteException();}
+		else if(checkPlatoPedido(id)){
+			throw new PlatoPedidoPendienteException();}
+		else{
 		Producto producto = productoRepository.findById(id).get();
 		productoRepository.deleteById(id);
 		log.info(String.format("Product with name %s has been deleted", producto.getName()));
 		}
+	}
+	
+	@Transactional
+	private Boolean checkPlatoPedido(Integer id){
+		Boolean res = false;
+		Iterable<Ingrediente> ingredientes = ingredienteRepository.findByProductoId(id);
+		Iterator<Ingrediente> ins = ingredientes.iterator();
+		while (ins.hasNext()) {
+			Ingrediente p = ins.next();
+			if(!(p.sePuedeEliminarPP())) {
+				res = false;
+				break;
+			}
+		}
+		return res;
 	}
 }

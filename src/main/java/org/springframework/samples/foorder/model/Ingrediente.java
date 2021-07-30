@@ -8,13 +8,15 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-@Entity
+@Entity(name="Ingrediente")
+@Table(name="ingrediente")
 public class Ingrediente extends BaseEntity{
 	
 	@Column(name="cantidad")
@@ -34,5 +36,16 @@ public class Ingrediente extends BaseEntity{
 	@Override
 	public String toString() {
 		return "Ingrediente ["+"id"+this.getId()+ "cantidadUsualPP=" + cantidadUsualPP + ", producto=" + producto + ", plato=" + plato + "]";
+	}
+	
+	public Boolean sePuedeEliminarPP(){
+		Boolean res = true;
+		for (IngredientePedido i: this.getIngredientesPedidos()) {
+			if(i.getPp().getEstadoplato().equals("ENCOLA") || i.getPp().getEstadoplato().equals("ENPROCESO")) {
+				res = false;
+				break;
+			}
+		}
+		return res;
 	}
 }

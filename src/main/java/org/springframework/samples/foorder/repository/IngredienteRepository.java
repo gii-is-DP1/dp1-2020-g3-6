@@ -9,5 +9,10 @@ public interface IngredienteRepository extends CrudRepository<Ingrediente, Integ
 	
 	Collection<Ingrediente> findAll();
 	
+//	@Query("SELECT i FROM ingrediente i  WHERE producto = ?1")
+//	Iterable<Ingrediente> findPorProducto(Integer id);
+	
+	Iterable<Ingrediente> findByProductoId(Integer id);
+	
 }
 
