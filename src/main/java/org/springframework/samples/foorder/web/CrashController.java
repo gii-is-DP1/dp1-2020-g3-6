@@ -34,5 +34,4 @@ public class CrashController {
 		throw new RuntimeException(
 				"Expected: controller used to showcase what " + "happens when an exception is thrown");
 	}
-
 }
