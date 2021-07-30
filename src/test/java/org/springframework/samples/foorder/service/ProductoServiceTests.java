@@ -18,6 +18,7 @@ import org.springframework.samples.foorder.model.TipoProducto;
 import org.springframework.samples.foorder.service.ProductoService;
 import org.springframework.samples.foorder.service.TipoProductoService;
 import org.springframework.samples.foorder.service.exceptions.PedidoPendienteException;
+import org.springframework.samples.foorder.service.exceptions.PlatoPedidoPendienteException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -81,7 +82,7 @@ public class ProductoServiceTests {
 	  }
 		
 		@Test
-		void shouldDeleteProducto() throws DataAccessException, PedidoPendienteException {
+		void shouldDeleteProducto() throws DataAccessException, PedidoPendienteException, PlatoPedidoPendienteException {
 
 			int foundBefore = Lists.newArrayList(this.productoService.findAll()).size();
 
