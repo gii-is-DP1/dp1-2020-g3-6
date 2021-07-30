@@ -7,52 +7,6 @@
 <%@ taglib prefix="foorder" tagdir="/WEB-INF/tags"%>
 
 <script>
-$(function(){
-	var mayus = new RegExp("^(?=.*[A-Z])");
-	var special = new RegExp("^(?=.*[!@#$&*])");
-	var numbers = new RegExp("^(?=.*[0-9])");
-	var lower =  new RegExp("^(?=.*[a-z])");
-	var len =  new RegExp("^(?=.*{5,})");
-	
-	$("#contrasena").on("keyup",function(){
-		var pass = $("#contrasena").val();
-		var seguridad =0;
-		if( mayus.test(pass)){
-			seguridad=1+seguridad;
-		}
-		if( special.test(pass)){
-			seguridad=1+seguridad;
-		}
-		if( numbers.test(pass)){
-			seguridad=1+seguridad;
-		}
-		if( lower.test(pass)){
-			seguridad=1+seguridad;
-		}
-		if( len.test(pass)){
-			seguridad=1+seguridad;
-		}
-		if(seguridad==0){
-			$("#mensaje").text("No segura");
-		
-		}
-		if(seguridad==1){
-			$("#mensaje").text("Muy poco segura");
-	
-			}
-		if(seguridad==2){
-			$("#mensaje").text("poco segura");
-
-			}
-		if(seguridad==3){
-			$("#mensaje").text("Segura");
-		
-			}
-		if(seguridad==4){
-			$("#mensaje").text("Muy segura");
-		}
-			});
-	});
 function validarsize(){
 	var name = document.forms["camarero"]["name"].value;
 	var apellido = document.forms["camarero"]["apellido"].value;
@@ -94,8 +48,6 @@ function validarsize(){
 			<foorder:inputField label="telefono" name="telefono" />
 			<foorder:inputField label="usuario" name="usuario" />
 			<foorder:inputField label="contrasena" name="contrasena" />
-			<input type="password" name="contra" id="contra">
-			<span id="mensaje"></span>
 		</div>
 		<div class="form-group">
 			<div class="col-sm-offset-2 col-sm-10">

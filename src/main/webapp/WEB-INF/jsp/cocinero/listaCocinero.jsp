@@ -6,6 +6,7 @@
 <%@ taglib prefix="foorder" tagdir="/WEB-INF/tags" %>
 
 <foorder:layout pageName="cocinero">
+<span id="message"></span>
     <h2>Cocinero</h2>
 
     <table id="cocineroTable" class="table table-striped">
@@ -56,3 +57,15 @@
       	<button class="btn btn-default" type="submit">Crear cocinero</button>
   		</form>
 </foorder:layout>
+
+<script>
+
+var queryString = window.location.search;
+var urlParams = new URLSearchParams(queryString);
+var message = urlParams.get('message');
+
+	
+$('#message').text(message).text();
+
+
+</script>

@@ -6,6 +6,7 @@
 <%@ taglib prefix="foorder" tagdir="/WEB-INF/tags" %>
 
 <foorder:layout pageName="propietarios">
+<span id="message"></span>
     <h2>Propietario</h2>
     
     <form method="get" action="/propietarios/new">
@@ -58,3 +59,16 @@
         </tbody>
     </table>
 </foorder:layout>
+
+<script>
+
+var queryString = window.location.search;
+var urlParams = new URLSearchParams(queryString);
+var message = urlParams.get('message');
+
+	
+$('#message').text(message).text();
+
+
+</script>
+

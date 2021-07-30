@@ -73,8 +73,7 @@ public class CamareroController {
 			return "camareros/editCamarero";
 		}else {
 			camareroService.save(camarero);
-			modelMap.addAttribute("message", "Guardado correctamente");
-			vista="redirect:/camareros?message='guardado_correctamente'";
+			vista="redirect:/camareros?message=Guardado correctamente";
 		}
 		return vista;
 	}
@@ -86,10 +85,9 @@ public class CamareroController {
 		if(cam.isPresent()) {
 			camareroService.deleteById(camareroId);
 			modelMap.addAttribute("message", "Borrado correctamente");
-			vista=listadoCamareros(modelMap);
+			vista="redirect:/camareros?message=Borrado correctamente";
 		}else {
-			modelMap.addAttribute("message", "Camarero no encontrado");
-			vista=listadoCamareros(modelMap);
+			vista="redirect:/camareros?message=Camarero no encontrado";
 		}
 		return vista;
 	}
@@ -113,7 +111,7 @@ public class CamareroController {
 			return "camareros/editarCamareros";
 		}else {
 			camareroService.save(camarero);
-			return "redirect:/camareros";
+			return "redirect:/camareros?message=Actualizado correctamente";
 		}
 	}
 }

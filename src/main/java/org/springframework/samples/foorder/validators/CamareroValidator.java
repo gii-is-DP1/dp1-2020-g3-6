@@ -29,7 +29,8 @@ public class CamareroValidator implements Validator{
 		Camarero camarero = (Camarero) target;
 		String pattern = "^[a-z0-9!#$%&'+/=?^_`{|}~-]+(?:.[a-z0-9!#$%&'+/=?^_`{|}~-]+)@(?:[a-z0-9](?:[a-z0-9-][a-z0-9])?.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$" ;
 		
-		String patternContra= "/^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[$@$!%*?&])[A-Za-z\\d$@$!%*?&]/";
+		String patternN= "^[0-9].+";
+		String patternletras= "^[a-zA-Z].+";
 		
 			if (camarero.getApellido().length()<3||camarero.getApellido().length()>50  ){
 				errors.rejectValue("apellido", "este apellido no tiene una longitud valida","este apellido no tiene una longitud valida");
@@ -51,11 +52,11 @@ public class CamareroValidator implements Validator{
 				errors.rejectValue("contrasena", "este contrasena no tiene una longitud valida","este contrasena no tiene una longitud valida");
 			}
 			
-			if (patternContra.matches(camarero.getContrasena())){
+			if (!camarero.getContrasena().matches(patternN)||!camarero.getContrasena().matches(patternletras)){
 				errors.rejectValue("contrasena", "la contraseña debe tener letras y números","la contraseña debe tener letras y números");
 			}
 			
-			if (!camarero.getGmail().matches(pattern)){
+			if (!camarero.getGmail().toLowerCase().matches(pattern)){
 				errors.rejectValue("gmail", "este gmail no es valido","este gmail no es valido");
 			}
 			

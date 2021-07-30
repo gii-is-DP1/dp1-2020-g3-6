@@ -69,8 +69,7 @@ public class CocineroController {
 			return "cocinero/editCocinero";
 		} else {
 			cocineroService.save(cocinero);
-			modelMap.addAttribute("message", "Guardado Correctamente");
-			vista = listadoCocinero(modelMap);
+			vista = "redirect:/cocinero?message=Guardado Correctamente";
 		}
 		return vista;
 	}
@@ -81,11 +80,9 @@ public class CocineroController {
 		Optional<Cocinero> cam = cocineroService.findById(cocineroId);
 		if (cam.isPresent()) {
 			cocineroService.deleteById(cocineroId);
-			modelMap.addAttribute("message", "Borrado Correctamente");
-			vista = listadoCocinero(modelMap);
+			vista = "redirect:/cocinero?message=Borrado Correctamente";
 		} else {
-			modelMap.addAttribute("message", "Cocinero no encontrado");
-			vista = listadoCocinero(modelMap);
+			vista = "redirect:/cocinero?message=Cocinero no encontrado";;
 		}
 		return vista;
 	}
@@ -110,7 +107,7 @@ public class CocineroController {
 			return "cocinero/editarCocinero";
 		}else {
 			this.cocineroService.save(cocinero);
-			return "redirect:/cocinero";
+			return "redirect:/cocinero?message=Cocinero actualizado";
 		}
 	}
 }
