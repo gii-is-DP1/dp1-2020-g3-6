@@ -41,7 +41,7 @@ public class Ingrediente extends BaseEntity{
 	public Boolean sePuedeEliminarPP(){
 		Boolean res = true;
 		for (IngredientePedido i: this.getIngredientesPedidos()) {
-			if(i.getPp().getEstadoplato().equals("ENCOLA") || i.getPp().getEstadoplato().equals("ENPROCESO")) {
+			if(i.getPp().getEstadoplato().getName().equals("ENCOLA") | i.getPp().getEstadoplato().getName().equals("ENPROCESO")) {
 				res = false;
 				break;
 			}

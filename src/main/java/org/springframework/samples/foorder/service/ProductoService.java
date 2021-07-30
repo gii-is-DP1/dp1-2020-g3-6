@@ -67,7 +67,7 @@ public class ProductoService {
 	    	}		
 		}if (HaypedidoPendiente)  {    
 			throw new PedidoPendienteException();}
-		else if(checkPlatoPedido(id)){
+		else if(!(checkPlatoPedido(id))){
 			throw new PlatoPedidoPendienteException();}
 		else{
 		Producto producto = productoRepository.findById(id).get();
@@ -78,7 +78,7 @@ public class ProductoService {
 	
 	@Transactional
 	private Boolean checkPlatoPedido(Integer id){
-		Boolean res = false;
+		Boolean res = true;
 		Iterable<Ingrediente> ingredientes = ingredienteRepository.findByProductoId(id);
 		Iterator<Ingrediente> ins = ingredientes.iterator();
 		while (ins.hasNext()) {
