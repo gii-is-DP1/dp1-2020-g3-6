@@ -12,4 +12,6 @@ public interface PlatoPedidoRepository extends CrudRepository<PlatoPedido, Integ
 	@Query("SELECT pp FROM PlatoPedido pp WHERE NOT(pp.comanda IS null)")
 	List<PlatoPedido> platosPedidosDesponibles() throws DataAccessException;
 	
+	Iterable<PlatoPedido> findByPlatoId(Integer id);
+	
 }

@@ -15,6 +15,7 @@ import org.springframework.samples.foorder.model.Producto;
 import org.springframework.samples.foorder.service.IngredienteService;
 import org.springframework.samples.foorder.service.PlatoService;
 import org.springframework.samples.foorder.service.ProductoService;
+import org.springframework.samples.foorder.service.exceptions.PlatoEnProcesoException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -74,6 +75,7 @@ public class PlatoController {
 			modelMap.addAttribute("platos", plato);
 			return "platos/editPlatos";
 		}else {
+			plato.setDisponible(true);
 			platoService.save(plato);
 			modelMap.addAttribute("message", "Guardado Correctamente");
 			vista=listadoPlatos(modelMap);
@@ -82,15 +84,20 @@ public class PlatoController {
 		
 	}
 	@GetMapping(path="/delete/{platoId}")
-	public String borrarPlato(@PathVariable("platoId") int platoId, ModelMap modelMap) {
+	public String borrarPlato(@PathVariable("platoId") int platoId, ModelMap modelMap) throws PlatoEnProcesoException {
 		String vista= "platos/listaPlatos";
 		Optional<Plato> cam= platoService.findById(platoId);
-		if(cam.isPresent()) {
-			platoService.deleteById(platoId);
-			modelMap.addAttribute("message", "Borrado Correctamente");
-			vista=listadoPlatos(modelMap);
-		}else {
-			modelMap.addAttribute("message", "Plato no encontrado");
+		try {
+			if(cam.isPresent()) {
+				platoService.deleteById(platoId);
+				modelMap.addAttribute("message", "Borrado Correctamente");
+				vista=listadoPlatos(modelMap);
+			}else {
+				modelMap.addAttribute("message", "Plato no encontrado");
+				vista=listadoPlatos(modelMap);
+			}
+		} catch (PlatoEnProcesoException e) {
+			modelMap.addAttribute("message", "No se puede borrar porque hay una comanda pendiente con ese plato");
 			vista=listadoPlatos(modelMap);
 		}
 		return vista;
