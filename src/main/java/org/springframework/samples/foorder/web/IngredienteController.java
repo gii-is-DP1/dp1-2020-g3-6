@@ -36,11 +36,9 @@ public class IngredienteController {
 		Optional<Ingrediente> pp= ingredienteService.findById(ingId);
 		if(pp.isPresent()) {
 			ingredienteService.deleteById(ingId);
-			modelMap.addAttribute("message", "Borrado Correctamente");
-			vista=listadoIngrediente(modelMap);
+			vista="redirect:/ingrediente?message=Borrado Correctamente";
 		}else {
-			modelMap.addAttribute("message", "Ingrediente no encontrado");
-			vista=listadoIngrediente(modelMap);
+			vista="redirect:/ingrediente?message=Ingrediente no encontrado";
 		}
 		return vista;
 	}

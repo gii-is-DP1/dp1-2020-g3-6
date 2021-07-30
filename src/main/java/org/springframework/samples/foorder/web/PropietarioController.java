@@ -69,8 +69,7 @@ public class PropietarioController {
 			return "propietarios/editPropietario";
 		} else {
 			propietarioService.save(propietario);
-			modelMap.addAttribute("message", "successfuly saved");
-			vista = listadoPropietarios(modelMap);
+			vista = "redirect:/propietarios?message=Guardado correctamente";
 		}
 		return vista;
 	}
@@ -78,13 +77,14 @@ public class PropietarioController {
 	@GetMapping(path = "/delete/{propietarioId}")
 	public String borrarPropietario(@PathVariable("propietarioId") final int propietarioId, final ModelMap modelMap) {
 		Optional<Propietario> propietario = this.propietarioService.findById(propietarioId);
+		String vista="";
 		if (propietario.isPresent()) {
 			propietarioService.deleteById(propietario.get().getId());
-			modelMap.addAttribute("message", "successfuly deleted");
+			vista="redirect:/propietarios?message=Borrado correctamente";
 		} else {
-			modelMap.addAttribute("message", "not found");
+			vista="redirect:/propietarios?message=Propietario no encontrado";
 		}
-		return "redirect:/propietarios";
+		return vista;
 	}
 
 	@GetMapping(value = "/edit/{propietarioId}")
@@ -105,7 +105,7 @@ public class PropietarioController {
 			return "propietarios/editarPropietario";
 		} else {
 			this.propietarioService.save(propietario);
-			return "redirect:/propietarios";
+			return "redirect:/propietarios?message=Actualizado correctamente";
 		}
 	}
 }

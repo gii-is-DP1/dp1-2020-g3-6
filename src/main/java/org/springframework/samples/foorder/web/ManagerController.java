@@ -72,8 +72,7 @@ public class ManagerController {
 			return "managers/editManager";
 		}else {
 			managerService.save(manager);
-			modelMap.addAttribute("message", "Guardado Correctamente");
-			vista=listadoManagers(modelMap);
+			vista="redirect:/managers?message=Guardado correctamente";
 		}
 		return vista;
 	}
@@ -84,11 +83,9 @@ public class ManagerController {
 		Optional<Manager> man= managerService.findById(managerId);
 		if(man.isPresent()) {
 			managerService.deleteById(managerId);
-			modelMap.addAttribute("message", "Borrado Correctamente");
-			vista=listadoManagers(modelMap);
+			vista="redirect:/managers?message=Borrado Correctamente";
 		}else {
-			modelMap.addAttribute("message", "Manager no encontrado");
-			vista=listadoManagers(modelMap);
+			vista="redirect:/managers?message=Manager no encontrado";
 		}
 		return vista;	
 	}
@@ -112,7 +109,7 @@ public class ManagerController {
 			return "managers/editarManager";
 		}else {
 			this.managerService.save(manager);
-			return "redirect:/managers";
+			return "redirect:/managers?message=Actualizado correctamente";
 		}
 	}
 }
