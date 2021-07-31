@@ -84,7 +84,6 @@ public class CamareroController {
 		Optional<Camarero> cam= camareroService.findById(camareroId);
 		if(cam.isPresent()) {
 			camareroService.deleteById(camareroId);
-			modelMap.addAttribute("message", "Borrado correctamente");
 			vista="redirect:/camareros?message=Borrado correctamente";
 		}else {
 			vista="redirect:/camareros?message=Camarero no encontrado";
@@ -94,9 +93,13 @@ public class CamareroController {
 	
 	@GetMapping(value = "/edit/{camareroId}")
 	public String initUpdateCamareroForm(@PathVariable("camareroId") int camareroId, ModelMap model) {
+		Optional<Camarero> cam=camareroService.findById(camareroId);
+		if(cam.isEmpty()) {
+			return "redirect:/camareros?message=Ese camarero no existe";
+		}
 		String vista= "camareros/editarCamareros";
-		Camarero cam =  camareroService.findById(camareroId).get();
-		model.addAttribute(cam);
+		Camarero cam1 =  cam.get();
+		model.addAttribute(cam1);
 		return vista;
 	}
 	

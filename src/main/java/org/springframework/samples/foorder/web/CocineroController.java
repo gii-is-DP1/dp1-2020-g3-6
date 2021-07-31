@@ -4,6 +4,7 @@ import java.util.Iterator;
 import java.util.Optional;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.foorder.model.Camarero;
 import org.springframework.samples.foorder.model.Cocinero;
 import org.springframework.samples.foorder.service.AuthoritiesService;
 import org.springframework.samples.foorder.service.CocineroService;
@@ -89,8 +90,11 @@ public class CocineroController {
 
 	@GetMapping(value = "/edit/{cocineroId}")
 	public String initUpdateCocineroForm(@PathVariable("cocineroId") int cocineroId, ModelMap model) {
+		Optional<Cocinero> coc=cocineroService.findById(cocineroId);
+		if(coc.isEmpty()) {
+			return "redirect:/cocinero?message=Ese cocinero no existe";
+		}
 		String vista = "cocinero/editarCocinero";
-
 		Cocinero cocinero = cocineroService.findById(cocineroId).get();
 		model.addAttribute(cocinero);
 		return vista;

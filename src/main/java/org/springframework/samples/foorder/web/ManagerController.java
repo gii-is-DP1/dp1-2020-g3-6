@@ -6,6 +6,7 @@ import java.util.Optional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.foorder.model.Cocinero;
 import org.springframework.samples.foorder.model.Manager;
 import org.springframework.samples.foorder.service.AuthoritiesService;
 import org.springframework.samples.foorder.service.ManagerService;
@@ -93,6 +94,10 @@ public class ManagerController {
 	
 	@GetMapping(value = "/edit/{managerId}")
 	public String initUpdateManagerForm(@PathVariable("managerId") int managerId, ModelMap model) {
+		Optional<Manager> man=managerService.findById(managerId);
+		if(man.isEmpty()) {
+			return "redirect:/managers?message=Ese manager no existe";
+		}
 		String vista= "managers/editarManager";
 		Manager manager =  managerService.findById(managerId).get();
 		model.addAttribute(manager);
