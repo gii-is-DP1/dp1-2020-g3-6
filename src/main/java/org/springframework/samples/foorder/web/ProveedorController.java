@@ -113,7 +113,6 @@ public class ProveedorController {
 		}else {
 			if (proveedorService.findAllNames().contains(proveedor.getName())
 					&& !proveedorService.findById(proveedor.getId()).get().getName().equals(proveedor.getName())) {
-				System.out.println("hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh");
 				return "redirect:/proveedor/edit/"+proveedor.getId()+"?message=el proveedor ya existe";
 			}else {
 				proveedorService.save(proveedor);
