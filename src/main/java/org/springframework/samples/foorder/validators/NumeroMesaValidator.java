@@ -1,8 +1,4 @@
 package org.springframework.samples.foorder.validators;
-
-import java.util.Collection;
-import java.util.Iterator;
-
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 

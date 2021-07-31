@@ -17,6 +17,8 @@ import org.springframework.samples.foorder.model.PlatoPedidoDTO;
 import org.springframework.samples.foorder.service.EstadoPlatoService;
 import org.springframework.samples.foorder.service.IngredientePedidoService;
 import org.springframework.samples.foorder.service.PlatoPedidoService;
+import org.springframework.samples.foorder.service.UserService;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -39,12 +41,13 @@ public class PlatoPedidoController {
 	private PlatoPedidoConverter ppConverter;
 	private EstadoPlatoFormatter estadoPlatoFormatter;
 	private PlatoFormatter platoFormatter;
+	private UserService userService;
 	
 	@Autowired
 	public PlatoPedidoController(PlatoPedidoService platoPedidoService,
 			IngredientePedidoService ingredientePedidoService,
 			EstadoPlatoService estadoPlatoService, PlatoPedidoConverter ppConverter,
-			EstadoPlatoFormatter estadoPlatoFormatter, PlatoFormatter platoFormatter) {
+			EstadoPlatoFormatter estadoPlatoFormatter, PlatoFormatter platoFormatter, UserService userService) {
 		super();
 		this.platoPedidoService = platoPedidoService;
 		this.ingredientePedidoService = ingredientePedidoService;
@@ -52,6 +55,7 @@ public class PlatoPedidoController {
 		this.ppConverter = ppConverter;
 		this.estadoPlatoFormatter = estadoPlatoFormatter;
 		this.platoFormatter = platoFormatter;
+		this.userService=userService;
 	}
 
 	@ModelAttribute("estadoplatopedido") // Esto pertenece a EstadoPlato
@@ -62,6 +66,10 @@ public class PlatoPedidoController {
 
 	@GetMapping()
 	public String listadoPlatosPedido(ModelMap modelMap) {
+		String authority = this.userService.findAuthoritiesByUsername(this.userService.getUserSession().getUsername());
+		if(!authority.equals("cocinero")) {
+			return "error-403";
+		}
 		String vista = "platosPedido/listaPlatosPedido";
 		Iterable<PlatoPedido> pp = platoPedidoService.platosPedidosDesponibles();
 		modelMap.addAttribute("platopedido", pp);
@@ -136,6 +144,10 @@ public class PlatoPedidoController {
 	@GetMapping(path = "/modificarEstado/{platopedidoID}/{cambiarA}")
 	public String Stock(@PathVariable("platopedidoID") Integer ppId, @PathVariable("cambiarA") String estado,
 			ModelMap model) throws ParseException {
+		String authority = this.userService.findAuthoritiesByUsername(this.userService.getUserSession().getUsername());
+		if(!authority.equals("cocinero")) {
+			return "error-403";
+		}
 		String vista="";
 		Optional<PlatoPedido> pp = platoPedidoService.findById(ppId);
 		if (pp.isPresent()) {
