@@ -8,7 +8,6 @@
 
 <%@ taglib prefix="sec"
 	uri="http://www.springframework.org/security/tags"%>
-<!-- %@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %-->  
 
 <foorder:layout pageName="empleados">
 	<div class="Container-Empleados">
@@ -39,16 +38,15 @@
   			</form>   
 		</div>
 		
-	</div>		
-
-	<br>
-	<br>
-	<div><h1 align="right">Nuevos propietarios
-	<spring:url value="/propietarios" var="propURL"></spring:url>
-			<form action="${fn:escapeXml(propURL)}"> 
+		<div class="Container-propietarios">
+			<spring:url value="/propietarios" var="propietariosURL"></spring:url>
+			<a href="${fn:escapeXml(propietariosURL)}"><img  src="resources/images/propietarios.png"></a>
+		 	<br>
+		 	<form class="empl" action="${fn:escapeXml(propietariosURL)}"> 
       			<button class="btn btn-default" type="submit">PROPIETARIOS</button>
-  			</form>  
-		 	</h1></div>
+  			</form>   
+		</div>
+	</div>		
 
     </foorder:layout>
     

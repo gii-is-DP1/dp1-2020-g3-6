@@ -22,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.foorder.model.User;
 import org.springframework.samples.foorder.repository.UserRepository;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -56,4 +57,14 @@ public class UserService {
 		this.userRepository.delete(user); 
 		
 	}
+
+	@Transactional
+	public User getUserSession() {
+		return findUser(SecurityContextHolder.getContext().getAuthentication().getName()).orElse(new User());
+	}
+	
+	@Transactional
+	public String findAuthoritiesByUsername(String username) {
+        return this.userRepository.findAuthoritiesByUsername(username);
+    }
 }
