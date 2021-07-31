@@ -6,6 +6,7 @@
 <%@ taglib prefix="foorder" tagdir="/WEB-INF/tags" %>
 
 <foorder:layout pageName="lineaPedido">
+	<span id="message"></span>
     <h2>LineaPedido</h2>
 
     <table id="lineaPedidoTable" class="table table-striped">
@@ -31,3 +32,15 @@
     </table>
 
 </foorder:layout>
+
+<script>
+
+var queryString = window.location.search;
+var urlParams = new URLSearchParams(queryString);
+var message = urlParams.get('message');
+
+	
+$('#message').text(message).text();
+
+
+</script>

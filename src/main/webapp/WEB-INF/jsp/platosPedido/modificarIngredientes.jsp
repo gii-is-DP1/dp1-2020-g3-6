@@ -7,6 +7,7 @@
 <%@ taglib prefix="foorder" tagdir="/WEB-INF/tags"%>
 
 <foorder:layout pageName="platopedido">
+	<span id="message"></span>
 
 	<h2>
 		<c:out value="${plato.name}" />
@@ -40,13 +41,16 @@
 			asignar a comanda</button>
 	</form:form>
 
-	<%-- 
-	<spring:url
-		value="comanda/listaComandaActual/asignar/{comandaId}/{ppId}"
-		var="platopedidoURL">
-		<spring:param name="comandaId" value="${comandaId}" />
-		<spring:param name="ppId" value="${platopedido.id}" />
-	</spring:url>
-	<a href="${fn:escapeXml(platopedidoURL)}">Finalizar y asignar a
-		comanda</a>--%>
+	
 </foorder:layout>
+<script>
+
+var queryString = window.location.search;
+var urlParams = new URLSearchParams(queryString);
+var message = urlParams.get('message');
+
+	
+$('#message').text(message).text();
+
+
+</script>

@@ -6,6 +6,7 @@
 <%@ taglib prefix="foorder" tagdir="/WEB-INF/tags" %>
 
 <foorder:layout pageName="producto">
+<span id="message"></span>
     <h2>Producto</h2>
 
     <table id="productoTable" class="table table-striped">
@@ -70,3 +71,14 @@
       	<button class="btn btn-default" type="submit">Crear Producto</button>
   	</form>
 </foorder:layout>
+<script>
+
+var queryString = window.location.search;
+var urlParams = new URLSearchParams(queryString);
+var message = urlParams.get('message');
+
+	
+$('#message').text(message).text();
+
+
+</script>

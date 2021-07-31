@@ -8,6 +8,7 @@
 <%@ taglib prefix="foorder" tagdir="/WEB-INF/tags" %>
 
 <foorder:layout pageName="proveedor">
+<span id="message"></span>
     <h2>Proveedor</h2>
 
     <table id="proveedorTable" class="table table-striped">
@@ -51,3 +52,15 @@
       	<button class="btn btn-default" type="submit">Crear proveedor</button>
   		</form>
 </foorder:layout>
+
+<script>
+
+var queryString = window.location.search;
+var urlParams = new URLSearchParams(queryString);
+var message = urlParams.get('message');
+
+	
+$('#message').text(message).text();
+
+
+</script>

@@ -56,8 +56,7 @@ public class ComandaController {
 	public String listadoComandaDia(String date, ModelMap modelMap) {
 		String vista= "comanda/listaComandaTotal";
 		if (date=="") {
-			modelMap.addAttribute("message", "Debes elegir un dia obligatoriamente");
-			vista = listadoComandaTotal(modelMap);
+			vista="redirect:/comanda/listaComandaTotal?message=Debes elegir un dia obligatoriamente";
 			return vista;
 		}
 		Collection<Comanda> comanda = comandaService.encontrarComandaDia(date);
@@ -80,22 +79,22 @@ public class ComandaController {
 	public String finalizarComanda(@PathVariable("comandaID") int comandaID, ModelMap modelMap) {
 		String vista= "comanda/listaComandaActual";
 		Optional<Comanda> comanda = comandaService.findById(comandaID);
+		String message="";
 		if(comanda.isPresent()) {
 			Comanda res = comanda.get();
 			if(comandaService.estaFinalizado(res)) {
-				modelMap.addAttribute("message", "Esta comanda aún tiene platos por finalizar");
+				message="Esta comanda aún tiene platos por finalizar";
 			}
 			else if(res.getFechaFinalizado() == null) {
 				res.setFechaFinalizado(LocalDateTime.now());
-				modelMap.addAttribute("message", "La comanda se ha finalizado correctamente");
+				message="La comanda se ha finalizado correctamente";
 				comandaService.save(res);
 			}else {
-				modelMap.addAttribute("message", "La comanda ya está finalizada");
+				message="La comanda ya está finalizada";
 			}
-			vista = listadoComandaActual(modelMap);
+			vista="redirect:/comanda/listaComandaActual?message="+message;
 		}else {
-			modelMap.addAttribute("message", "La comanda pedida no existe");
-			vista = "redirect:/comanda/listaComandaActual";
+			vista = "redirect:/comanda/listaComandaActual?message=La comanda pedida no existe";
 		}
 		return vista;
 	}
@@ -122,8 +121,6 @@ public class ComandaController {
 			modelMap.addAttribute("message",result.getAllErrors().get(0).getDefaultMessage());
 			Collection<Comanda> list_comanda = comandaService.encontrarComandaActual();
 			modelMap.addAttribute("list_comanda",list_comanda);
-		
-//			modelMap.addAttribute("status", result.get);
 			return "comanda/listaComandaActual";
 		}
 		Comanda new_comanda = comandaService.instanciarComanda(comanda, user);

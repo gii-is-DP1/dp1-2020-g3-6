@@ -7,6 +7,7 @@
 
 
 <foorder:layout pageName="pedidos">
+<span id="message"></span>
     <h2>Pedido</h2>
 
     <table id="pedidosTable" class="table table-striped">
@@ -63,3 +64,16 @@
   	</form>
     
 </foorder:layout>
+
+
+<script>
+
+var queryString = window.location.search;
+var urlParams = new URLSearchParams(queryString);
+var message = urlParams.get('message');
+
+	
+$('#message').text(message).text();
+
+
+</script>

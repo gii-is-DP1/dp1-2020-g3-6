@@ -35,23 +35,21 @@ public class PedidoController {
 	
 	@GetMapping(path="/terminarPedido/{pedidoID}")
 	public String recargarStock(@PathVariable("pedidoID") int pedidoID, ModelMap modelMap) throws DataAccessException, DuplicatedPedidoException {
-		String view= "pedidos/listaPedidos";
+		String vista= "pedidos/listaPedidos";
 		Optional<Pedido> pedi = pedidoService.findById(pedidoID);
 		if(pedi.isPresent()) {
 			Pedido p = pedi.get();
 			if (p.getHaLlegado().equals(Boolean.FALSE)) {
 				pedidoService.recargarStock(pedidoID);
-				modelMap.addAttribute("message", "Se ha finalizado el pedido correctamente");
-				view = listadoDePedidos(modelMap);
+				vista="redirect:/pedidos?message=Se ha finalizado el pedido correctamente";
+				
 			} else {
-				modelMap.addAttribute("message", "El pedido ya se ha finalizado");
-				view = listadoDePedidos(modelMap);
+				vista="redirect:/pedidos?message=El pedido ya se ha finalizado";
 			}
 		}else {
-			modelMap.addAttribute("message", "not found");
-			view = listadoDePedidos(modelMap);
+			vista="redirect:/pedidos?message=El pedido no se ha encontrado";
 		}
-		return view;
+		return vista;
 	}
 	
 	//Todas los pedidos de x dia. 
@@ -59,8 +57,7 @@ public class PedidoController {
 		public String listadoPedidoDia(String date, ModelMap modelMap) {
 			String vista= "pedidos/listaPedidos";
 			if (date=="") {
-				modelMap.addAttribute("message", "Debes elegir un dia obligatoriamente");
-				vista = listadoDePedidos(modelMap);
+				vista="redirect:/pedidos?message=Debes elegir un dia obligatoriamente";
 				return vista;
 			}
 			Collection<Pedido> pedido = pedidoService.encontrarPedidoDia(date);

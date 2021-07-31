@@ -115,8 +115,7 @@ public class ProductoController {
 			return "producto/editProducto";
 		}else {
 			productoService.save(productoFinal);
-			modelMap.addAttribute("message", "Guardado Correctamente");
-			vista=listadoProducto(modelMap);
+			vista="redirect:/producto?message=Guardado correctamente";
 		}
 		return vista; 
 	}
@@ -128,17 +127,15 @@ public class ProductoController {
 		if(prod.isPresent()) {
 			try {
 				productoService.deleteById(productoId);
-				modelMap.addAttribute("message", "Borrado Correctamente");
-				vista=listadoProducto(modelMap);
+				vista="redirect:/producto?message=Borrado Correctamente";
+				
 			}catch (PedidoPendienteException | PlatoPedidoPendienteException ex) {
 				ex.getMessage();
-				modelMap.addAttribute("message", "No se puede borrar porque hay un pedido pendiente con ese producto");
-				vista=listadoProducto(modelMap);
+				vista="redirect:/producto?message=No se puede borrar porque hay un pedido pendiente con ese producto";
 			}
 		}
 		else {
-			modelMap.addAttribute("message", "Producto no encontrado");
-			vista=listadoProducto(modelMap);
+			vista="redirect:/producto?message=Producto no encontrado";
 		}
 		return vista;
 	}
@@ -167,8 +164,7 @@ public class ProductoController {
 			return "producto/editarProducto";
 		}else {
 			this.productoService.save(productoFinal);
-			modelMap.addAttribute("message", "Guardado Correctamente");
-			return "redirect:/producto";
+			return "redirect:/producto?message=Guardado Correctamente";
 		}
 	}		
 		
@@ -179,15 +175,12 @@ public class ProductoController {
 		if(productoService.findById(productoId).isPresent()) {
 			try {
 				pedidoService.crearPedido(productoId);
-				modelMap.addAttribute("message", "Se ha creado el pedido correctamente");
-				vista = listadoProducto(modelMap);
+				vista="redirect:/producto?message=Se ha creado el pedido correctamente";
 			}catch(DuplicatedPedidoException ex){
-				modelMap.addAttribute("message", "Ya hay un pedido pendiente a ese proveedor");
-				vista=listadoProducto(modelMap);
+				vista="redirect:/producto?message=Ya hay un pedido pendiente a ese proveedor";
 			}
 		}else {
-			modelMap.addAttribute("message", "Producto no encontrado");
-			vista=listadoProducto(modelMap);
+			vista="redirect:/producto?message=Producto no encontrado";
 		}
 		return vista;
 	}

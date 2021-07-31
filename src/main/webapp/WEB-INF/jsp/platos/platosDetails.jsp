@@ -5,7 +5,7 @@
 <%@ taglib prefix="foorder" tagdir="/WEB-INF/tags" %>
 
 <foorder:layout pageName="platos">
-
+<span id="message"></span>
     <h2>Plato <c:out value="${plato.name}"/></h2>
 
     <table class="table table-striped">
@@ -82,3 +82,15 @@
     </table>
 
 </foorder:layout>
+<script>
+
+var queryString = window.location.search;
+var urlParams = new URLSearchParams(queryString);
+var message = urlParams.get('message');
+
+	
+$('#message').text(message).text();
+
+
+</script>
+

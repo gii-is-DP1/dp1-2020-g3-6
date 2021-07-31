@@ -79,13 +79,11 @@ public class PlatoPedidoController {
 		ppFinal.setEstadoplato(estadoPlatoFormatter.parse(ppDTO.getEstadoplatodto(), Locale.ENGLISH));
 		ppFinal.setPlato(platoFormatter.parse(ppDTO.getPlatodto(), Locale.ENGLISH));
 		if (result.hasErrors()) {
-			modelMap.addAttribute("message", "ha habido un error al guardar" + result.getAllErrors().toString());
-			vista = initUpdatePPForm(comandaId, ppFinal.getId(), modelMap);
+			vista="redirect:/platopedido/comanda/"+comandaId+"/"+ppFinal.getId()
+			+"?message=ha habido un error al guardar"+ result.getAllErrors().toString();
 		} else {
 			platoPedidoService.save(ppFinal);
-			modelMap.addAttribute("message", "successfuly saved");
-			modelMap.addAttribute("comandaId", comandaId);
-			vista = initUpdatePPForm(comandaId, ppFinal.getId(), modelMap);
+			vista="redirect:/platopedido/comanda/"+comandaId+"/"+ppFinal.getId()+"?message=guardado correctamente&comandaId="+comandaId;
 		}
 		return vista;
 	}
@@ -117,11 +115,9 @@ public class PlatoPedidoController {
 	public String guardarIngrediente(@PathVariable("comandaId") int comandaId, @PathVariable("ppId") int ppId,
 			@PathVariable("ingId") int ingId, @Valid IngredientePedido ingredientePedido, BindingResult result,
 			ModelMap modelMap) throws ParseException {
-		
 			ingredientePedidoService.save(ingredientePedido, ingId, ppId);
 			log.info(String.format("IngredientOrder with ingredient %s and amount %f has been saved", ingredientePedido.getIngrediente().getProducto().getName(), ingredientePedido.getCantidadPedida()));
-			modelMap.addAttribute("message", "Añadido");
-			return initUpdatePPForm(comandaId, ppId, modelMap);
+			return "redirect:/platopedido/comanda/"+comandaId+"/"+ppId+"?message=añadido";
 		
 	}
 
@@ -140,19 +136,16 @@ public class PlatoPedidoController {
 	@GetMapping(path = "/modificarEstado/{platopedidoID}/{cambiarA}")
 	public String Stock(@PathVariable("platopedidoID") Integer ppId, @PathVariable("cambiarA") String estado,
 			ModelMap model) throws ParseException {
-
+		String vista="";
 		Optional<PlatoPedido> pp = platoPedidoService.findById(ppId);
 		if (pp.isPresent()) {
 			PlatoPedido p = pp.get();
 			p.setEstadoplato(estadoPlatoFormatter.parse(estado, Locale.ENGLISH));
-
 			this.platoPedidoService.save(p);
-			model.addAttribute("message", "Se ha cambiado el plato con exito");
-			String vista = listadoPlatosPedido(model);
+			vista="redirect:/platopedido?message=Se ha cambiado el plato con exito";
 			return vista;
 		} else {
-			model.addAttribute("message", "NO Se ha cambiado el plato con exito");
-			String vista = listadoPlatosPedido(model);
+			vista="redirect:/platopedido?message=No se ha cambiado el plato con exito";
 			return vista;
 		}
 	}
