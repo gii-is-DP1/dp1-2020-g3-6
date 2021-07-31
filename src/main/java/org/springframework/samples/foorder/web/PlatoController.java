@@ -77,8 +77,7 @@ public class PlatoController {
 		}else {
 			plato.setDisponible(true);
 			platoService.save(plato);
-			modelMap.addAttribute("message", "Guardado Correctamente");
-			vista=listadoPlatos(modelMap);
+			vista="redirect:/platos?message=Guardado Correctamente";
 		}
 		return vista;
 		
@@ -90,15 +89,12 @@ public class PlatoController {
 		try {
 			if(cam.isPresent()) {
 				platoService.deleteById(platoId);
-				modelMap.addAttribute("message", "Borrado Correctamente");
-				vista=listadoPlatos(modelMap);
+				vista="redirect:/platos?message=Borrado correctamente";
 			}else {
-				modelMap.addAttribute("message", "Plato no encontrado");
-				vista=listadoPlatos(modelMap);
+				vista="redirect:/platos?message=Plato no encontrado";
 			}
 		} catch (PlatoEnProcesoException e) {
-			modelMap.addAttribute("message", "No se puede borrar porque hay una comanda pendiente con ese plato");
-			vista=listadoPlatos(modelMap);
+			vista="redirect:/platos?message=No se puede borrar porque hay una comanda pendiente con ese plato";
 		}
 		return vista;
 	}
@@ -171,12 +167,13 @@ public class PlatoController {
 	public String borrarIngredienteDePlato(@PathVariable("ingId") int ingId, ModelMap modelMap) {
 		Optional<Ingrediente> ing= ingredienteService.findById(ingId);
 		Integer platoId= ing.get().getPlato().getId();
+		String message="";
 		if(ing.isPresent()) {
 			ingredienteService.deleteById(ingId);
-			modelMap.addAttribute("message", "Borrado Correctamente");
+			message="Borrado Correctamente";
 		}else {
-			modelMap.addAttribute("message", "Ingrediente no encontrado");
+			message="Ingrediente no encontrado";
 		}
-		return "redirect:/platos/"+platoId;
+		return "redirect:/platos/"+platoId+"?message="+message;
 	}
 }

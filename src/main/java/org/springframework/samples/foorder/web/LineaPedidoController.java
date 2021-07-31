@@ -42,17 +42,16 @@ public class LineaPedidoController {
 	
 	@PostMapping(path="/save")
 	public String guardarLineaPedido(@Valid LineaPedido lineaPedido,BindingResult result,ModelMap modelMap) {
-		String view= "lineaPedido/listaLineaPedido";
+		String vista= "lineaPedido/listaLineaPedido";
 		
 		if(result.hasErrors()) {
 			modelMap.addAttribute("lineaPedido", lineaPedido);
 			return "lineaPedido/editLineaPedido";
 		}else {
 			lineaPedidoService.save(lineaPedido);
-			modelMap.addAttribute("message", "Guardado Correctamente");
-			view=listadoDeLineaPedido(modelMap);
+			vista="redirect:/lineaPedido?message=Guardado Correctamente";
 		}
-		return view	;
+		return vista	;
 	}
 }
 

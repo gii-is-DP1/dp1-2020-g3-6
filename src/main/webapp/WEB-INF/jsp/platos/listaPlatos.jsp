@@ -6,6 +6,7 @@
 <%@ taglib prefix="foorder" tagdir="/WEB-INF/tags" %>
 
 <foorder:layout pageName="platos">
+<span id="message"></span>
     <h2>Plato</h2>
 
     <table id="camarerosTable" class="table table-striped">
@@ -43,3 +44,14 @@
       	<button class="btn btn-default" type="submit">Crear Plato</button>
   	</form>
 </foorder:layout>
+<script>
+
+var queryString = window.location.search;
+var urlParams = new URLSearchParams(queryString);
+var message = urlParams.get('message');
+
+	
+$('#message').text(message).text();
+
+
+</script>

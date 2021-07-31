@@ -7,6 +7,7 @@
 <%@ taglib prefix="foorder" tagdir="/WEB-INF/tags"%>
 
 <foorder:layout pageName="Comanda Actual">
+	<span id="message"></span>
 	<h2>Comandas</h2>
 
 	<spring:url value="/comanda/listaComandaActual/new" var="newURL">
@@ -56,3 +57,14 @@
 		</tbody>
 	</table>
 </foorder:layout>
+<script>
+
+var queryString = window.location.search;
+var urlParams = new URLSearchParams(queryString);
+var message = urlParams.get('message');
+
+	
+$('#message').text(message).text();
+
+
+</script>

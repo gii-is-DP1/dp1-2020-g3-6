@@ -63,8 +63,7 @@ public class ProveedorController {
 			if(proveedorService.findAllNames().contains(proveedor.getName())
 					&& proveedorService.findByName(proveedor.getName()).get().getActivo().equals(false)) {
 				proveedorService.unhide(proveedor);
-				modelMap.addAttribute("message", "El proveedor se guardo exitosamente");
-				return listadoDeProveedores(modelMap);
+				return "redirect:/proveedor?message=El proveedor se guardo exitosamente";
 			}//Si existe y no está oculto, está repetido
 			else if (proveedorService.findByName(proveedor.getName()).isPresent()) {
 				modelMap.addAttribute("message", "El proveedor ya existe");
@@ -73,8 +72,7 @@ public class ProveedorController {
 			}//No existe, se debe guardar en la BD
 			else {
 				proveedorService.save(proveedor);
-				modelMap.addAttribute("message", "El proveedor se guardo exitosamente");
-				view = listadoDeProveedores(modelMap);
+				view="redirect:/proveedor?message=El proveedor se guardo exitosamente";
 			}
 		}
 		return view;
@@ -86,11 +84,9 @@ public class ProveedorController {
 		Optional<Proveedor> proveedor = proveedorService.findById(proveedorid);
 		if (proveedor.isPresent()) {
 			proveedorService.hide(proveedor.get());
-			modelMap.addAttribute("message", "proveedor successfuly deleted");
-			view = listadoDeProveedores(modelMap);
+			view="redirect:/proveedor?message=El proveedor ha sido borrado exitosamente";
 		}else {
-			modelMap.addAttribute("message", "proveedor not found");
-			view = listadoDeProveedores(modelMap);
+			view="redirect:/proveedor?message=El proveedor no se ha encontrado";
 		}
 		return view;
 	}
@@ -106,18 +102,16 @@ public class ProveedorController {
 	@PostMapping(value = "/edit")
 	public String processUpdateProveedorForm(@Valid Proveedor proveedor, BindingResult result, ModelMap modelMap) {
 		String vista = "proveedor/editarProveedor";
-
 		if (result.hasErrors()) {
 			modelMap.addAttribute("proveedor", proveedor);
 			return vista;
 		}else {
 			if (proveedorService.findAllNames().contains(proveedor.getName())
 					&& !proveedorService.findById(proveedor.getId()).get().getName().equals(proveedor.getName())) {
-				modelMap.addAttribute("message", "El proveedor ya existe");
-				return initUpdateProveedorForm(proveedor.getId(),modelMap);
+				return "redirect:/proveedor/edit/"+proveedor.getId()+"?message=el proveedor ya existe";
 			}else {
-			proveedorService.save(proveedor);
-			return "redirect:/proveedor";
+				proveedorService.save(proveedor);
+				return "redirect:/proveedor?message=Se ha guardado satisfactoriamente";
 			}
 		}
 	}	
