@@ -28,11 +28,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping(value = "/comanda")
 public class ComandaController {
-	
+
 	private ComandaService comandaService;
 	private PlatoPedidoService platoPedidoService;
 	private PlatoService platoService;
-	
+
 	@Autowired
 	public ComandaController(ComandaService comandaService, PlatoPedidoService platoPedidoService, 
 			PlatoService platoService) {
@@ -41,7 +41,7 @@ public class ComandaController {
 		this.platoPedidoService = platoPedidoService;
 		this.platoService = platoService;
 	}
-	
+
 	//Vista de Propietario para la lista total de Comandas
 	@GetMapping(path="/listaComandaTotal")
 	public String listadoComandaTotal(ModelMap modelMap) {
@@ -50,7 +50,7 @@ public class ComandaController {
 		modelMap.addAttribute("comanda",comanda);
 		return vista;	
 	}
-	
+
 	//Vista de Propietario para la lista de Comandas de UN DIA concreto
 	@GetMapping(path="/listaComandaTotal/dia")
 	public String listadoComandaDia(String date, ModelMap modelMap) {
@@ -63,7 +63,7 @@ public class ComandaController {
 		modelMap.addAttribute("comanda",comanda);
 		return vista;	
 	}
-	
+
 	//Vista de Camarero para la lista actual de Comandas sin finalizar
 	@GetMapping(path="/listaComandaActual")
 	public String listadoComandaActual(ModelMap modelMap) {
@@ -73,7 +73,7 @@ public class ComandaController {
 		modelMap.addAttribute("list_comanda",comanda);
 		return vista;	
 	}
-	
+
 	//Vista de Camarero para la lista actual de Comandas sin finalizar
 	@GetMapping(path="/listaComandaActual/finalizarComanda/{comandaID}")
 	public String finalizarComanda(@PathVariable("comandaID") int comandaID, ModelMap modelMap) {
@@ -98,7 +98,7 @@ public class ComandaController {
 		}
 		return vista;
 	}
-	
+
 	//Vista de Camarero para la lista de platos de una comanda
 	@GetMapping(path="/listaComandaActual/{comandaID}")
 	public String infoComanda(@PathVariable("comandaID") int comandaID, ModelMap modelMap) {
@@ -106,14 +106,14 @@ public class ComandaController {
 		Comanda comanda = comandaService.findById(comandaID).get();
 		Iterable<Plato> listaPlatos = platoService.findAllAvailable();
 		List<PlatoPedido> platosEC= (List<PlatoPedido>) comandaService.getPlatosPedidoDeComanda(comandaID);
-		
+
 		modelMap.addAttribute("platopedido",new PlatoPedidoDTO());
 		modelMap.addAttribute("platop",platosEC);
 		modelMap.addAttribute("comanda",comanda);
 		modelMap.addAttribute("listaPlatos",listaPlatos);
 		return vista;
 	}
-	
+
 	@PostMapping(path="/listaComandaActual/new")
 	public String crearComanda(@Valid Comanda comanda, BindingResult result,ModelMap modelMap,Principal user) {
 		if(result.hasErrors()) {
@@ -125,13 +125,13 @@ public class ComandaController {
 		}
 		Comanda new_comanda = comandaService.instanciarComanda(comanda, user);
 		comandaService.save(new_comanda);
-        int comandaId = comandaService.findLastId();
-        modelMap.addAttribute("comanda", new_comanda);
-        modelMap.addAttribute("message", "Guardado Correctamente");
-        return "redirect:/comanda/listaComandaActual/"+comandaId;
-    }
-	
-	
+		int comandaId = comandaService.findLastId();
+		modelMap.addAttribute("comanda", new_comanda);
+		modelMap.addAttribute("message", "Guardado Correctamente");
+		return "redirect:/comanda/listaComandaActual/"+comandaId;
+	}
+
+
 	@PostMapping(path="/listaComandaActual/asignar/{comandaId}/{ppId}")
 	public String asignarComanda(@PathVariable("comandaId") Integer comandaId, @PathVariable("ppId") Integer ppId, ModelMap modelMap) throws ParseException {
 		String vista= "";
