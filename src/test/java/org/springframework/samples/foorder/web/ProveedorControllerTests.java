@@ -23,6 +23,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
@@ -38,6 +40,7 @@ import static org.springframework.security.test.web.servlet.request.SecurityMock
 		excludeAutoConfiguration= SecurityConfiguration.class)
 class ProveedorControllerTests {
 	private static final int TEST_PROVEEDOR_ID = 1;
+	private static final int TEST_PROVEEDOR_FAKE_ID=-1;
 
 	@MockBean
 	private ProveedorService proveedorService;
@@ -56,11 +59,20 @@ class ProveedorControllerTests {
 		proveedor.setGmail("patata@gmail.com");
 		proveedor.setTelefono("954333333");
 
-		given(this.proveedorService.findByName("jorge").get()).willReturn(proveedor);
+		given(this.proveedorService.findByName("jorge")).willReturn(Optional.of(proveedor));
 		given(this.proveedorService.findById(TEST_PROVEEDOR_ID)).willReturn(Optional.of(proveedor));
 
 
 }
+	@WithMockUser(value = "spring")
+    @Test
+    void testListarProveedores() throws Exception {
+	mockMvc.perform(get("/proveedor"))
+	.andExpect(status().isOk())
+	.andExpect(model().attributeExists("proveedor"))
+			.andExpect(view().name("proveedor/listadoDeProveedores"));
+}
+	
 	@WithMockUser(value = "spring")
     @Test
     void testProveedorNew() throws Exception {
@@ -71,17 +83,18 @@ class ProveedorControllerTests {
 	@WithMockUser(value = "spring")
         @Test
 	void testSaveProveedorSuccess() throws Exception {
-		mockMvc.perform(post("/proveedor/save").param("name", "pepito")
-							.with(csrf())
+		mockMvc.perform(post("/proveedor/save")
+							.param("name", "pepito")
 							.param("gmail", "pepitopalotes@gmail.com")
-							.param("telefono", "676661638"))
-		.andExpect(view().name("proveedor/listadoDeProveedores"));
+							.param("telefono", "676661638").with(csrf()))
+		.andExpect(view().name("redirect:/proveedor?message=El proveedor se guardo exitosamente"));
 	}
 
 	@WithMockUser(value = "spring")
     @Test
 void testSaveProveedorFail() throws Exception {
-	mockMvc.perform(post("/proveedor/save").param("name", "pepito")
+	mockMvc.perform(post("/proveedor/save")
+			.param("name", "pepito")
 						.with(csrf())
 						.param("gmail", "pepitopalotesgmail.com")
 						.param("telefono", "62"))
@@ -112,7 +125,7 @@ void testSaveProveedorFail() throws Exception {
 							.param("gmail", "patata@gmail.com")
 							.param("telefono", "666666666"))
 				.andExpect(status().is3xxRedirection())
-				.andExpect(view().name("redirect:/proveedor"));
+				.andExpect(view().name("redirect:/proveedor?message=Se ha guardado satisfactoriamente"));
 	}
 
     @WithMockUser(value = "spring")
@@ -133,9 +146,39 @@ void testSaveProveedorFail() throws Exception {
     @WithMockUser(value = "spring")
  	@Test
  	void testDeleteProveedor() throws Exception {
-    	mockMvc.perform(get("/proveedor/delete/{proveedorid}",TEST_PROVEEDOR_ID)).andExpect(status().isOk())
-    	.andExpect(model().attributeExists("proveedor"))
-		.andExpect(view().name("proveedor/listadoDeProveedores"));
+    	mockMvc.perform(get("/proveedor/delete/{proveedorid}",TEST_PROVEEDOR_ID)
+    			.with(csrf()))
+    	.andExpect(status().is3xxRedirection())
+		.andExpect(view().name("redirect:/proveedor?message=El proveedor ha sido borrado exitosamente"));
  	}
+    
+    @WithMockUser(value = "spring")
+ 	@Test
+ 	void testDeleteFakeProveedor() throws Exception {
+    	mockMvc.perform(get("/proveedor/delete/{proveedorid}",TEST_PROVEEDOR_FAKE_ID)
+    			.with(csrf()))
+    	.andExpect(status().is3xxRedirection())
+		.andExpect(view().name("redirect:/proveedor?message=El proveedor no se ha encontrado"));
+ 	}
+    
+    @WithMockUser(value = "spring")
+ 	@Test
+ 	void testInitEditProveedor() throws Exception {
+    	mockMvc.perform(get("/proveedor/edit/{proveedorId}",TEST_PROVEEDOR_ID)
+    			.with(csrf()))
+    	.andExpect(status().is2xxSuccessful())
+		.andExpect(view().name("proveedor/editarProveedor"));
+ 	}
+    
+    @WithMockUser(value = "spring")
+ 	@Test
+ 	void testInitEditFakeProveedor() throws Exception {
+    	mockMvc.perform(get("/proveedor/edit/{proveedorId}",TEST_PROVEEDOR_FAKE_ID)
+    			.with(csrf()))
+    	.andExpect(status().is3xxRedirection())
+		.andExpect(view().name("redirect:/proveedor?message=Ese proveedor no existe"));
+ 	}
+    
+    
 }
 
