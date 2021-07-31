@@ -14,7 +14,7 @@ public class NumeroMesaValidator implements ConstraintValidator<NumeroMesaConstr
 	@Override
 	public boolean isValid(Comanda comanda, ConstraintValidatorContext context) {
 		Boolean res = true;
-		if(comanda.equals(null)||comanda.getMesa()<1||comanda.getMesa()>20)
+		if(comanda.getMesa()==null||comanda.getMesa()<1||comanda.getMesa()>20)
 		    res = false;
 		return res;
 	}
