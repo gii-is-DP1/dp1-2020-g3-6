@@ -19,7 +19,7 @@ public class Camarero extends Empleado{
     public Camarero(Camarero cam) {
     }
 	
-//	@OneToMany(cascade = CascadeType.REMOVE, mappedBy = "camarero")
-//	private Set<Comanda> comandas;
+	@OneToMany(cascade = CascadeType.REMOVE, mappedBy = "camarero")
+	private Set<Comanda> comandas;
 	
 }

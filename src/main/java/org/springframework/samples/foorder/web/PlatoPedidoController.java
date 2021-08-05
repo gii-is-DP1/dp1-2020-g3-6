@@ -108,8 +108,7 @@ public class PlatoPedidoController {
 		listaPlatos.add(pp.getPlato().getName());
 
 		// Asignación de ingredientespedidos a plato pedido
-		Collection<IngredientePedido> ingredientes = new ArrayList<>();
-		ingredientes = ingredientePedidoService.CrearIngredientesPedidos(pp);
+		Collection<IngredientePedido> ingredientes = ingredientePedidoService.CrearIngredientesPedidos(pp);
 
 		model.addAttribute("comandaId", comandaId);
 		model.addAttribute("estadosPlato", collectionEstadosPlato);

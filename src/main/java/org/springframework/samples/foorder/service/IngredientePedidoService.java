@@ -2,8 +2,10 @@ package org.springframework.samples.foorder.service;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.foorder.model.Ingrediente;
@@ -90,6 +92,8 @@ public class IngredientePedidoService {
 				res.add(ingp);
 			}
 		}
+		
+		res= res.stream().sorted(Comparator.comparing(IngredientePedido::getCantidadPedida)).collect(Collectors.toList());
 		return res;
 	}
 }

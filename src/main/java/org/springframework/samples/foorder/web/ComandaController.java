@@ -103,7 +103,11 @@ public class ComandaController {
 	@GetMapping(path="/listaComandaActual/{comandaID}")
 	public String infoComanda(@PathVariable("comandaID") int comandaID, ModelMap modelMap) {
 		String vista= "comanda/comandaDetails";		
-		Comanda comanda = comandaService.findById(comandaID).get();
+		Optional<Comanda> opCom=comandaService.findById(comandaID);
+		if(!opCom.isPresent()) {
+			return "redirect:/comanda/listaComandaActual?message=La comanda pedida no existe";
+		}
+		Comanda comanda = opCom.get();
 		Iterable<Plato> listaPlatos = platoService.findAllAvailable();
 		List<PlatoPedido> platosEC= (List<PlatoPedido>) comandaService.getPlatosPedidoDeComanda(comandaID);
 
@@ -114,8 +118,9 @@ public class ComandaController {
 		return vista;
 	}
 
+	//falta añadir seguridad
 	@PostMapping(path="/listaComandaActual/new")
-	public String crearComanda(@Valid Comanda comanda, BindingResult result,ModelMap modelMap,Principal user) {
+	public String guardarComanda(@Valid Comanda comanda, BindingResult result,ModelMap modelMap,Principal user) {
 		if(result.hasErrors()) {
 			modelMap.addAttribute("new_comanda", comanda);
 			modelMap.addAttribute("message",result.getAllErrors().get(0).getDefaultMessage());
@@ -135,14 +140,14 @@ public class ComandaController {
 	@PostMapping(path="/listaComandaActual/asignar/{comandaId}/{ppId}")
 	public String asignarComanda(@PathVariable("comandaId") Integer comandaId, @PathVariable("ppId") Integer ppId, ModelMap modelMap) throws ParseException {
 		String vista= "";
-		PlatoPedido plato = platoPedidoService.findById(ppId).get();
-		if(plato.getIngredientesPedidos().size()==0){
-			modelMap.addAttribute("message", "Ha habido un error al guardar, No se han seleccionado ingredientes");
-			vista = "redirect:/platopedido/comanda/"+comandaId+"/"+ppId;
-		}else {
-			comandaService.anadirComandaAPlato(plato, comandaId);
+		Optional<PlatoPedido> opPP = platoPedidoService.findById(ppId);
+		PlatoPedido plato = opPP.get();
+			if(plato.getIngredientesPedidos().size()==0){
+				vista = "redirect:/platopedido/comanda/"+comandaId+"/"+ppId+"?message=Ha habido un error al guardar, no se han seleccionado ingredientes";
+			}else {
+				comandaService.anadirComandaAPlato(plato, comandaId);
 			vista= "redirect:/comanda/listaComandaActual/"+comandaId;
-		}
+			}
 		return vista; 
 	}
 }
