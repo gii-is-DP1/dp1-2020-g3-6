@@ -102,13 +102,5 @@ class ManagerServiceTests {
         assertThat(this.managerService.managerConMismoUsuario(manager2));
     }
     
-    @Test
-    @DisplayName("borraFieldErrorsCorrectamente")
-    public void borraFieldErrorsCorrectamente() throws DuplicatedPedidoException {
-        BindingResult intento= new BeanPropertyBindingResult(manager, "manager");
-        intento.rejectValue("usuario", "prueba");
-        intento.rejectValue("name", "prueba2");
-        assertThat(this.managerService.erroresSinMismoUser(manager, intento).getFieldErrors().size()<2);
-        
-    }
+    
 }

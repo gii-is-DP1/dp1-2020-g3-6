@@ -4,14 +4,13 @@ import java.util.Iterator;
 import java.util.Optional;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.samples.foorder.model.Camarero;
 import org.springframework.samples.foorder.model.Cocinero;
-import org.springframework.samples.foorder.service.AuthoritiesService;
 import org.springframework.samples.foorder.service.CocineroService;
 import org.springframework.samples.foorder.validators.CocineroValidator;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -26,18 +25,16 @@ import lombok.extern.slf4j.Slf4j;
 public class CocineroController {
 	
 	private CocineroService cocineroService;
-	private AuthoritiesService authoritiesService;
 	
 	@Autowired
-	public CocineroController(CocineroService cocineroService, AuthoritiesService authoritiesService) {
+	public CocineroController(CocineroService cocineroService) {
 		super();
 		this.cocineroService = cocineroService;
-		this.authoritiesService = authoritiesService;
 	}
 	
 	@InitBinder("cocinero")
 	public void initCocineroBinder(WebDataBinder dataBinder) {
-		dataBinder.setValidator(new CocineroValidator(this.authoritiesService));
+		dataBinder.setValidator(new CocineroValidator());
 	}
 	
 	@GetMapping()
@@ -63,6 +60,10 @@ public class CocineroController {
 
 	@PostMapping(path = "/save")
 	public String save(@Valid Cocinero cocinero, BindingResult result, ModelMap modelMap) {
+		FieldError error=this.cocineroService.resultUserSave(cocinero, result);
+		if(error!=null) {
+			result.addError(error);
+		}
 		String vista = "cocinero/listaCocinero";
 		if (result.hasErrors()) {
 			log.info(String.format("Chef with name %s wasn't able to be created", cocinero.getName()));
@@ -102,8 +103,9 @@ public class CocineroController {
 
 	@PostMapping(value = "/edit")
 	public String processUpdateCocineroForm(@Valid Cocinero cocinero, BindingResult result, ModelMap modelMap) {
-		if(this.cocineroService.cocineroConMismoUsuario(cocinero)) {
-			result = this.cocineroService.erroresSinMismoUser(cocinero, result);
+		FieldError error=this.cocineroService.resultUserEdit(cocinero, result);
+		if(error!=null) {
+			result.addError(error);
 		}
 		if (result.hasErrors()) {
 			log.info(String.format("Chef with name %s and ID %d wasn't able to be updated", cocinero.getName(), cocinero.getId()));

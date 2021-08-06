@@ -1,8 +1,6 @@
 package org.springframework.samples.foorder.service;
 
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -11,7 +9,6 @@ import org.springframework.samples.foorder.model.User;
 import org.springframework.samples.foorder.repository.CamareroRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 
@@ -83,16 +80,25 @@ public class CamareroService {
 		return res;
 	}
 	
+	
 	@Transactional(readOnly = true)
-	public BindingResult ErroresSinMismoUser(Camarero camarero,BindingResult result) throws DataAccessException {
-		List<FieldError> errorsToKeep = result.getFieldErrors().stream()
-                .filter(fer -> !fer.getField().equals("usuario"))
-                .collect(Collectors.toList());
-		
-		result = new BeanPropertyBindingResult(camarero, "camarero");
-		for (FieldError fieldError : errorsToKeep) {
-			result.addError(fieldError);
+	public FieldError resultUserSave(Camarero camarero, BindingResult result) throws DataAccessException {
+		if(authoritiesService.findAllUsernames().contains(camarero.getUsuario())) {
+			FieldError error= new FieldError("camarero", "usuario", camarero.getUsuario(), false, null, null, "este usuario esta repetido");
+			return error;
 		}
-		return result;
+		return null;
 	}
+	
+	@Transactional(readOnly = true)
+	public FieldError resultUserEdit(Camarero camarero, BindingResult result) throws DataAccessException {
+		if(authoritiesService.findAllUsernames().contains(camarero.getUsuario())&&!this.CamareroConMismoUsuario(camarero)) {
+			FieldError error= new FieldError("camarero", "usuario", camarero.getUsuario(), false, null, null, "este usuario esta repetido");
+			return error;
+		}
+		return null;
+	}
+	
+	
+	
 }

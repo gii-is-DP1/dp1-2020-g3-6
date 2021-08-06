@@ -1,21 +1,14 @@
 package org.springframework.samples.foorder.validators;
 
+
 import org.springframework.samples.foorder.model.Camarero;
-import org.springframework.samples.foorder.service.AuthoritiesService;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
 @Component
 public class CamareroValidator implements Validator{
-
-	private AuthoritiesService authoritiesService;
-
-	public CamareroValidator(AuthoritiesService authoritiesService) {
-		super();
-		this.authoritiesService = authoritiesService;
-
+	public CamareroValidator() {
 	}
 
 	@Override
@@ -25,14 +18,15 @@ public class CamareroValidator implements Validator{
 
 	@Override
 	public void validate(Object target, Errors errors) {
-
+	
+		
 		Camarero camarero = (Camarero) target;
+
 		String pattern = "^[a-z0-9!#$%&'+/=?^_`{|}~-]+(?:.[a-z0-9!#$%&'+/=?^_`{|}~-]+)@(?:[a-z0-9](?:[a-z0-9-][a-z0-9])?.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$" ;
 		// int[] miArray = new int[] {0,1,2,3,4,5,6,7,8,9};
 		String patterncontra= "^(?=\\w*\\d)(?=\\w*[A-Z])(?=\\w*[a-z])\\S{8,16}$";
-		String patternN= "^[0-9].+";
-		String patternletras= "^[a-zA-Z].+";
-
+		
+		
 		if (camarero.getApellido().length()<3||camarero.getApellido().length()>50  ){
 			errors.rejectValue("apellido", "este apellido no tiene una longitud valida","este apellido no tiene una longitud valida");
 		}
@@ -56,13 +50,11 @@ public class CamareroValidator implements Validator{
 		if (!camarero.getContrasena().matches(patterncontra)){
 			errors.rejectValue("contrasena", "la contraseña debe tener letras y números","la contraseña debe tener letras mayusculas, minusculas, números y entre 8 y 16 caracteres");
 		}
+		
 		if (!camarero.getGmail().toLowerCase().matches(pattern)){
 			errors.rejectValue("gmail", "este gmail no es valido","este gmail no es valido");
 		}
 
-		if (authoritiesService.findAllUsernames().contains(camarero.getUsuario())){
-			errors.rejectValue("usuario", "este usuario ya está en uso", "este usuario ya está en uso");
-		}
 	}
 
 }

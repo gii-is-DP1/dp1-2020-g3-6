@@ -9,11 +9,9 @@ import org.springframework.validation.Validator;
 
 @Component
 public class ManagerValidator implements Validator{
-	private AuthoritiesService authoritiesService;
 
-	public ManagerValidator(AuthoritiesService authoritiesService) {
+	public ManagerValidator() {
 		super();
-		this.authoritiesService = authoritiesService;
 	}
 
 	@Override
@@ -58,9 +56,6 @@ public class ManagerValidator implements Validator{
 			errors.rejectValue("gmail", "este gmail no es valido","este gmail no es valido");
 		}
 
-		if (authoritiesService.findAllUsernames().contains(manager.getUsuario())){
-			errors.rejectValue("usuario", "este usuario ya está en uso", "este usuario ya está en uso");
-		}
 	}
 
 }

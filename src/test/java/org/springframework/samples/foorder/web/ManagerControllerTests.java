@@ -44,8 +44,6 @@ public class ManagerControllerTests {
 
 
 	@MockBean
-	private AuthoritiesService authoritiesService;
-	@MockBean
 	private UserService userService;
 
 	@Autowired

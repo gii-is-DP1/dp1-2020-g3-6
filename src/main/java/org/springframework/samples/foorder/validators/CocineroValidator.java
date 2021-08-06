@@ -1,7 +1,6 @@
 package org.springframework.samples.foorder.validators;
 
 import org.springframework.samples.foorder.model.Cocinero;
-import org.springframework.samples.foorder.service.AuthoritiesService;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
@@ -9,11 +8,9 @@ import org.springframework.validation.Validator;
 @Component
 public class CocineroValidator implements Validator{
 
-	private AuthoritiesService authoritiesService;
 
-	public CocineroValidator(AuthoritiesService authoritiesService) {
+	public CocineroValidator() {
 		super();
-		this.authoritiesService = authoritiesService;
 	}
 
 	@Override
@@ -49,19 +46,14 @@ public class CocineroValidator implements Validator{
 			errors.rejectValue("contrasena", "este contrasena no tiene una longitud valida","este contrasena no tiene una longitud valida");
 		}
 
-		//	            if (cocinero.getContrasena().matches(patternN)||cocinero.getContrasena().matches(patternletras)){
-		//	                errors.rejectValue("contrasena", "la contraseña debe tener letras y números","la contraseña debe tener letras y números");
-		//	            }
 		if (!cocinero.getContrasena().matches(patterncontra)){
 			errors.rejectValue("contrasena", "la contraseña debe tener letras y números","la contraseña debe tener letras mayusculas, minusculas, números y entre 8 y 16 caracteres");
 		}
+		
 		if (!cocinero.getGmail().toLowerCase().matches(pattern)){
 			errors.rejectValue("gmail", "este gmail no es valido","este gmail no es valido");
 		}
 
-		if (authoritiesService.findAllUsernames().contains(cocinero.getUsuario())){
-			errors.rejectValue("usuario", "este usuario ya está en uso", "este usuario ya está en uso");
-		}
 	}
 
 }

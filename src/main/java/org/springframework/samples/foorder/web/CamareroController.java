@@ -13,13 +13,13 @@ import org.springframework.samples.foorder.validators.CamareroValidator;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import lombok.extern.slf4j.Slf4j;
 @Slf4j
@@ -39,7 +39,7 @@ public class CamareroController {
 	
 	@InitBinder("camarero")
 	public void initCamareroBinder(WebDataBinder dataBinder) {
-		dataBinder.setValidator(new CamareroValidator(this.authoritiesService));
+		dataBinder.setValidator(new CamareroValidator());
 	}
 
 	@GetMapping()
@@ -68,6 +68,10 @@ public class CamareroController {
 	@PostMapping(path="/save")
 	public String save(@Valid Camarero camarero,BindingResult result,ModelMap modelMap) {
 		String vista= "camareros/listaCamareros";
+		FieldError error=this.camareroService.resultUserSave(camarero, result);
+		if(error!=null) {
+			result.addError(error);
+		}
 		if(result.hasErrors()) {
 			log.info(String.format("Waiter with name %s wasn't able to be created", camarero.getName(), camarero.getId()));
 			modelMap.addAttribute("camarero", camarero);
@@ -106,10 +110,12 @@ public class CamareroController {
 	
 	@PostMapping(value = "/edit")
 	public String processUpdateCamareroForm(@Valid Camarero camarero, BindingResult result,ModelMap modelMap) {
-		if(this.camareroService.CamareroConMismoUsuario(camarero)) {
-			result = this.camareroService.ErroresSinMismoUser(camarero, result);
+		FieldError error=this.camareroService.resultUserEdit(camarero, result);
+		if(error!=null) {
+			result.addError(error);
 		}
 		if(result.hasErrors()) {
+			System.out.println(result.getAllErrors());
 			log.info(String.format("Waiter with name %s and ID %d wasn't able to be updated", camarero.getName(), camarero.getId()));
 			modelMap.addAttribute("camarero", camarero);
 			return "camareros/editarCamareros";

@@ -12,8 +12,9 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.samples.foorder.configuration.SecurityConfiguration;
 import org.springframework.samples.foorder.model.Propietario;
-import org.springframework.samples.foorder.service.AuthoritiesService;
+import org.springframework.samples.foorder.model.User;
 import org.springframework.samples.foorder.service.PropietarioService;
+import org.springframework.samples.foorder.service.UserService;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.test.context.support.WithMockUser;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -40,16 +41,17 @@ class PropietarioControllerTests {
 	private static final int TEST_PROPIETARIO_FAKE_ID = -1;
 
 	@MockBean
-	private PropietarioService propietarioService;
-
+	private UserService userService;
+	
 	@MockBean
-	private AuthoritiesService authoritiesService;
+	private PropietarioService propietarioService;
 
 	@Autowired
 	private MockMvc mockMvc;
 
 
 	private Propietario propietario;
+	private User user;
 
 	@BeforeEach
 	void setup() {
@@ -64,7 +66,7 @@ class PropietarioControllerTests {
 		listaProp.add(propietario);
 		Iterable<Propietario> l= listaProp;
 
-
+		user = new User();
 		given(this.propietarioService.findById(TEST_PROPIETARIO_ID)).willReturn(Optional.of(propietario));
 
 		given(this.propietarioService.save(propietario))
@@ -151,7 +153,7 @@ class PropietarioControllerTests {
 
 	@WithMockUser(value = "spring")
 	@Test
-	void testPostProveedorEditadoSuccess() throws Exception {
+	void testPostPropietarioEditadoSuccess() throws Exception {
 		mockMvc.perform(post("/propietarios/edit", TEST_PROPIETARIO_ID)
 				.with(csrf())
 				.param("name", "pedro")
@@ -187,11 +189,33 @@ class PropietarioControllerTests {
 
 	@WithMockUser(value = "spring")
 	@Test
+	void testDeletePropietarioAElMismo() throws Exception {
+		given(this.userService.getUserSession()).willReturn(user);
+		given(this.userService.findUser(propietario.getUsuario())).willReturn(Optional.of(user));
+		mockMvc.perform(get("/propietarios/delete/{propietarioId}",TEST_PROPIETARIO_ID))
+		.andExpect(status().is3xxRedirection())
+		.andExpect(view().name("redirect:/propietarios?message=No puedes borrarte a ti mismo"));
+	}
+	
+	@WithMockUser(value = "spring")
+	@Test
 	void testDeletePropietario() throws Exception {
+		User user2 = new User();
+		user2.setUsername("pedro");
+		given(this.userService.getUserSession()).willReturn(user);
+		given(this.userService.findUser(propietario.getUsuario())).willReturn(Optional.of(user2));
 		mockMvc.perform(get("/propietarios/delete/{propietarioId}",TEST_PROPIETARIO_ID))
 		.andExpect(model().attributeDoesNotExist("propietario"))
 		.andExpect(status().is3xxRedirection())
 		.andExpect(view().name("redirect:/propietarios?message=Borrado correctamente"));
+	}
+	
+	@WithMockUser(value = "spring")
+	@Test
+	void testDeletePropietarioFake() throws Exception {
+		mockMvc.perform(get("/propietarios/delete/{propietarioId}",TEST_PROPIETARIO_FAKE_ID))
+		.andExpect(status().is3xxRedirection())
+		.andExpect(view().name("redirect:/propietarios?message=Propietario no encontrado"));
 	}
 
 	@WithMockUser(value = "spring")

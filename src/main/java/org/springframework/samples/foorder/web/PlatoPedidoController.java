@@ -18,7 +18,6 @@ import org.springframework.samples.foorder.service.EstadoPlatoService;
 import org.springframework.samples.foorder.service.IngredientePedidoService;
 import org.springframework.samples.foorder.service.PlatoPedidoService;
 import org.springframework.samples.foorder.service.UserService;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;

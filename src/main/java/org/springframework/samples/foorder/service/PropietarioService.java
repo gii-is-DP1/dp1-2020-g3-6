@@ -1,8 +1,6 @@
 package org.springframework.samples.foorder.service;
 
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -11,7 +9,6 @@ import org.springframework.samples.foorder.model.User;
 import org.springframework.samples.foorder.repository.PropietarioRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 
@@ -82,17 +79,21 @@ public class PropietarioService {
 		return res;
 	}
 	
-	@Transactional
-	public BindingResult erroresSinMismoUser(Propietario propietario,BindingResult result) throws DataAccessException {
-		List<FieldError> errorsToKeep = result.getFieldErrors().stream()
-                .filter(fer -> !fer.getField().equals("usuario"))
-                .collect(Collectors.toList());
-		
-		 result = new BeanPropertyBindingResult(propietario, "propietario");
-
-	        for (FieldError fieldError : errorsToKeep) {
-	            result.addError(fieldError);
-	        }
-			return result;
+	@Transactional(readOnly = true)
+	public FieldError resultUserSave(Propietario propietario, BindingResult result) throws DataAccessException {
+		if(authoritiesService.findAllUsernames().contains(propietario.getUsuario())) {
+			FieldError error= new FieldError("camarero", "usuario", propietario.getUsuario(), false, null, null, "este usuario esta repetido");
+			return error;
+		}
+		return null;
+	}
+	
+	@Transactional(readOnly = true)
+	public FieldError resultUserEdit(Propietario propietario, BindingResult result) throws DataAccessException {
+		if(authoritiesService.findAllUsernames().contains(propietario.getUsuario())&&!this.propietarioConMismoUsuario(propietario)) {
+			FieldError error= new FieldError("camarero", "usuario", propietario.getUsuario(), false, null, null, "este usuario esta repetido");
+			return error;
+		}
+		return null;
 	}
 }
