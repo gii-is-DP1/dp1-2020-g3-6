@@ -6,6 +6,7 @@ import java.util.Optional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.foorder.model.Manager;
 import org.springframework.samples.foorder.model.Proveedor;
 import org.springframework.samples.foorder.service.ProveedorService;
 import org.springframework.stereotype.Controller;
@@ -93,6 +94,10 @@ public class ProveedorController {
 
 	@GetMapping(value = "/edit/{proveedorId}")
 	public String initUpdateProveedorForm(@PathVariable("proveedorId") int proveedorId, ModelMap model) {
+		Optional<Proveedor> prov=proveedorService.findById(proveedorId);
+		if(prov.isEmpty()) {
+			return "redirect:/proveedor?message=Ese proveedor no existe";
+		}
 		String vista = "proveedor/editarProveedor";
 		Proveedor proveedor = proveedorService.findById(proveedorId).get();
 		model.addAttribute("proveedor", proveedor);

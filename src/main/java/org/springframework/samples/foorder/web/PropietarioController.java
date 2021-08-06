@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.foorder.model.Propietario;
 import org.springframework.samples.foorder.service.AuthoritiesService;
 import org.springframework.samples.foorder.service.PropietarioService;
+import org.springframework.samples.foorder.service.UserService;
 import org.springframework.samples.foorder.validators.PropietarioValidator;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -27,12 +28,14 @@ public class PropietarioController {
 
 	private PropietarioService propietarioService;
 	private AuthoritiesService authoritiesService;
+	private UserService userService;
 	
 	@Autowired
-	public PropietarioController(PropietarioService propietarioService, AuthoritiesService authoritiesService) {
+	public PropietarioController(PropietarioService propietarioService, AuthoritiesService authoritiesService, UserService userService) {
 		super();
 		this.propietarioService = propietarioService;
 		this.authoritiesService = authoritiesService;
+		this.userService=userService;
 	}
 
 	@InitBinder("propietario")
@@ -76,11 +79,15 @@ public class PropietarioController {
 
 	@GetMapping(path = "/delete/{propietarioId}")
 	public String borrarPropietario(@PathVariable("propietarioId") final int propietarioId, final ModelMap modelMap) {
-		Optional<Propietario> propietario = this.propietarioService.findById(propietarioId);
+		Optional<Propietario> propietario = this.propietarioService.findById(propietarioId);	
 		String vista="";
 		if (propietario.isPresent()) {
-			propietarioService.deleteById(propietario.get().getId());
-			vista="redirect:/propietarios?message=Borrado correctamente";
+			if(this.userService.getUserSession().equals(userService.findUser(propietario.get().getUsuario()).get())) {
+				vista="redirect:/propietarios?message=No puedes borrarte a ti mismo";
+			}else {
+				propietarioService.deleteById(propietario.get().getId());
+				vista="redirect:/propietarios?message=Borrado correctamente";
+			}
 		} else {
 			vista="redirect:/propietarios?message=Propietario no encontrado";
 		}
