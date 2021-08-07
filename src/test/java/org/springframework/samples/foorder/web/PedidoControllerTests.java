@@ -27,7 +27,7 @@ import java.util.Optional;
 /**
  * Test class for {@link PedidoController}
  *
- * @author Victor y tabares
+ * @author Alexander
  */
 
 @WebMvcTest(controllers=PedidoController.class,
@@ -56,6 +56,8 @@ class PedidoControllerTests {
 
 	@BeforeEach
 	void test() {
+		
+		//Proveedor
 		proveedor = new Proveedor();
 		proveedor.setId(TEST_PROVEEDOR_ID);
 		proveedor.setName("jorge");
@@ -63,7 +65,6 @@ class PedidoControllerTests {
 		proveedor.setTelefono("678678678");
 		
 		//Pedidos 1
-		
 		pedido = new Pedido();
 		pedido.setId(TEST_PEDIDO_ID);
 		pedido.setProveedor(proveedor);
@@ -72,7 +73,6 @@ class PedidoControllerTests {
 		pedido.setFechaPedido(LocalDate.of(2021, 07, 10));
 		
 		//Pedido 2
-		
 		pedido2 = new Pedido();
 		pedido2.setId(TEST_PEDIDO_ID2);
 		pedido2.setProveedor(proveedor);
@@ -81,7 +81,6 @@ class PedidoControllerTests {
 		pedido2.setFechaPedido(LocalDate.of(2021, 01, 30));
 		
 		//Lista pedidos
-	
 		lPedidos = new ArrayList<Pedido>();
 		lPedidos.add(pedido);
 		lPedidos.add(pedido2);
@@ -127,10 +126,8 @@ class PedidoControllerTests {
     @Test
     void testRecargarStockSuccess() throws Exception {
 		mockMvc.perform(get("/pedidos/terminarPedido/{pedidoID}", TEST_PEDIDO_ID))
-				.andExpect(status().isOk())
-				.andExpect(model().attributeExists("message"))
-				.andExpect(model().attribute("message", is("Se ha finalizado el pedido correctamente")))
-				.andExpect(view().name("pedidos/listaPedidos"));
+				.andExpect(status().is3xxRedirection())
+				.andExpect(view().name("redirect:/pedidos?message=Se ha finalizado el pedido correctamente"));
 	}	
 	
 	
@@ -140,16 +137,16 @@ class PedidoControllerTests {
     @Test
     void testRecargarStockFail1() throws Exception {
 		mockMvc.perform(get("/pedidos/terminarPedido/{pedidoID}", TEST_PEDIDO_ID2))
-				.andExpect(model().attribute("message", is("El pedido ya se ha finalizado")))
-				.andExpect(view().name("pedidos/listaPedidos"));
+				.andExpect(status().is3xxRedirection())
+				.andExpect(view().name("redirect:/pedidos?message=El pedido ya se ha finalizado"));
 	}	
 	
 	@WithMockUser(value = "spring")
     @Test
     void testRecargarStockFail2() throws Exception {
 		mockMvc.perform(get("/pedidos/terminarPedido/{pedidoID}", 80))
-				.andExpect(model().attribute("message", is("not found")))
-				.andExpect(view().name("pedidos/listaPedidos"));
+				.andExpect(status().is3xxRedirection())
+				.andExpect(view().name("redirect:/pedidos?message=El pedido no se ha encontrado"));
 	}	
 
 }
