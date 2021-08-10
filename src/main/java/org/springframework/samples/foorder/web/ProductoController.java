@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.foorder.model.Producto;
 import org.springframework.samples.foorder.model.ProductoDTO;
@@ -103,13 +105,13 @@ public class ProductoController {
 	}
 		
 	@PostMapping(path="/save")
-	public String guardarProducto(ProductoDTO producto,BindingResult result,ModelMap modelMap) throws ParseException {
+	public String guardarProducto(@Valid ProductoDTO producto,BindingResult result,ModelMap modelMap) throws ParseException {
 		String vista= "producto/listaProducto";
 		final Producto productoFinal = productoConverter.convertProductoDTOToEntity(producto);
 		productoFinal.setTipoProducto(tipoProductoFormatter.parse(producto.getTipoproductodto(), Locale.ENGLISH));
 		productoFinal.setProveedor(proveedorFormatter.parse(producto.getProveedor(), Locale.ENGLISH));
-			
 		if(result.hasErrors()) {
+			
 			log.info(String.format("Product with name %s wasn't able to be created", producto.getName()));
 			modelMap.addAttribute("producto", producto);
 			return "producto/editProducto";
@@ -155,7 +157,7 @@ public class ProductoController {
 		}
 	
 	@PostMapping(value = "/edit")
-	public String processUpdateProductoForm(ProductoDTO producto, BindingResult result,ModelMap modelMap) throws ParseException {
+	public String processUpdateProductoForm(@Valid ProductoDTO producto, BindingResult result,ModelMap modelMap) throws ParseException {
 		final Producto productoFinal = productoConverter.convertProductoDTOToEntity(producto);
 		productoFinal.setTipoProducto(tipoProductoFormatter.parse(producto.getTipoproductodto(), Locale.ENGLISH));
 		productoFinal.setProveedor(proveedorFormatter.parse(producto.getProveedor(), Locale.ENGLISH));

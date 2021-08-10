@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -32,11 +33,17 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	@Autowired
 	DataSource dataSource;
 	
+	@Autowired
+    CustomSuccessHandler customSuccessHandler;
+	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
+		http.sessionManagement()
+		.sessionCreationPolicy(SessionCreationPolicy.ALWAYS);
 		http.authorizeRequests()
 				.antMatchers("/resources/**","/webjars/**","/h2-console/**").permitAll()
-				.antMatchers(HttpMethod.GET, "/","/oups","/error","/error/**").permitAll()
+				.antMatchers(HttpMethod.GET, "/","login","/oups","/error","/error/**").permitAll()
+				.antMatchers("/home").authenticated()
 				.antMatchers("/users/new").hasAnyAuthority(ROLE_PROPIETARIO)
 				.antMatchers("/platopedido").hasAnyAuthority(ROLE_CAMARERO,ROLE_COCINERO)
 				.antMatchers("/platopedido/**").hasAnyAuthority(ROLE_CAMARERO,ROLE_COCINERO)
@@ -67,19 +74,24 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers("/comanda/listaComandaTotal/**").hasAnyAuthority(ROLE_PROPIETARIO,ROLE_MANAGER)
 				.antMatchers("/comanda/listaComandaActual").hasAnyAuthority(ROLE_CAMARERO)
 				.antMatchers("/comanda/listaComandaActual/**").hasAnyAuthority(ROLE_CAMARERO)
+				
 				.anyRequest().denyAll()
 				.and()
 				 	.formLogin()
-				 	/*.loginPage("/login")*/
-				 	.failureUrl("/login-error")
+				 	.loginPage("/login")
+				 	.successHandler(customSuccessHandler)
+				 	.permitAll()
+//				 	.failureUrl("/login-error")
 				.and()
 					.logout()
-						.logoutSuccessUrl("/"); 
+					.logoutUrl("/logout")
+					.logoutSuccessUrl("/login")
+					.permitAll();
                 // Configuración para que funcione la consola de administración 
                 // de la BD H2 (deshabilitar las cabeceras de protección contra
                 // ataques de tipo csrf y habilitar los framesets si su contenido
                 // se sirve desde esta misma página.
-                http.csrf().ignoringAntMatchers("/h2-console/**");
+                http.csrf().ignoringAntMatchers("/h2-console/**").disable();
                 http.headers().frameOptions().sameOrigin();
 	}
 	@Override
