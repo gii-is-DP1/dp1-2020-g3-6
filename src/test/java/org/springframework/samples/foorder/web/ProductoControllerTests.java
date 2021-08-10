@@ -1,11 +1,11 @@
 package org.springframework.samples.foorder.web;
 
+
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.BDDMockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.MockMvc;
+
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import static org.mockito.ArgumentMatchers.any;
@@ -95,7 +95,9 @@ class ProductoControllerTests {
 	@BeforeEach
 	void test() throws ParseException {
 		
+
 		tipoproducto = new TipoProducto();
+
 		//Proveedor 1
 		proveedor1 = new Proveedor();
 		proveedor1.setId(1);
@@ -170,13 +172,14 @@ class ProductoControllerTests {
 		lProveedor.add(proveedor2.getName());
 		
 		
-		
+
 		given(this.productoService.findById(TEST_PRODUCTO1_ID)).willReturn(Optional.of(producto1));
 		given(this.productoService.findById(TEST_PRODUCTO2_ID)).willReturn(Optional.of(producto2));
 		given(this.productoService.findAll()).willReturn(itProducto);
 		given(this.productoService.findByProveedor(producto1)).willReturn(lPorProveedor1);
 		given(this.productoService.findByProveedor(producto2)).willReturn(lPorProveedor2);
 		given(this.proveedorService.findActivosName()).willReturn(lProveedor);
+
 		given(this.tipoProductoService.findAll()).willReturn(new ArrayList<TipoProducto>());
 		given(this.proveedorService.findAllNames()).willReturn(lProveedor);
 		given(this.productoConverter.convertProductoDTOToEntity(productoConvertido)).willReturn(producto2);
@@ -325,6 +328,111 @@ class ProductoControllerTests {
 		.andExpect(MockMvcResultMatchers.view().name("producto/editarProducto"));
 	}
 	
+
+		
+		given(this.productoConverter.convertProductoDTOToEntity(productoConvertido)).willReturn(producto2);
+		given(this.tipoProductoFormatter.parse("Otros", Locale.ENGLISH)).willReturn(tipoproducto);
+		given(this.proveedorFormatter.parse("proveedor_2", Locale.ENGLISH)).willReturn(proveedor2);
+
+	}
+	
+	// Test listado productos
+	
+	@WithMockUser(value = "spring")
+	@Test
+	void testListadoProducto() throws Exception {
+		mockMvc.perform(get("/producto"))
+			.andExpect(status().isOk())
+			.andExpect(model().attributeExists("producto"))
+			.andExpect(model().attribute("producto", is(this.itProducto)))
+			.andExpect(view().name("producto/listaProducto"));
+	}
+		
+	// Test listado productos que faltan.
+	@WithMockUser(value = "spring")
+	@Test
+	void testListadoProductoQueFaltan() throws Exception {
+		mockMvc.perform(get("/producto//notificaciones"))
+			.andExpect(status().isOk())
+			.andExpect(model().attributeExists("producto"))
+			.andExpect(model().attribute("producto", is(this.itProdFaltan)))
+			.andExpect(view().name("producto/notificaciones"));
+	}	
+	
+	// Test positivo crear producto.
+	
+	@WithMockUser(value = "spring")
+	@Test
+	void testCrearProducto() throws Exception {
+		mockMvc.perform(get("/producto/new"))
+				.andExpect(status().isOk())
+				.andExpect(view().name("producto/editProducto"))
+				.andExpect(model().attributeExists("producto"))
+				.andExpect(model().attributeExists("listaProveedores"))
+				.andExpect(model().attribute("listaProveedores", is(this.lProveedor)));
+	}
+	
+	// Test positivo guardar producto.
+	
+//	@WithMockUser(value = "spring")
+//	@Test
+//	void testGuardarProductoSuccess() throws Exception {
+//		mockMvc.perform(post("/producto/save")
+//				.with(csrf())
+//				.param("name", "producto_2")
+//				.param("cantMin", "2")
+//				.param("cantAct", "3")
+//				.param("cantMax", "11")
+//				.param("tipoproductodto", "Otros")
+//				.param("proveedor", "proveedor_2"))
+//				.andExpect(status().isOk())
+//				.andExpect(view().name("redirect:/producto?message=Guardado correctamente"));
+//	}
+
+	
+	// Test negativo guardar producto.
+	
+	
+	// Test positivo borrar producto.
+
+	@WithMockUser(value = "spring")
+	@Test
+	void testBorrarProductoSuccess() throws Exception {
+		mockMvc.perform(get("/producto/delete/{productoId}", TEST_PRODUCTO2_ID))
+				.andExpect(status().is3xxRedirection())
+				.andExpect(view().name("redirect:/producto?message=Borrado Correctamente"));
+	}
+	
+	// Test negativo borrar producto.
+	
+	@WithMockUser(value = "spring")
+	@Test
+	void testBorrarProductoFail() throws Exception {
+		mockMvc.perform(get("/producto/delete/{productoId}", 70))
+				.andExpect(status().is3xxRedirection())
+				.andExpect(view().name("redirect:/producto?message=Producto no encontrado"));
+	}
+	
+	// Test positivo initUpdate producto.
+	
+//	@WithMockUser(value = "spring")
+//	@Test
+//	void testInitUpdateProductoSuccess() throws Exception {
+//		mockMvc.perform(get("/producto/edit/{productoId}", TEST_PRODUCTO2_ID))
+//				.andExpect(status().isOk())
+//				.andExpect(model().attributeExists("listaProveedores"))
+//				.andExpect(model().attribute("listaProveedores", lProveedor))
+//				.andExpect(model().attributeExists("producto"))
+//				.andExpect(model().attribute("producto", productoConvertido))
+//				.andExpect(view().name("producto/editarProducto"));
+//	}
+	
+	// Test positivo processUpdate producto.
+
+	
+	// Test negativo processUpdate producto.
+	
+
 	// Test positivo guardar pedido. 
 
 	@WithMockUser(value = "spring")
@@ -345,4 +453,6 @@ class ProductoControllerTests {
 				.andExpect(view().name("redirect:/producto?message=Producto no encontrado"));
 	}
 	
+
 }
+
