@@ -100,13 +100,5 @@ class CamareroServiceTests {
         assertThat(this.camareroService.CamareroConMismoUsuario(cam2));
     }
     
-    @Test
-    @DisplayName("borraFieldErrorsCorrectamente")
-    public void borraFieldErrorsCorrectamente() throws DuplicatedPedidoException {
-        BindingResult intento= new BeanPropertyBindingResult(cam, "camarero");
-        intento.rejectValue("usuario", "prueba");
-        intento.rejectValue("name", "prueba2");
-        assertThat(this.camareroService.ErroresSinMismoUser(cam, intento).getFieldErrors().size()<2);
-        
-    }
+    
 }

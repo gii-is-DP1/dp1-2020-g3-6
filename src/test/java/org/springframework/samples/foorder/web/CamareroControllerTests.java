@@ -31,7 +31,9 @@ import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-
+import org.springframework.validation.BeanPropertyBindingResult;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 
@@ -43,23 +45,26 @@ public class CamareroControllerTests {
 
 	@MockBean
 	private CamareroService camareroService;
+	
+	@MockBean
+	private AuthoritiesService authoritiesService;
 
 	@MockBean
 	private CamareroRepository camareroRepository;
 
 
 	@MockBean
-	private AuthoritiesService authoritiesService;
-	@MockBean
 	private UserService userService;
 
 	@Autowired
 	private MockMvc mockMvc;
+	
+	private Camarero camarero;
+	private BindingResult result;
+	private FieldError error;
 
 	@BeforeEach
 	void setup() {
-		// falta funcion de user service		given(this.userService.findUser(TEST_USER_PROPIETARIO)).willReturn("propietario");
-		//		List listacam = new ArrayList<Camarero>();
 		Camarero camarero = new Camarero();
 		camarero.setApellido("ffffff");
 		camarero.setContrasena("12345");
@@ -67,10 +72,13 @@ public class CamareroControllerTests {
 		camarero.setName("aaaass");
 		camarero.setTelefono("123456789");
 		camarero.setUsuario("jose");
-		//		listacam.add(camarero);
-		//		Iterable<Camarero> cam =listacam;
+		
+		result = new BeanPropertyBindingResult(camarero, "camarero");
+		error= new FieldError("camarero", "usuario", camarero.getUsuario(), false, null, null, "este usuario esta repetido");
+		
 		given(this.camareroService.findAll()).willReturn(new ArrayList<Camarero>());
 		given(this.camareroService.findById(TEST_CAMARERO_ID)).willReturn(Optional.of(camarero));
+		
 
 	}
 
@@ -174,6 +182,7 @@ public class CamareroControllerTests {
 	@WithMockUser(value = "spring")
 	@Test
 	void processEditCamareroHasErrors() throws Exception {
+		given(this.camareroService.resultUserEdit(camarero, result)).willReturn(error);
 		mockMvc.perform(MockMvcRequestBuilders.post("/camareros/edit").with(SecurityMockMvcRequestPostProcessors.csrf())
 				.param("name", "Pe")
 				.param("apellido", "es")

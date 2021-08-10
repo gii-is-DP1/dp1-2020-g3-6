@@ -6,13 +6,13 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.foorder.model.Propietario;
-import org.springframework.samples.foorder.service.AuthoritiesService;
 import org.springframework.samples.foorder.service.PropietarioService;
 import org.springframework.samples.foorder.service.UserService;
 import org.springframework.samples.foorder.validators.PropietarioValidator;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -27,20 +27,18 @@ import lombok.extern.slf4j.Slf4j;
 public class PropietarioController {
 
 	private PropietarioService propietarioService;
-	private AuthoritiesService authoritiesService;
 	private UserService userService;
 	
 	@Autowired
-	public PropietarioController(PropietarioService propietarioService, AuthoritiesService authoritiesService, UserService userService) {
+	public PropietarioController(PropietarioService propietarioService, UserService userService) {
 		super();
 		this.propietarioService = propietarioService;
-		this.authoritiesService = authoritiesService;
 		this.userService=userService;
 	}
 
 	@InitBinder("propietario")
 	public void initPropietarioBinder(WebDataBinder dataBinder) {
-		dataBinder.setValidator(new PropietarioValidator(this.authoritiesService));
+		dataBinder.setValidator(new PropietarioValidator());
 	}
 	
 	@GetMapping()
@@ -65,6 +63,10 @@ public class PropietarioController {
 
 	@PostMapping(path = "/save")
 	public String guardarPropietario(@Valid Propietario propietario, BindingResult result, ModelMap modelMap) {
+		FieldError error=this.propietarioService.resultUserSave(propietario, result);
+		if(error!=null) {
+			result.addError(error);
+		}
 		String vista = "propietarios/listaPropietarios";
 		if (result.hasErrors()) {
 			log.info(String.format("Owner with name %s wasn't able to be created", propietario.getName()));
@@ -104,8 +106,9 @@ public class PropietarioController {
 
 	@PostMapping(value = "/edit")
 	public String processUpdatePropietarioForm(@Valid Propietario propietario, BindingResult result, ModelMap modelMap) {
-		if(this.propietarioService.propietarioConMismoUsuario(propietario)) {
-			result = this.propietarioService.erroresSinMismoUser(propietario, result);
+		FieldError error=this.propietarioService.resultUserEdit(propietario, result);
+		if(error!=null) {
+			result.addError(error);
 		}
 		if (result.hasErrors()) {
 			modelMap.addAttribute("propietario", propietario);

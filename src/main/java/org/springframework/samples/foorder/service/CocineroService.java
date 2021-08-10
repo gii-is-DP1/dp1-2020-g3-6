@@ -1,8 +1,6 @@
 package org.springframework.samples.foorder.service;
 
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -11,7 +9,6 @@ import org.springframework.samples.foorder.model.User;
 import org.springframework.samples.foorder.repository.CocineroRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 
@@ -78,16 +75,20 @@ public class CocineroService {
 	}
 	
 	@Transactional(readOnly = true)
-	public BindingResult erroresSinMismoUser(Cocinero cocinero,BindingResult result) throws DataAccessException {
-		List<FieldError> errorsToKeep = result.getFieldErrors().stream()
-				.filter(fer -> !fer.getField().equals("usuario"))
-                .collect(Collectors.toList());
-		
-		result = new BeanPropertyBindingResult(cocinero, "cocinero");
-
-		for (FieldError fieldError : errorsToKeep) {
-			result.addError(fieldError);
+	public FieldError resultUserSave(Cocinero cocinero, BindingResult result) throws DataAccessException {
+		if(authoritiesService.findAllUsernames().contains(cocinero.getUsuario())) {
+			FieldError error= new FieldError("cocinero", "usuario", cocinero.getUsuario(), false, null, null, "este usuario esta repetido");
+			return error;
 		}
-		return result;
+		return null;
+	}
+	
+	@Transactional(readOnly = true)
+	public FieldError resultUserEdit(Cocinero cocinero, BindingResult result) throws DataAccessException {
+		if(authoritiesService.findAllUsernames().contains(cocinero.getUsuario())&&!this.cocineroConMismoUsuario(cocinero)) {
+			FieldError error= new FieldError("camarero", "usuario", cocinero.getUsuario(), false, null, null, "este usuario esta repetido");
+			return error;
+		}
+		return null;
 	}
 }

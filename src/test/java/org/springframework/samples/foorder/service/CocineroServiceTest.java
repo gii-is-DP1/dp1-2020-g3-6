@@ -102,13 +102,5 @@ class CocineroServiceTest {
         assertThat(this.cocineroService.cocineroConMismoUsuario(coci2));
     }
     
-    @Test
-    @DisplayName("borraFieldErrorsCorrectamente")
-    public void borraFieldErrorsCorrectamente() throws DuplicatedPedidoException {
-        BindingResult intento= new BeanPropertyBindingResult(coci, "cocinero");
-        intento.rejectValue("usuario", "prueba");
-        intento.rejectValue("name", "prueba2");
-        assertThat(this.cocineroService.erroresSinMismoUser(coci, intento).getFieldErrors().size()<2);
-        
-    }
+   
 }

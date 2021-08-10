@@ -109,13 +109,5 @@ class PropietarioServiceTests {
         assertThat(this.propietarioService.propietarioConMismoUsuario(propi2));
     }
     
-    @Test
-    @DisplayName("borraFieldErrorsCorrectamente")
-    public void borraFieldErrorsCorrectamente() throws DuplicatedPedidoException {
-        BindingResult intento= new BeanPropertyBindingResult(propi, "porpietario");
-        intento.rejectValue("usuario", "prueba");
-        intento.rejectValue("name", "prueba2");
-        assertThat(this.propietarioService.erroresSinMismoUser(propi, intento).getFieldErrors().size()<2);
-        
-    }
+    
 }

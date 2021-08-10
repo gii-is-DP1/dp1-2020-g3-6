@@ -13,30 +13,7 @@ function validarsize(){
 	var cantAct = document.forms["producto"]["cantAct"].value;
 	var cantMax = document.forms["producto"]["cantMax"].value;
 	var proveedor = document.forms["producto"]["proveedor"].value;
-	if(name.length < 3 || name.length > 75){
-        alert("La longitud del nombre debe ser mayor de 3 o menor de 75");
-        return false;
-    }
-	if(tipoproductodto =="" ){
-        alert("Debes selecionar un tipo producto");
-        return false;
-    }
-	if(cantMin==""){
-        alert("Cantidad minima No puede estar en blanco");
-        return false;
-    }
-	if(cantAct==""){
-        alert("Cantidad actual No puede estar en blanco");
-        return false;
-    }
-	if(cantMax==""){
-        alert("Cantidad maxima No puede estar en blanco");
-        return false;
-    }
-	if(proveedor =="" ){
-        alert("Debes selecionar un proveedor");
-        return false;
-    }
+	
 	return true;
 } 
 </script>
