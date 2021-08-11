@@ -15,54 +15,94 @@
     <!--Fontawesome CDN-->
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
 
-	<!--Custom styles-->
-	<link rel="stylesheet" type="text/css" href="styles.css">
+	<style>
+	body{
+	background: 	linear-gradient(217deg, #8cbeca, rgba(255,0,0,0) 70.71%),
+                    linear-gradient(127deg, #969696, rgba(0,255,0,0) 70.71%),
+                    linear-gradient(336deg, #c4c4c4, rgba(0,0,255,0) 70.71%);
+	}
+	
+	#contenedor_fooder{
+    background-image: radial-gradient(circle, #9aa6b2, #86909b, #727b85, #5f6770, #4c535b, #43494f, 
+    #3a3f44, #313539, #2f3134, #2c2d2f, #29292b, #262626);   
+	}
+	
+	#contenedor_fooder h3, p{
+	color: white;
+	
+	}
+	
+	.containerbienvenido {
+	background: #29292b; 
+	}
+	
+	h1 {
+	font-weight: bold;
+	color: white;
+	}
+	
+	</style>
 </head>
 <body class="body-login">
-<div class="container">
-	<div class="d-flex justify-content-center h-100">
-		<div class="card">
-			<div class="card-header">
-				<h3>Por favor, inicia sesión</h3>
-				<div class="d-flex justify-content-end social_icon">
-					<span><i class="fab fa-facebook-square"></i></span>
-					<span><i class="fab fa-google-plus-square"></i></span>
-					<span><i class="fab fa-twitter-square"></i></span>
-				</div>
-			</div>
-			<div class="card-body">
-				<form action="login" method="POST">
-					<div class="input-group form-group">
-						<div class="input-group-prepend">
-							<span class="input-group-text"><i class="fas fa-user"></i></span>
-						</div>
-						<input name="username" type="text" class="form-control" placeholder="username">
+	<div class="containerbienvenido pt-4 pb-4">
+        <div class="row text-center">
+            <div class="col-md">
+                <h1> BIENVENIDO A FOORDER </h1>
+                
+            </div>
+        </div>
+    </div>
+    <div class="container py-3 mt-5">
+        <div id="errors"></div>
+        <div class="card card0">
+            <div class="d-flex flex-lg-row flex-column-reverse">
+                <!--Login-->
+                <div class="col-md justify-content-center card" id="contenedor_login">
+                    <form action="login" method="POST">
+                        <div class="row justify-content-center my-auto">
+                            <div class="col-md-8 col-10 my-5">
+                                <h3 class="mb-5 text-center heading">LOG IN</h3>
+
+                                <div class="input-group form-group">
+									<div class="input-group-prepend">
+										<span class="input-group-text"><i class="fas fa-user"></i></span>
+									</div>
+									<input name="username" type="text" class="form-control" placeholder="username">
+								</div>
+								
+								<div class="input-group form-group">
+									<div class="input-group-prepend">
+										<span class="input-group-text"><i class="fas fa-key"></i></span>
+									</div>
+									<input name="password" type="password" class="form-control" placeholder="password">
+								</div>
 						
-					</div>
-					<div class="input-group form-group">
-						<div class="input-group-prepend">
-							<span class="input-group-text"><i class="fas fa-key"></i></span>
-						</div>
-						<input name="password" type="password" class="form-control" placeholder="password">
-					</div>
-					<div class="row align-items-center remember">
-						<input type="checkbox">Remember Me
-					</div>
-					<div class="form-group">
-						<input type="submit" value="Login" class="btn float-right login_btn">
-					</div>
-				</form>
-			</div>
-			<div class="card-footer">
-				<div class="d-flex justify-content-center links">
-					Don't have an account?<a href="#">Sign Up</a>
-				</div>
-				<div class="d-flex justify-content-center">
-					<a href="#">Forgot your password?</a>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
+                                <div class="row justify-content-center my-3 px-3">
+                                    <div class="col-md text-center">
+                                        <button type="submit" class="btn btn-dark btn-lg" id="btn-register"> Iniciar Sesion
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+
+                <!--Register-->
+                <div class="col-md justify-content-center card" id="contenedor_fooder">
+                      	<div class="row justify-content-center my-auto">
+                            <div class="col-md-8 col-10 my-5">
+                                <h3 class="mb-5 text-center heading">SOMOS FOORDER</h3>
+                                <p class="mb-5 text-center"> Para poder iniciar sesion debe estar dado de alta como un trabajador
+                                de la empresa.</p>
+                                <p class="mb-5 text-center"> Si ya estas dado de alta como trabajador y no puede iniciar sesion,
+                                debe ponerse en contacto con el manager de su empresa, y si no es posible, con el dueño Prince.  </p>
+                            </div>
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
