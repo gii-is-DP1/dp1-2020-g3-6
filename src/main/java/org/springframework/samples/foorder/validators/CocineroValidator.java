@@ -38,11 +38,11 @@ public class CocineroValidator implements Validator{
 			errors.rejectValue("telefono", "este Telefono no tiene una longitud valida","este Telefono no tiene una longitud valida");
 		}
 
-		if (cocinero.getUsuario().length()<3||cocinero.getApellido().length()>50  ){
+		if (cocinero.getUsuario().length()<3||cocinero.getUsuario().length()>50  ){
 			errors.rejectValue("usuario", "este usuario no tiene una longitud valida","este usuario no tiene una longitud valida");
 		}
 
-		if (cocinero.getContrasena().length()<3||cocinero.getApellido().length()>50  ){
+		if (cocinero.getContrasena().length()<3||cocinero.getContrasena().length()>50  ){
 			errors.rejectValue("contrasena", "este contrasena no tiene una longitud valida","este contrasena no tiene una longitud valida");
 		}
 

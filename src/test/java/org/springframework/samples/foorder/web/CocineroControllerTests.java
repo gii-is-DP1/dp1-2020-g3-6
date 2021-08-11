@@ -92,8 +92,8 @@ public class CocineroControllerTests {
 	@Test
 	void processCreationCocineroSuccess() throws Exception {
 		mockMvc.perform(MockMvcRequestBuilders.post("/cocinero/save").with(SecurityMockMvcRequestPostProcessors.csrf())
-				.param("name", "Pepe")
-				.param("apellido", "esc")
+				.param("name", "Pedro")
+				.param("apellido", "Palos")
 				.param("telefono", "543972343")
 				.param("gmail", "pe2000@gmail.com")
 				.param("contrasena", "12345abvM")

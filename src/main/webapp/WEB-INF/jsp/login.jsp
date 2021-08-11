@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -59,6 +60,9 @@
                 <!--Login-->
                 <div class="col-md justify-content-center card" id="contenedor_login">
                     <form action="login" method="POST">
+                     
+   						 <c:out value="${error}"></c:out>
+					
                         <div class="row justify-content-center my-auto">
                             <div class="col-md-8 col-10 my-5">
                                 <h3 class="mb-5 text-center heading">LOG IN</h3>
@@ -67,14 +71,14 @@
 									<div class="input-group-prepend">
 										<span class="input-group-text"><i class="fas fa-user"></i></span>
 									</div>
-									<input name="username" type="text" class="form-control" placeholder="username">
+									<input name="username" type="text" class="form-control" placeholder="usuario" required autofocus>
 								</div>
 								
 								<div class="input-group form-group">
 									<div class="input-group-prepend">
 										<span class="input-group-text"><i class="fas fa-key"></i></span>
 									</div>
-									<input name="password" type="password" class="form-control" placeholder="password">
+									<input name="password" type="password" class="form-control" placeholder="contrasena" required autofocus>
 								</div>
 						
                                 <div class="row justify-content-center my-3 px-3">
@@ -97,7 +101,7 @@
                                 <p class="mb-5 text-center"> Para poder iniciar sesion debe estar dado de alta como un trabajador
                                 de la empresa.</p>
                                 <p class="mb-5 text-center"> Si ya estas dado de alta como trabajador y no puede iniciar sesion,
-                                debe ponerse en contacto con el manager de su empresa, y si no es posible, con el dueño Prince.  </p>
+                                debe ponerse en contacto con el manager de su empresa, y si no es posible, con el dueño.  </p>
                             </div>
                         </div>
                 </div>

@@ -26,6 +26,7 @@ import org.springframework.samples.foorder.service.PedidoService;
 import org.springframework.samples.foorder.service.ProductoService;
 import org.springframework.samples.foorder.service.ProveedorService;
 import org.springframework.samples.foorder.service.TipoProductoService;
+import org.springframework.samples.foorder.validators.ProductoValidator;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.test.context.support.WithMockUser;
 
@@ -70,6 +71,8 @@ class ProductoControllerTests {
 	private TipoProductoFormatter tipoProductoFormatter;
 	@MockBean
 	private ProveedorFormatter proveedorFormatter;
+	@MockBean
+	private ProductoValidator productoValidator;
 
 	@Autowired
 	private MockMvc mockMvc;

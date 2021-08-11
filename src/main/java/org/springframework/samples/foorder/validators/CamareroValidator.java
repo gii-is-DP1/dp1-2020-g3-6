@@ -39,12 +39,12 @@ public class CamareroValidator implements Validator{
 			errors.rejectValue("telefono", "este Telefono no tiene una longitud valida","este Telefono no tiene una longitud valida");
 		}
 
-		if (camarero.getUsuario().length()<3||camarero.getApellido().length()>50  ){
+		if (camarero.getUsuario().length()<3||camarero.getUsuario().length()>50  ){
 			errors.rejectValue("usuario", "este usuario no tiene una longitud valida","este usuario no tiene una longitud valida");
 		}
 
-		if (camarero.getContrasena().length()<3||camarero.getApellido().length()>50  ){
-			errors.rejectValue("contrasena", "este contrasena no tiene una longitud valida","este contrasena no tiene una longitud valida");
+		if (camarero.getContrasena().length()<3||camarero.getContrasena().length()>50  ){
+			errors.rejectValue("contrasena", "esta contrasena no tiene una longitud valida","esta contrasena no tiene una longitud valida");
 		}
 
 		if (!camarero.getContrasena().matches(patterncontra)){

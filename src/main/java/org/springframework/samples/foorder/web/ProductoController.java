@@ -21,10 +21,15 @@ import org.springframework.samples.foorder.service.TipoProductoService;
 import org.springframework.samples.foorder.service.exceptions.DuplicatedPedidoException;
 import org.springframework.samples.foorder.service.exceptions.PedidoPendienteException;
 import org.springframework.samples.foorder.service.exceptions.PlatoPedidoPendienteException;
+import org.springframework.samples.foorder.validators.CamareroValidator;
+import org.springframework.samples.foorder.validators.ProductoValidator;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ValidationUtils;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -43,11 +48,15 @@ public class ProductoController {
 	private ProductoConverter productoConverter;
 	private TipoProductoFormatter tipoProductoFormatter;
 	private ProveedorFormatter proveedorFormatter;
+	private ProductoValidator productoValidator;
+	
+	
+
 	
 	@Autowired
 	public ProductoController(ProductoService productoService, ProveedorService proveedorService,
 			TipoProductoService tipoProductoService, PedidoService pedidoService, ProductoConverter productoConverter, 
-			TipoProductoFormatter tipoProductoFormatter, ProveedorFormatter proveedorFormatter) {
+			TipoProductoFormatter tipoProductoFormatter, ProveedorFormatter proveedorFormatter, ProductoValidator productoValidator) {
 		super();
 		this.productoService = productoService;
 		this.proveedorService = proveedorService;
@@ -56,7 +65,13 @@ public class ProductoController {
 		this.productoConverter = productoConverter;
 		this.tipoProductoFormatter = tipoProductoFormatter;
 		this.proveedorFormatter = proveedorFormatter;
+		this.productoValidator = productoValidator;
 	}
+	@InitBinder("productodto")
+	public void initCamareroBinder(WebDataBinder dataBinder) {
+		dataBinder.setValidator(productoValidator);
+	}
+	
 
 	@ModelAttribute("tipoproducto") 				//Esto pertenece a TipoProducto
 	public Collection<TipoProducto> poblarTiposProducto() {
@@ -107,15 +122,19 @@ public class ProductoController {
 	@PostMapping(path="/save")
 	public String guardarProducto(@Valid ProductoDTO producto,BindingResult result,ModelMap modelMap) throws ParseException {
 		String vista= "producto/listaProducto";
-		final Producto productoFinal = productoConverter.convertProductoDTOToEntity(producto);
-		productoFinal.setTipoProducto(tipoProductoFormatter.parse(producto.getTipoproductodto(), Locale.ENGLISH));
-		productoFinal.setProveedor(proveedorFormatter.parse(producto.getProveedor(), Locale.ENGLISH));
 		if(result.hasErrors()) {
-			
 			log.info(String.format("Product with name %s wasn't able to be created", producto.getName()));
+			Collection<TipoProducto> collectionTipoProducto = this.tipoProductoService.findAll();
+			List<String> collectionProveedor = this.proveedorService.findActivosName();
 			modelMap.addAttribute("producto", producto);
+			modelMap.addAttribute("listaProveedores", collectionProveedor);
+			modelMap.addAttribute("listaTipos", collectionTipoProducto);
+			modelMap.addAttribute("org.springframework.validation.BindingResult.producto", result);
 			return "producto/editProducto";
 		}else {
+			final Producto productoFinal = productoConverter.convertProductoDTOToEntity(producto);
+			productoFinal.setTipoProducto(tipoProductoFormatter.parse(producto.getTipoproductodto(), Locale.ENGLISH));
+			productoFinal.setProveedor(proveedorFormatter.parse(producto.getProveedor(), Locale.ENGLISH));
 			productoService.save(productoFinal);
 			vista="redirect:/producto?message=Guardado correctamente";
 		}
@@ -158,13 +177,18 @@ public class ProductoController {
 	
 	@PostMapping(value = "/edit")
 	public String processUpdateProductoForm(@Valid ProductoDTO producto, BindingResult result,ModelMap modelMap) throws ParseException {
-		final Producto productoFinal = productoConverter.convertProductoDTOToEntity(producto);
-		productoFinal.setTipoProducto(tipoProductoFormatter.parse(producto.getTipoproductodto(), Locale.ENGLISH));
-		productoFinal.setProveedor(proveedorFormatter.parse(producto.getProveedor(), Locale.ENGLISH));
 		if(result.hasErrors()) {
+			Collection<TipoProducto> collectionTipoProducto = this.tipoProductoService.findAll();
+			Collection<String> collectionProveedor = this.proveedorService.findAllNames();
 			modelMap.addAttribute("producto", producto);
+			modelMap.addAttribute("listaTipos", collectionTipoProducto);
+			modelMap.addAttribute("listaProveedores", collectionProveedor);
+			modelMap.addAttribute("org.springframework.validation.BindingResult.producto", result);
 			return "producto/editarProducto";
 		}else {
+			final Producto productoFinal = productoConverter.convertProductoDTOToEntity(producto);
+			productoFinal.setTipoProducto(tipoProductoFormatter.parse(producto.getTipoproductodto(), Locale.ENGLISH));
+			productoFinal.setProveedor(proveedorFormatter.parse(producto.getProveedor(), Locale.ENGLISH));
 			this.productoService.save(productoFinal);
 			return "redirect:/producto?message=Guardado Correctamente";
 		}

@@ -168,7 +168,7 @@ public class CamareroControllerTests {
 	@Test
 	void processEditCamareroSuccess() throws Exception {
 		mockMvc.perform(MockMvcRequestBuilders.post("/camareros/edit").with(SecurityMockMvcRequestPostProcessors.csrf())
-				.param("name", "Pepe")
+				.param("name", "Paula")
 				.param("apellido", "esc")
 				.param("telefono", "543972343")
 				.param("gmail", "pe2000@gmail.com")

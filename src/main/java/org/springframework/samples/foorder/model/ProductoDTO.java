@@ -1,5 +1,6 @@
 package org.springframework.samples.foorder.model;
 
+import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
@@ -8,6 +9,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
+@Table(name = "productodto")
 public class ProductoDTO {
 	@NotBlank
 	private String tipoproductodto;
