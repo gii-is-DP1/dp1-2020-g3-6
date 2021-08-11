@@ -67,7 +67,7 @@ public class PlatoPedidoController {
 	public String listadoPlatosPedido(ModelMap modelMap) {
 		String authority = this.userService.findAuthoritiesByUsername(this.userService.getUserSession().getUsername());
 		if(!authority.equals("cocinero")) {
-			return "error-403";
+			return "errors/error-403";
 		}
 		String vista = "platosPedido/listaPlatosPedido";
 		Iterable<PlatoPedido> pp = platoPedidoService.platosPedidosDesponibles();
@@ -144,7 +144,7 @@ public class PlatoPedidoController {
 			ModelMap model) throws ParseException {
 		String authority = this.userService.findAuthoritiesByUsername(this.userService.getUserSession().getUsername());
 		if(!authority.equals("cocinero")) {
-			return "error-403";
+			return "errors/error-403";
 		}
 		String vista="";
 		Optional<PlatoPedido> pp = platoPedidoService.findById(ppId);

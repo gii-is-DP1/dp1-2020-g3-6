@@ -96,7 +96,7 @@ public class ManagerController {
 	@GetMapping(value = "/edit/{managerId}")
 	public String initUpdateManagerForm(@PathVariable("managerId") int managerId, ModelMap model) {
 		Optional<Manager> man=managerService.findById(managerId);
-		if(man.isEmpty()) {
+		if(!man.isPresent()) {
 			return "redirect:/managers?message=Ese manager no existe";
 		}
 		String vista= "managers/editarManager";
