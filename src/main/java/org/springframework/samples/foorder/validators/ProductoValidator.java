@@ -25,6 +25,7 @@ public class ProductoValidator implements Validator{
 		
 		ProductoDTO productoDTO = (ProductoDTO) target;
 
+		
 		if(StringUtils.isEmpty(productoDTO.getName())) {
 			LOG.warn("el nombre esta vacio");
 			errors.rejectValue("name","no puede estar vacio" ,"no puede estar vacio");
@@ -37,6 +38,12 @@ public class ProductoValidator implements Validator{
 			LOG.warn("el proveedor esta vacio");
 			errors.rejectValue("proveedor", "no puede ser nulo","no puede ser nulo");
 		}
+		Double cantMax= productoDTO.getCantMax();
+		if(productoDTO.getCantMin()!=null&&productoDTO.getCantMax()!=null&&productoDTO.getCantAct()>(cantMax+cantMax*25.0/100)) {
+			LOG.warn("actual supera mucho a la maxima");
+			errors.rejectValue("cantAct", "cantidad actual supera mucho a la máxima","cantidad actual supera mucho a la máxima");
+		}
+		
 		
 
 	}

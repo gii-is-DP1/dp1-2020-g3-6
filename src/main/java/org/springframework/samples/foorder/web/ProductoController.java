@@ -21,12 +21,10 @@ import org.springframework.samples.foorder.service.TipoProductoService;
 import org.springframework.samples.foorder.service.exceptions.DuplicatedPedidoException;
 import org.springframework.samples.foorder.service.exceptions.PedidoPendienteException;
 import org.springframework.samples.foorder.service.exceptions.PlatoPedidoPendienteException;
-import org.springframework.samples.foorder.validators.CamareroValidator;
 import org.springframework.samples.foorder.validators.ProductoValidator;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.ValidationUtils;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -122,6 +120,7 @@ public class ProductoController {
 	@PostMapping(path="/save")
 	public String guardarProducto(@Valid ProductoDTO producto,BindingResult result,ModelMap modelMap) throws ParseException {
 		String vista= "producto/listaProducto";
+		this.productoValidator.validate(producto, result);
 		if(result.hasErrors()) {
 			log.info(String.format("Product with name %s wasn't able to be created", producto.getName()));
 			Collection<TipoProducto> collectionTipoProducto = this.tipoProductoService.findAll();
@@ -132,6 +131,9 @@ public class ProductoController {
 			modelMap.addAttribute("org.springframework.validation.BindingResult.producto", result);
 			return "producto/editProducto";
 		}else {
+			if(productoService.cantidadMaximaMayor25PorCiento(producto)) {
+				return "redirect:/producto?message=La cantidad de "+producto.getName()+" supera la cantidad máxima,intente gastarlo";
+			}
 			final Producto productoFinal = productoConverter.convertProductoDTOToEntity(producto);
 			productoFinal.setTipoProducto(tipoProductoFormatter.parse(producto.getTipoproductodto(), Locale.ENGLISH));
 			productoFinal.setProveedor(proveedorFormatter.parse(producto.getProveedor(), Locale.ENGLISH));
@@ -177,6 +179,7 @@ public class ProductoController {
 	
 	@PostMapping(value = "/edit")
 	public String processUpdateProductoForm(@Valid ProductoDTO producto, BindingResult result,ModelMap modelMap) throws ParseException {
+		this.productoValidator.validate(producto, result);
 		if(result.hasErrors()) {
 			Collection<TipoProducto> collectionTipoProducto = this.tipoProductoService.findAll();
 			Collection<String> collectionProveedor = this.proveedorService.findAllNames();
@@ -186,6 +189,9 @@ public class ProductoController {
 			modelMap.addAttribute("org.springframework.validation.BindingResult.producto", result);
 			return "producto/editarProducto";
 		}else {
+			if(productoService.cantidadMaximaMayor25PorCiento(producto)) {
+				return "redirect:/producto?message=La cantidad de "+producto.getName()+" supera la cantidad maxima,intente gastarlo";
+			}
 			final Producto productoFinal = productoConverter.convertProductoDTOToEntity(producto);
 			productoFinal.setTipoProducto(tipoProductoFormatter.parse(producto.getTipoproductodto(), Locale.ENGLISH));
 			productoFinal.setProveedor(proveedorFormatter.parse(producto.getProveedor(), Locale.ENGLISH));

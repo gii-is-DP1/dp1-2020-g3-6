@@ -9,6 +9,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.samples.foorder.model.Ingrediente;
 import org.springframework.samples.foorder.model.LineaPedido;
 import org.springframework.samples.foorder.model.Producto;
+import org.springframework.samples.foorder.model.ProductoDTO;
 import org.springframework.samples.foorder.model.Proveedor;
 import org.springframework.samples.foorder.repository.IngredienteRepository;
 import org.springframework.samples.foorder.repository.LineaPedidoRepository;
@@ -87,6 +88,15 @@ public class ProductoService {
 				res = false;
 				break;
 			}
+		}
+		return res;
+	}
+	
+	@Transactional
+	public Boolean cantidadMaximaMayor25PorCiento(ProductoDTO producto) {
+		Boolean res=false;
+		if(producto.getCantAct()>producto.getCantMax()) {
+			res=true;
 		}
 		return res;
 	}

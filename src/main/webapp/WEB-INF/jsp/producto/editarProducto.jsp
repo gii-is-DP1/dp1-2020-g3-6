@@ -7,13 +7,18 @@
 <%@ taglib prefix="foorder" tagdir="/WEB-INF/tags" %>
 <script>
 function validarsize(){
-	var name = document.forms["producto"]["name"].value;
 	var tipoproductodto = document.forms["producto"]["tipoproductodto"].value;
-	var cantMin = document.forms["producto"]["cantMin"].value;
-	var cantAct = document.forms["producto"]["cantAct"].value;
-	var cantMax = document.forms["producto"]["cantMax"].value;
 	var proveedor = document.forms["producto"]["proveedor"].value;
+	    if(tipoproductodto =="" ){
+	        alert("Debes selecionar un tipo producto");
+	        return false;
+	    }
+	    if(proveedor =="" ){
+	        alert("Debes selecionar un proveedor");
+	        return false;
+	    }
 	
+	return true;
 } 
 </script>
 <foorder:layout pageName="producto">
