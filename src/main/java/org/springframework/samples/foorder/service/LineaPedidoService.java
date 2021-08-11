@@ -22,10 +22,6 @@ public class LineaPedidoService {
 		super();
 		this.lineaPedidoRepository = lineaPedidoRepository;
 	}
-
-	public Iterable<LineaPedido> findAll(){
-		return lineaPedidoRepository.findAll();
-	}
 	
 	public Iterable<LineaPedido> findByPedidoId(int pedidoID) {
 		return lineaPedidoRepository.findByPedidoId(pedidoID);

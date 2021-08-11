@@ -1,8 +1,6 @@
 package org.springframework.samples.foorder.validators;
 
 import org.springframework.samples.foorder.model.Manager;
-import org.springframework.samples.foorder.service.AuthoritiesService;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;

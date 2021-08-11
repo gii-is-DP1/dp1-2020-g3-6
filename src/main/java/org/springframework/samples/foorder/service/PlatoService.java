@@ -13,7 +13,6 @@ import org.springframework.samples.foorder.model.PlatoPedido;
 import org.springframework.samples.foorder.repository.IngredienteRepository;
 import org.springframework.samples.foorder.repository.PlatoPedidoRepository;
 import org.springframework.samples.foorder.repository.PlatoRepository;
-import org.springframework.samples.foorder.service.exceptions.PedidoPendienteException;
 import org.springframework.samples.foorder.service.exceptions.PlatoEnProcesoException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

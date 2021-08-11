@@ -92,7 +92,7 @@ public class CocineroController {
 	@GetMapping(value = "/edit/{cocineroId}")
 	public String initUpdateCocineroForm(@PathVariable("cocineroId") int cocineroId, ModelMap model) {
 		Optional<Cocinero> coc=cocineroService.findById(cocineroId);
-		if(coc.isEmpty()) {
+		if(!coc.isPresent()) {
 			return "redirect:/cocinero?message=Ese cocinero no existe";
 		}
 		String vista = "cocinero/editarCocinero";

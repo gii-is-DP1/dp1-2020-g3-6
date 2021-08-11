@@ -99,7 +99,7 @@ public class CamareroController {
 	@GetMapping(value = "/edit/{camareroId}")
 	public String initUpdateCamareroForm(@PathVariable("camareroId") int camareroId, ModelMap model) {
 		Optional<Camarero> cam=camareroService.findById(camareroId);
-		if(cam.isEmpty()) {
+		if(!cam.isPresent()) {
 			return "redirect:/camareros?message=Ese camarero no existe";
 		}
 		String vista= "camareros/editarCamareros";
