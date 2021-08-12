@@ -6,11 +6,16 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.samples.foorder.model.Producto;
 import org.springframework.samples.foorder.model.ProductoDTO;
 import org.springframework.samples.foorder.model.TipoProducto;
@@ -32,6 +37,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import lombok.extern.slf4j.Slf4j;
 @Slf4j
@@ -77,15 +83,21 @@ public class ProductoController {
 	}
 	
 	@GetMapping()
-	public String listadoProducto(ModelMap modelMap) {
-		String vista= "producto/listaProducto";
-		Iterable<Producto> producto = productoService.findAll();
-		Iterator<Producto> it_producto = producto.iterator();
-		
-		if (!(it_producto.hasNext())) {
-			modelMap.addAttribute("message", "No hay productos, los necesitas para poder cocinar, añade uno nuevo");
+	public String listadoProducto(@RequestParam Map<String, Object> params,ModelMap modelMap) {
+		int page = params.get("page") != null ? (Integer.valueOf(params.get("page").toString()) - 1) : 0;
+		PageRequest pageRequest = PageRequest.of(page, 10);
+		Page<Producto> pageProducto = productoService.getAll(pageRequest);
+		int totalPage = pageProducto.getTotalPages();
+		if(totalPage > 0) {
+			List<Integer> pages = IntStream.rangeClosed(1, totalPage).boxed().collect(Collectors.toList());
+			modelMap.addAttribute("pages", pages);
 		}
-		modelMap.addAttribute("producto",producto);
+		modelMap.addAttribute("list", pageProducto.getContent());
+		modelMap.addAttribute("current", page + 1);
+		modelMap.addAttribute("next", page + 2);
+		modelMap.addAttribute("prev", page);
+		modelMap.addAttribute("last", totalPage);
+		String vista= "producto/listaProducto";
 		return vista;	
 	}
 	

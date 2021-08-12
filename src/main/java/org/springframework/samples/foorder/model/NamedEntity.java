@@ -17,6 +17,7 @@ package org.springframework.samples.foorder.model;
 
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -31,8 +32,7 @@ import javax.validation.constraints.Size;
 public class NamedEntity extends BaseEntity {
 
 	
-    @Size(min = 3, max = 50)
-    @NotNull
+    @NotBlank
 	@Column(name = "name")
 	private String name;
 

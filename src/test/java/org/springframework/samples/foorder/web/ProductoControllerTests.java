@@ -15,6 +15,9 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.samples.foorder.configuration.SecurityConfiguration;
 import org.springframework.samples.foorder.model.LineaPedido;
 import org.springframework.samples.foorder.model.Pedido;
@@ -94,6 +97,7 @@ class ProductoControllerTests {
 	private Collection<Producto> lPorProveedor2;
 	
 	private List<String> lProveedor;
+	private Page<Producto> pageProducto;
 
 	@BeforeEach
 	void test() throws ParseException {
@@ -187,6 +191,8 @@ class ProductoControllerTests {
 		given(this.proveedorFormatter.parse("proveedor_2", Locale.ENGLISH)).willReturn(proveedor2);
 		
 		given(this.productoConverter.convertEntityToProductoDTO(any())).willReturn(new ProductoDTO());
+		PageRequest pageRequest = PageRequest.of(10, 10);
+		pageProducto= new PageImpl<Producto>((List<Producto>) lProducto, pageRequest, 1);
 	}
 	
 	// Test listado productos
@@ -194,10 +200,10 @@ class ProductoControllerTests {
 	@WithMockUser(value = "spring")
 	@Test
 	void testListadoProducto() throws Exception {
+		given(this.productoService.getAll(any())).willReturn(pageProducto);
 		mockMvc.perform(get("/producto"))
 			.andExpect(status().isOk())
-			.andExpect(model().attributeExists("producto"))
-			.andExpect(model().attribute("producto", is(this.itProducto)))
+			.andExpect(model().attributeExists("list"))
 			.andExpect(view().name("producto/listaProducto"));
 	}
 		

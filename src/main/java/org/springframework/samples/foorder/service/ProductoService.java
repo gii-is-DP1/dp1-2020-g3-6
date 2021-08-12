@@ -6,6 +6,8 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.samples.foorder.model.Ingrediente;
 import org.springframework.samples.foorder.model.LineaPedido;
 import org.springframework.samples.foorder.model.Producto;
@@ -38,6 +40,10 @@ public class ProductoService {
 
 	public Iterable<Producto> findAll() throws DataAccessException {
 		return productoRepository.findAll();
+	}
+	
+	public Page<Producto> getAll(Pageable pageable) throws DataAccessException {
+		return productoRepository.findAll(pageable);
 	}	
 
 	public Optional<Producto> findById(Integer id) {
@@ -56,7 +62,7 @@ public class ProductoService {
 		return productoRepository.save(producto);
 	}
 	
-	@Transactional(rollbackFor = PedidoPendienteException.class)
+	@Transactional(rollbackFor = { PedidoPendienteException.class ,PlatoPedidoPendienteException.class})
 	public void deleteById(Integer id) throws DataAccessException, PedidoPendienteException, PlatoPedidoPendienteException{
 		Iterable<LineaPedido> LineasPedido = lineaPedidoRepository.findByProductoId(id);
 		Iterator<LineaPedido> it = LineasPedido.iterator();
@@ -67,13 +73,15 @@ public class ProductoService {
 		    	HaypedidoPendiente = true;
 	    	}		
 		}if (HaypedidoPendiente)  {    
+			log.info(String.format("Excepcion de pedido pendiente "));
 			throw new PedidoPendienteException();}
 		else if(!(checkPlatoPedido(id))){
+			log.info(String.format("Excepcion de plato pedido pendiente"));
 			throw new PlatoPedidoPendienteException();}
 		else{
 		Producto producto = productoRepository.findById(id).get();
 		productoRepository.deleteById(id);
-		log.info(String.format("Product with name %s has been deleted", producto.getName()));
+		log.info(String.format("Producto con nombre %s ha sido borrado", producto.getName()));
 		}
 	}
 	

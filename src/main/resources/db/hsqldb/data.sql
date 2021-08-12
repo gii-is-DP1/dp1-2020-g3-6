@@ -39,6 +39,7 @@ INSERT INTO tipoproducto VALUES (4, 'Lacteos');
 INSERT INTO tipoproducto VALUES (5, 'Bebidas');
 INSERT INTO tipoproducto VALUES (6, 'Otros');
 
+
 --PRODUCTOS--
 			--Makro--
 INSERT INTO producto(id,tipo_producto,name,cantidad_minima,cantidad_actual,cantidad_maxima,proveedor_id) VALUES (1 , 6, 'Pan'		  , 10.0, 5.0 , 30.0, 1);
@@ -157,7 +158,7 @@ INSERT INTO ingrediente_pedido(ingrediente_id,cant_pedida,pp_id) VALUES (26 , 1.
 INSERT INTO ingrediente_pedido(ingrediente_id,cant_pedida,pp_id) VALUES (27 , 1.0 , 6);
 
 --PEDIDO--
-INSERT INTO pedido(id,fechapedido,hallegado,proveedor_id) VALUES (1, '2021-02-04', FALSE, 1);
+INSERT INTO pedido(id,fechapedido,hallegado,proveedor_id) VALUES (1, '2021-02-04', TRUE, 1);
 INSERT INTO pedido(id,fechapedido,fechaentrega,hallegado,proveedor_id) VALUES (2, '2021-02-05', '2021-02-06', TRUE, 2);
 
 --LINEA PEDIDO--

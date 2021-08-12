@@ -8,7 +8,7 @@
 <foorder:layout pageName="producto">
 <span id="message"></span>
     <h2>Producto</h2>
-
+  	
     <table id="productoTable" class="table table-striped">
         <thead>
         <tr>
@@ -22,7 +22,7 @@
         </tr>
         </thead>
         <tbody>
-        <c:forEach items="${producto}" var="producto">
+        <c:forEach items="${list}" var="producto">
             <tr>
                 <td>
                     <c:out value="${producto.name}"/>
@@ -65,9 +65,20 @@
                 </td>                
             </tr>
         </c:forEach>
+        
         </tbody>
     </table>
-    <form method="get" action="/producto/new">
+    
+    <nav aria-label="Pagination">
+    	<ul class="pagination justify-content-center">
+			<c:forEach items="${pages}" var="page">
+				<a href="/producto?page=${page}"><c:out value="${page}"></c:out></a>
+			</c:forEach>    	
+    	
+    	</ul>
+  	</nav>
+  	
+  	<form method="get" action="/producto/new">
       	<button class="btn btn-default" type="submit">Crear Producto</button>
   	</form>
 </foorder:layout>
