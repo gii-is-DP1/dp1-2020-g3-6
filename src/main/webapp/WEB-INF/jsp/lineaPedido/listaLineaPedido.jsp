@@ -6,7 +6,7 @@
 <%@ taglib prefix="foorder" tagdir="/WEB-INF/tags" %>
 
 <foorder:layout pageName="lineaPedido">
-	<span id="message"></span>
+	<h3><span class="message-span" id="message"></span></h3>
     <h2>LineaPedido</h2>
 
     <table id="lineaPedidoTable" class="table table-striped">

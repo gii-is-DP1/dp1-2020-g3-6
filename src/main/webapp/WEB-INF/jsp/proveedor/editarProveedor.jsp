@@ -7,7 +7,7 @@
 <%@ taglib prefix="foorder" tagdir="/WEB-INF/tags" %>
 
 <foorder:layout pageName="proveedor">
-<span id="message"></span>
+	<h3><span class="message-span" id="message"></span></h3>
     <h2>Proveedor</h2>
     <form:form modelAttribute="proveedor" class="form-horizontal" id="add-proveedor-form"  action="/proveedor/edit">
         <div class="form-group has-feedback">

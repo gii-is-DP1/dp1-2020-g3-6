@@ -24,28 +24,6 @@
                         <dd><c:out value="${ing.cantidadPedida}"/></dd>
                     </dl>
                 </td>
-                <!-- 
-                <td valign="top">
-                    <table class="table-condensed">
-                        <thead>
-                        <tr>
-                           
-                            <th>Description</th>
-                        </tr>
-                        </thead>
-                       
-                        <tr>
-                            <td>
-                                <spring:url value="/owners/{ownerId}/pets/{petId}/edit" var="petUrl">
-                                    <spring:param name="ownerId" value="${owner.id}"/>
-                                    <spring:param name="petId" value="${pet.id}"/>
-                                </spring:url>
-                                <a href="${fn:escapeXml(petUrl)}">Edit Pet</a>
-                            </td>
-                         
-                        </tr>
-                    </table>
-                </td> -->
             </tr>
 
         </c:forEach>

@@ -7,7 +7,7 @@
 <%@ taglib prefix="foorder" tagdir="/WEB-INF/tags"%>
 
 <foorder:layout pageName="platopedido">
-	<span id="message"></span>
+	<h3><span class="message-span" id="message"></span></h3>
 
 	<h2>
 		<c:out value="${plato.name}" />
