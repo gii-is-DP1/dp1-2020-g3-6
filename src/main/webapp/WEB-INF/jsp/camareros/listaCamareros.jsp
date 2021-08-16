@@ -9,7 +9,7 @@
 
 
 <foorder:layout pageName="camareros">
-	<span id="message"></span>
+	<h3><span class="message-span" id="message"></span></h3>
     <h2>Camarero</h2>
     <table id="camarerosTable" class="table table-striped">
         <thead>
@@ -51,16 +51,6 @@
   					</spring:url>
                 	<a href="${fn:escapeXml(camareroEditUrl)}"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
                 </td>
-      
-<!--
-                <td> 
-                    <c:out value="${owner.user.username}"/> 
-                </td>
-                <td> 
-                   <c:out value="${owner.user.password}"/> 
-                </td> 
--->
-                
             </tr>
         </c:forEach>
         <c:out value="${message}"></c:out>

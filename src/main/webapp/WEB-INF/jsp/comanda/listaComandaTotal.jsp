@@ -6,7 +6,7 @@
 <%@ taglib prefix="foorder" tagdir="/WEB-INF/tags" %>
 
 <foorder:layout pageName="Total Comandas">
-	<span id="message"></span>
+	<h3><span class="message-span" id="message"></span></h3>
     <h2>Historial de comandas</h2>
     <table id="comandaExistenteTable" class="table table-striped">
 

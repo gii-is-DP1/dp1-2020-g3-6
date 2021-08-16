@@ -21,7 +21,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.samples.foorder.configuration.SecurityConfiguration;
-import org.springframework.samples.foorder.model.Comanda;
 import org.springframework.samples.foorder.model.EstadoPlato;
 import org.springframework.samples.foorder.model.Ingrediente;
 import org.springframework.samples.foorder.model.IngredientePedido;
@@ -33,10 +32,6 @@ import org.springframework.samples.foorder.service.EstadoPlatoService;
 import org.springframework.samples.foorder.service.IngredientePedidoService;
 import org.springframework.samples.foorder.service.IngredienteService;
 import org.springframework.samples.foorder.service.PlatoPedidoService;
-import org.springframework.samples.foorder.web.EstadoPlatoFormatter;
-import org.springframework.samples.foorder.web.PlatoFormatter;
-import org.springframework.samples.foorder.web.PlatoPedidoController;
-import org.springframework.samples.foorder.web.PlatoPedidoConverter;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
@@ -131,7 +126,6 @@ public class PlatoPedidoControllerTests {
 		platoPedido = new PlatoPedido();
 		platoPedido.setId(1);
 		platoPedido.setPlato(plato);
-//		platoPedido.setEstadoplato(estadoPlato1);
 		
 		Collection<IngredientePedido> platosPedidos = new ArrayList<>();
 

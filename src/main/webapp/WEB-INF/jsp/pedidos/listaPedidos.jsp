@@ -7,7 +7,7 @@
 
 
 <foorder:layout pageName="pedidos">
-<span id="message"></span>
+	<h3><span class="message-span" id="message"></span></h3>
     <h2>Pedido</h2>
 
     <table id="pedidosTable" class="table table-striped">

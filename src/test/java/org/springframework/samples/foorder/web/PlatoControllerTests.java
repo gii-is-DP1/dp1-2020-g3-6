@@ -17,10 +17,8 @@ import org.springframework.samples.foorder.model.Producto;
 import org.springframework.samples.foorder.service.IngredienteService;
 import org.springframework.samples.foorder.service.PlatoService;
 import org.springframework.samples.foorder.service.ProductoService;
-import org.springframework.samples.foorder.web.PlatoController;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.test.context.support.WithMockUser;
-
 import static org.hamcrest.Matchers.hasProperty;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.BDDMockito.given;
@@ -28,7 +26,6 @@ import static org.springframework.security.test.web.servlet.request.SecurityMock
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;

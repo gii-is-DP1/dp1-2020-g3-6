@@ -94,10 +94,10 @@
                       	<div class="row justify-content-center my-auto">
                             <div class="col-md-8 col-10 my-5">
                                 <h3 class="mb-5 text-center heading">SOMOS FOORDER</h3>
-                                <p class="mb-5 text-center"> Para poder iniciar sesion debe estar dado de alta como un trabajador
+                                <p class="mb-5 text-center"> Para poder iniciar sesión debe estar dado de alta como un trabajador
                                 de la empresa.</p>
-                                <p class="mb-5 text-center"> Si ya estas dado de alta como trabajador y no puede iniciar sesion,
-                                debe ponerse en contacto con el manager de su empresa, y si no es posible, con el dueño Prince.  </p>
+                                <p class="mb-5 text-center"> Si ya estás dado de alta como trabajador y no puede iniciar sesión,
+                                debe ponerse en contacto con el mánager de su empresa, y si no es posible, con el dueño Prince.  </p>
                             </div>
                         </div>
                 </div>
