@@ -6,10 +6,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
-
 import java.util.ArrayList;
 import java.util.Optional;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -21,7 +19,6 @@ import org.springframework.context.annotation.FilterType;
 import org.springframework.samples.foorder.configuration.SecurityConfiguration;
 import org.springframework.samples.foorder.model.Manager;
 import org.springframework.samples.foorder.repository.ManagerRepository;
-import org.springframework.samples.foorder.service.AuthoritiesService;
 import org.springframework.samples.foorder.service.ManagerService;
 import org.springframework.samples.foorder.service.UserService;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;

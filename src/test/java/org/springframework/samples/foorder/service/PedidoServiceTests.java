@@ -4,16 +4,15 @@ import static org.junit.Assert.assertEquals;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.time.LocalDate;
-import java.util.Collection;
-import java.util.Optional;
-
-import org.junit.jupiter.api.DisplayName;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.dao.DataAccessException;
 import org.springframework.samples.foorder.model.Pedido;
-import org.springframework.samples.foorder.model.Producto;
 import org.springframework.samples.foorder.service.exceptions.DuplicatedPedidoException;
 import org.springframework.stereotype.Service;
 
@@ -25,16 +24,10 @@ public class PedidoServiceTests {
 	private ProveedorService proveedorService;
 	
 	@Autowired
-	private ProductoService productoService;
-	
-	@Autowired
 	private PedidoService pedidoService;
 	
-	//SavePedido
-	
 	@Test
-	@DisplayName("método save")
-	public void saveTest() {
+	public void shouldSaveTest() {
 		int found = pedidoService.count();
 		
 		Pedido pedido = new Pedido();
@@ -52,9 +45,8 @@ public class PedidoServiceTests {
 		assertEquals(found+1, size);	
 	}
 	
-	
 	@Test
-	public void falloGuardarPedidoRepetido() {
+	public void shouldntSaveRepetido() {
 		int found = pedidoService.count();
 		
 		Pedido pedido = new Pedido();
@@ -72,24 +64,46 @@ public class PedidoServiceTests {
 		assertEquals(found, size);
 	}
 	
-	//EncontrarProductoProveedor
-	
 	@Test
-	public void listaDeProductosDeProveedor() {
-		Producto producto = productoService.findById(1).get();
-		Collection<Producto> aux = productoService.findByProveedor(producto);
-		int size = aux.size();
-		assertEquals(size, 7);
+	public void shouldCrearPedido() throws DataAccessException, DuplicatedPedidoException{
+		pedidoService.crearPedido(10);
+		List<Pedido> lp = new ArrayList<Pedido>();
+		Iterator<Pedido> itp = pedidoService.findAll().iterator();
+		while(itp.hasNext()) {
+			lp.add(itp.next());
+		}
+		assertEquals(3, lp.size());
+		
 	}
 	
-	
 	@Test
-	public void testprueba() {
-		Optional<Pedido> test = this.pedidoService.findById(1);
-		assertEquals("1", test.get().getId().toString());
-		assertEquals(false, test.get().getHaLlegado());
-		assertEquals("Makro", test.get().getProveedor().getName());		
+	public void shouldRecargarStock() throws DataAccessException, DuplicatedPedidoException{
+		Pedido p = pedidoService.findById(1).get();
+		assertEquals(false, p.getHaLlegado());
+		assertEquals(null, p.getFechaEntrega());
+		
+		pedidoService.recargarStock(1);
+		
+		p = pedidoService.findById(1).get();
+		assertEquals(true, p.getHaLlegado());
+		assertEquals(LocalDate.now(), p.getFechaEntrega());
 	}
 	
+	@Test
+	public void shouldEncontrarPedidoDia() {
+		List<Pedido> lp = new ArrayList<Pedido>(pedidoService.encontrarPedidoDia("2021-02-04"));
+		assertEquals(1, lp.size());
+		
+		Pedido p = pedidoService.findById(1).get();
+		assertEquals(p, lp.get(0));
+	
+		List<Pedido> lp2 = new ArrayList<Pedido>(pedidoService.encontrarPedidoDia("2021-02-05"));
+		assertEquals(1, lp.size());
+		
+		Pedido p2 = pedidoService.findById(2).get();
+		assertEquals(p2, lp2.get(0));
+		
+	
+	}
 	
 }
