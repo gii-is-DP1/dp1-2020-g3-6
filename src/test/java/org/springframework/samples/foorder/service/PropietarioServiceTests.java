@@ -1,11 +1,6 @@
 package org.springframework.samples.foorder.service;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-
 import java.util.List;
-
-import javax.validation.ConstraintViolationException;
 
 import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.BeforeEach;
@@ -14,15 +9,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.samples.foorder.model.Cocinero;
 import org.springframework.samples.foorder.model.Propietario;
-import org.springframework.samples.foorder.repository.PropietarioRepository;
-import org.springframework.samples.foorder.service.PropietarioService;
 import org.springframework.samples.foorder.service.exceptions.DuplicatedPedidoException;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.validation.BeanPropertyBindingResult;
-import org.springframework.validation.BindingResult;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

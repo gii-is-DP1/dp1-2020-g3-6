@@ -17,9 +17,6 @@ import org.springframework.samples.foorder.model.Cocinero;
 import org.springframework.samples.foorder.service.exceptions.DuplicatedPedidoException;
 import org.springframework.stereotype.Service;
 
-import org.springframework.validation.BeanPropertyBindingResult;
-import org.springframework.validation.BindingResult;
-
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
 class CocineroServiceTest {

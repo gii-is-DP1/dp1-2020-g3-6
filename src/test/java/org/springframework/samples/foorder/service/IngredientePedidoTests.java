@@ -27,8 +27,6 @@ import org.springframework.samples.foorder.model.Ingrediente;
 import org.springframework.samples.foorder.model.IngredientePedido;
 import org.springframework.samples.foorder.model.PlatoPedido;
 import org.springframework.samples.foorder.model.Producto;
-import org.springframework.samples.foorder.service.IngredientePedidoService;
-import org.springframework.samples.foorder.service.IngredienteService;
 import org.springframework.stereotype.Service;
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
@@ -38,24 +36,32 @@ class IngredientePedidoTests {
 	
 	@Autowired
     protected IngredienteService ingredienteService;
+	
+	@Autowired
+    protected PlatoPedidoService platoPedidoService;
+	
+	@Autowired
+    protected ProductoService productoService;
          
 	@Test
 	@Transactional
 	public void save() {
-		Ingrediente in = new Ingrediente();
-		Producto p = new Producto();
-		PlatoPedido pp = new PlatoPedido();
+		PlatoPedido platoPedido = platoPedidoService.findById(1).get();
+		
+		Producto p = productoService.findById(1).get();
+		Ingrediente ingrediente = new Ingrediente();
 		p.setCantAct(5.0);
-		in.setProducto(p);
-		IngredientePedido i = new IngredientePedido();
-		i.setCantidadPedida(0.0);
-		i.setId(1);
-		i.setIngrediente(in);
-		i.setPp(pp);
+		ingrediente.setProducto(p);
+		ingredienteService.save(ingrediente);
+		IngredientePedido ingredientePedido = new IngredientePedido();
+		ingredientePedido.setCantidadPedida(5.0);
+//		i.setId(1);
+		ingredientePedido.setIngrediente(ingrediente);
+		ingredientePedido.setPp(platoPedido);
 		
-		IngredientePedido ingrediente = ingredientePedidoService.save(i, in.getId(), pp.getId());
+		IngredientePedido ingredienteRes = ingredientePedidoService.save(ingredientePedido, ingrediente.getId(), platoPedido.getId());
 		
-		assertThat(ingrediente.getId()).isEqualTo(1);
+		assertThat(ingredienteRes.getId()).isNotNull();
 	}
 	
 	@Test

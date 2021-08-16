@@ -12,8 +12,6 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.samples.foorder.model.Camarero;
 import org.springframework.samples.foorder.model.Comanda;
-import org.springframework.samples.foorder.service.CamareroService;
-import org.springframework.samples.foorder.service.ComandaService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -42,7 +40,7 @@ class ComandaServiceTests {
 		Comanda comanda = new Comanda();
 		comanda.setFechaCreado(LocalDateTime.now());
 		comanda.setFechaFinalizado(LocalDateTime.now().plusHours(1));
-		comanda.setMesa(250);
+		comanda.setMesa(17);
 		comanda.setPrecioTotal(45.00);
 		Camarero camarero = new Camarero();
 				camarero.setName("Pedro");
@@ -64,13 +62,13 @@ class ComandaServiceTests {
 	@Test
 	@Transactional
 	void shouldFindComandasActuales() {
-		Collection<Comanda> comandas = comandaService.encontrarComandaActual();
+		Collection<Comanda> comandas = comandaService.encontrarComandaDia(LocalDate.now().toString());
 		int found = comandas.size();
 
 		Comanda comanda = new Comanda();
 		comanda.setFechaCreado(LocalDateTime.now());
 		comanda.setFechaFinalizado(null);
-		comanda.setMesa(251);
+		comanda.setMesa(20);
 		comanda.setPrecioTotal(45.00);
 		Camarero camarero = new Camarero();
 				camarero.setName("Fernando");
@@ -91,13 +89,23 @@ class ComandaServiceTests {
 	
 	@Test
 	@Transactional
+	void shouldGetPlatosPedidos() {
+		Collection<Comanda> comandas = comandaService.encontrarComandaActual();
+		
+		Comanda comanda = comandas.stream().findFirst().get();
+		int res = comandaService.getPlatosPedidoDeComanda(comanda.getId()).size();
+		assertThat(res).isEqualTo(3);
+	}
+	
+	@Test
+	@Transactional
 	void shouldFindLastId() {
 		Integer lastId = comandaService.findLastId();
 		
 		Comanda comanda = new Comanda();
 		comanda.setFechaCreado(LocalDateTime.now());
 		comanda.setFechaFinalizado(LocalDateTime.now().plusHours(1));
-		comanda.setMesa(252);
+		comanda.setMesa(8);
 		comanda.setPrecioTotal(45.00);
 		Camarero camarero = new Camarero();
 				camarero.setName("Maria");

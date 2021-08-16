@@ -31,9 +31,9 @@ public class PlatoPedidoService {
 	@Transactional
 	public PlatoPedido save(PlatoPedido pp) {
 		if(pp.getComanda() != null & pp.getEstadoplato().getId() == 1) {
-			log.info(String.format("PlateOrder with name %s has been created for table %s", pp.getPlato().getName(), pp.getComanda().getMesa().toString()));
+//			log.info(String.format("PlateOrder with name %s has been created for table %s", pp.getPlato().getName(), pp.getComanda().getMesa().toString()));
 		}else if(pp.getComanda() != null){
-			log.info(String.format("PlateOrder with name %s has been updated to %s", pp.getPlato().getName(), pp.getEstadoplato().getName()));
+//			log.info(String.format("PlateOrder with name %s has been updated to %s", pp.getPlato().getName(), pp.getEstadoplato().getName()));
 		}
 		return platoPedidoRepository.save(pp);
 	}

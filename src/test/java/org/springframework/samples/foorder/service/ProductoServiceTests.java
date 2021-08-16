@@ -8,6 +8,8 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.foorder.model.Producto;
+import org.springframework.samples.foorder.model.Proveedor;
+import org.springframework.samples.foorder.model.TipoProducto;
 import org.springframework.samples.foorder.service.exceptions.PedidoPendienteException;
 import org.springframework.samples.foorder.service.exceptions.PlatoPedidoPendienteException;
 import org.springframework.stereotype.Service;

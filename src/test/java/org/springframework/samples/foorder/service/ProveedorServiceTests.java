@@ -1,15 +1,16 @@
 package org.springframework.samples.foorder.service;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 
 import java.util.Collection;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.samples.foorder.model.Proveedor;
-import org.springframework.samples.foorder.service.ProveedorService;
 import org.springframework.stereotype.Service;
 
 //tambien testea pedido y linea pedido
@@ -19,6 +20,42 @@ public class ProveedorServiceTests {
 	@Autowired
 	private ProveedorService proveedorService;
 	
+	private Proveedor proveedor;
+	
+	@BeforeEach                                         
+    public void setUp() throws Exception {
+		proveedor = new Proveedor();
+		proveedor.setName("Proveedor");
+    }
+	
+	@Test
+	public void shouldSaveProveedor() {
+		int n = proveedorService.findAllNames().size();
+		proveedorService.save(proveedor);
+		int m = proveedorService.findAllNames().size();
+		
+		assertThat(m).isEqualTo(n+1);
+	}
+	
+	@Test
+	public void shouldUpdateProveedor() {
+		proveedorService.save(proveedor);
+		proveedor.setGmail("email@email.com");
+		int m = proveedorService.findAllNames().size();
+		proveedorService.save(proveedor);
+		int n = proveedorService.findAllNames().size();
+		assertThat(m).isEqualTo(n);
+	}
+	
+	@Test
+	public void shouldUnhideProveedor() {
+		proveedor.setActivo(false);
+		proveedorService.save(proveedor);
+		proveedorService.unhide(proveedor);
+		boolean aux = proveedorService.findByName(proveedor.getName()).get().getActivo();
+		assertThat(aux).isEqualTo(true);
+		
+	}
 	
 	//FindAllNames
 	@Test
