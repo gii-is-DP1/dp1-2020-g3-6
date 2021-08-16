@@ -15,16 +15,11 @@ import org.springframework.context.annotation.FilterType;
 import org.springframework.samples.foorder.configuration.SecurityConfiguration;
 import org.springframework.samples.foorder.model.Proveedor;
 import org.springframework.samples.foorder.service.ProveedorService;
-import org.springframework.samples.foorder.web.PedidoController;
-import org.springframework.samples.foorder.web.ProveedorController;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.test.context.support.WithMockUser;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
