@@ -6,7 +6,7 @@
 <%@ taglib prefix="foorder" tagdir="/WEB-INF/tags" %>
 
 <foorder:layout pageName="propietarios">
-<span id="message"></span>
+	<h3><span class="message-span" id="message"></span></h3>
     <h2>Propietario</h2>
     
     <form method="get" action="/propietarios/new">

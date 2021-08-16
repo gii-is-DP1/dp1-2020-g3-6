@@ -7,20 +7,13 @@
 <%@ taglib prefix="foorder" tagdir="/WEB-INF/tags"%>
 
 <foorder:layout pageName="Comanda Actual">
-	<span id="message"></span>
+	<h3>
+		<span class="message-span" id="message"></span>
+	</h3>
 	<h2>Comandas</h2>
 
 	<spring:url value="/comanda/listaComandaActual/new" var="newURL">
 	</spring:url>
-	<div class="btn-line-comanda">
-	<form:form name="new_comanda" modelAttribute="new_comanda" id="add-comanda-form"  class="btn-line" action="${fn:escapeXml(newURL)}">
-		<p align="right">
-			<foorder:inputField label="mesa" name="mesa"/>
-			<button class="btn btn-default" type="submit">Nueva comanda</button>
-			<input type="hidden" name="lista_comanda" value="${comanda} }">
-		</p>
-	</form:form>
-	</div>
 	<table id="comandaActualTable" class="table table-striped">
 		<thead>
 			<tr>
@@ -56,15 +49,22 @@
 			</c:forEach>
 		</tbody>
 	</table>
+
+	<div class="btn-line-comanda">
+		<form:form name="new_comanda" modelAttribute="new_comanda"
+			id="add-comanda-form" class="btn-line"
+			action="${fn:escapeXml(newURL)}">
+			<foorder:inputField label="Mesa" name="mesa" />
+			<hr>
+			<button class="btn btn-default" type="submit">Nueva comanda</button>
+			<input type="hidden" name="lista_comanda" value="${comanda} }">
+		</form:form>
+	</div>
 </foorder:layout>
 <script>
+	var queryString = window.location.search;
+	var urlParams = new URLSearchParams(queryString);
+	var message = urlParams.get('message');
 
-var queryString = window.location.search;
-var urlParams = new URLSearchParams(queryString);
-var message = urlParams.get('message');
-
-	
-$('#message').text(message).text();
-
-
+	$('#message').text(message).text();
 </script>

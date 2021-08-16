@@ -6,7 +6,7 @@
 <%@ taglib prefix="foorder" tagdir="/WEB-INF/tags"%>
 
 <foorder:layout pageName="platopedido">
-<span id="message"></span>
+	<h3><span class="message-span" id="message"></span></h3>
     <h2>PlatoPedido</h2>
 	<p><c:out value="En proceso"></c:out></p>
     <table id="ppTable" class="table table-striped">
