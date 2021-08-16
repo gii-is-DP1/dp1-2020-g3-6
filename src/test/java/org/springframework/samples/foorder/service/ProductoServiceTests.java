@@ -15,8 +15,6 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.samples.foorder.model.Producto;
 import org.springframework.samples.foorder.model.Proveedor;
 import org.springframework.samples.foorder.model.TipoProducto;
-import org.springframework.samples.foorder.service.ProductoService;
-import org.springframework.samples.foorder.service.TipoProductoService;
 import org.springframework.samples.foorder.service.exceptions.PedidoPendienteException;
 import org.springframework.samples.foorder.service.exceptions.PlatoPedidoPendienteException;
 import org.springframework.stereotype.Service;
