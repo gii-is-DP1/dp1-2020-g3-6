@@ -24,7 +24,7 @@ function validarsize(){
 <foorder:layout pageName="producto">
     <h2>Editar producto</h2>
     <form:form name="producto" modelAttribute="producto" class="form-horizontal" id="edit-producto-form"  
-    action="/producto/edit?nombreProducto=${producto.name}" onsubmit="return validarsize();">
+    action="/producto/edit?nombreProducto=${producto.name}&&nombreProveedor=${producto.proveedor}" onsubmit="return validarsize();">
         <div class="form-group has-feedback">
             <foorder:inputField label="Nombre" name="name"/>
             <div class="control-group">

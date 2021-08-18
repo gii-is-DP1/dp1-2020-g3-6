@@ -197,8 +197,8 @@ public class ProductoController {
 		}
 	
 	@PostMapping(value = "/edit")
-	public String processUpdateProductoForm(@Param("nombreProducto") String nombreProducto, @Valid ProductoDTO producto, BindingResult result,ModelMap modelMap) throws ParseException {
-		FieldError error=this.productoService.resultProductEdit(nombreProducto, producto, result);
+	public String processUpdateProductoForm(@Param("nombreProducto") String nombreProducto,@Param("nombreProveedor") String nombreProveedor, @Valid ProductoDTO producto, BindingResult result,ModelMap modelMap) throws ParseException {
+		FieldError error=this.productoService.resultProductEdit(nombreProducto, nombreProveedor ,producto , result);
 		if(error!=null) {
 			result.addError(error);
 		}
@@ -208,6 +208,7 @@ public class ProductoController {
 			Collection<TipoProducto> collectionTipoProducto = this.tipoProductoService.findAll();
 			Collection<String> collectionProveedor = this.proveedorService.findAllNames();
 			producto.setName(nombreProducto);
+			producto.setProveedor(nombreProveedor);
 			modelMap.addAttribute("producto", producto);
 			modelMap.addAttribute("listaTipos", collectionTipoProducto);
 			modelMap.addAttribute("listaProveedores", collectionProveedor);

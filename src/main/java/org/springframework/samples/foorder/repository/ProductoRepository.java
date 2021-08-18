@@ -1,7 +1,7 @@
 package org.springframework.samples.foorder.repository;
 
 import java.util.Collection;
-import java.util.List;
+import java.util.Optional;
 
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Page;
@@ -17,7 +17,6 @@ public interface ProductoRepository extends CrudRepository<Producto, Integer>{
 
 	Page<Producto> findAll(Pageable pageable);
 
-	@Query("SELECT p.name FROM Producto p")
-	List<String> findAllNames();
-	
+	@Query("SELECT p FROM Producto p WHERE p.name=?1 AND p.proveedor.name=?2")
+	Optional<Producto> findByNameAndProveedor(String name, String proveedor);
 }
