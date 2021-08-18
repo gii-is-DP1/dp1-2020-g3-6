@@ -1,14 +1,19 @@
 package org.springframework.samples.foorder.service;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.samples.foorder.model.Ingrediente;
 import org.springframework.samples.foorder.model.LineaPedido;
 import org.springframework.samples.foorder.model.Producto;
+import org.springframework.samples.foorder.model.ProductoDTO;
 import org.springframework.samples.foorder.model.Proveedor;
 import org.springframework.samples.foorder.repository.IngredienteRepository;
 import org.springframework.samples.foorder.repository.LineaPedidoRepository;
@@ -17,6 +22,8 @@ import org.springframework.samples.foorder.service.exceptions.PedidoPendienteExc
 import org.springframework.samples.foorder.service.exceptions.PlatoPedidoPendienteException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 
 import lombok.extern.slf4j.Slf4j;
 @Slf4j
@@ -37,6 +44,10 @@ public class ProductoService {
 
 	public Iterable<Producto> findAll() throws DataAccessException {
 		return productoRepository.findAll();
+	}
+	
+	public Page<Producto> getAll(Pageable pageable) throws DataAccessException {
+		return productoRepository.findAll(pageable);
 	}	
 
 	public Optional<Producto> findById(Integer id) {
@@ -55,7 +66,7 @@ public class ProductoService {
 		return productoRepository.save(producto);
 	}
 	
-	@Transactional(rollbackFor = PedidoPendienteException.class)
+	@Transactional(rollbackFor = { PedidoPendienteException.class ,PlatoPedidoPendienteException.class})
 	public void deleteById(Integer id) throws DataAccessException, PedidoPendienteException, PlatoPedidoPendienteException{
 		Iterable<LineaPedido> LineasPedido = lineaPedidoRepository.findByProductoId(id);
 		Iterator<LineaPedido> it = LineasPedido.iterator();
@@ -66,13 +77,15 @@ public class ProductoService {
 		    	HaypedidoPendiente = true;
 	    	}		
 		}if (HaypedidoPendiente)  {    
+			log.info(String.format("Excepcion de pedido pendiente "));
 			throw new PedidoPendienteException();}
 		else if(!(checkPlatoPedido(id))){
+			log.info(String.format("Excepcion de plato pedido pendiente"));
 			throw new PlatoPedidoPendienteException();}
 		else{
 		Producto producto = productoRepository.findById(id).get();
 		productoRepository.deleteById(id);
-		log.info(String.format("Product with name %s has been deleted", producto.getName()));
+		log.info(String.format("Producto con nombre %s ha sido borrado", producto.getName()));
 		}
 	}
 	
@@ -90,4 +103,53 @@ public class ProductoService {
 		}
 		return res;
 	}
+	
+	@Transactional
+	public Boolean cantidadMaximaMayor25PorCiento(ProductoDTO producto) {
+		Boolean res=false;
+		if(producto.getCantAct()>producto.getCantMax()) {
+			res=true;
+		}
+		return res;
+	}
+
+	public List<String> findAllNames() {
+		return productoRepository.findAllNames();
+	}
+	
+	@Transactional(readOnly = true)
+	public FieldError resultProductSave(ProductoDTO producto, BindingResult result) throws DataAccessException {
+		Boolean comprueba= false;
+		String productoMinus=producto.getName().toLowerCase();
+		for(String s : this.productoRepository.findAllNames()) {
+			if(s.toLowerCase().equals(productoMinus)) {
+				comprueba=true;
+			}
+		}
+		if(comprueba) {
+			FieldError error= new FieldError("productodto", "name", producto.getName(), false, null, null, "este producto se encuentra en la lista");
+			return error;
+		}
+		return null;
+	}
+	
+	
+	@Transactional(readOnly = true)
+	public FieldError resultProductEdit(String name, ProductoDTO producto, BindingResult result) throws DataAccessException {
+		Boolean comprueba= false;
+		String productoMinus=producto.getName().toLowerCase();
+		for(String s : this.productoRepository.findAllNames()) {
+			if(s.toLowerCase().equals(productoMinus)) {
+				comprueba=true;
+			}
+		}
+		if(comprueba&&!name.toLowerCase().equals(productoMinus)) {
+			FieldError error= new FieldError("productodto", "name", producto.getName(), false, null, null, "este producto se encuentra en la lista");
+			return error;
+		}
+		return null;
+	}
+
+	
+	
 }

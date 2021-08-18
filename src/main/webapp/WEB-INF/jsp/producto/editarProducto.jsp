@@ -7,42 +7,24 @@
 <%@ taglib prefix="foorder" tagdir="/WEB-INF/tags" %>
 <script>
 function validarsize(){
-	var name = document.forms["producto"]["name"].value;
 	var tipoproductodto = document.forms["producto"]["tipoproductodto"].value;
-	var cantMin = document.forms["producto"]["cantMin"].value;
-	var cantAct = document.forms["producto"]["cantAct"].value;
-	var cantMax = document.forms["producto"]["cantMax"].value;
 	var proveedor = document.forms["producto"]["proveedor"].value;
-	if(name.length < 3 || name.length > 75){
-        alert("La longitud del nombre debe ser mayor de 3 o menor de 75");
-        return false;
-    }
-	if(tipoproductodto =="" ){
-        alert("Debes selecionar un tipo producto");
-        return false;
-    }
-	if(cantMin==""){
-        alert("Cantidad minima No puede estar en blanco");
-        return false;
-    }
-	if(cantAct==""){
-        alert("Cantidad actual No puede estar en blanco");
-        return false;
-    }
-	if(cantMax==""){
-        alert("Cantidad maxima No puede estar en blanco");
-        return false;
-    }
-	if(proveedor =="" ){
-        alert("Debes selecionar un proveedor");
-        return false;
-    }
+	    if(tipoproductodto =="" ){
+	        alert("Debes selecionar un tipo producto");
+	        return false;
+	    }
+	    if(proveedor =="" ){
+	        alert("Debes selecionar un proveedor");
+	        return false;
+	    }
+	
 	return true;
 } 
 </script>
 <foorder:layout pageName="producto">
     <h2>Editar producto</h2>
-    <form:form name="producto" modelAttribute="producto" class="form-horizontal" id="edit-producto-form"  action="/producto/edit" onsubmit="return validarsize();">
+    <form:form name="producto" modelAttribute="producto" class="form-horizontal" id="edit-producto-form"  
+    action="/producto/edit?nombreProducto=${producto.name}" onsubmit="return validarsize();">
         <div class="form-group has-feedback">
             <foorder:inputField label="Nombre" name="name"/>
             <div class="control-group">
@@ -54,7 +36,6 @@ function validarsize(){
             <div class="control-group">
 				<foorder:selectField name="proveedor" label="Proveedores" names="${listaProveedores}" size="6"/>
             </div>
- 
         </div>
       	<div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
