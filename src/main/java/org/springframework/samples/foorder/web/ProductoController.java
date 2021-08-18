@@ -6,11 +6,17 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.repository.query.Param;
 import org.springframework.samples.foorder.model.Producto;
 import org.springframework.samples.foorder.model.ProductoDTO;
 import org.springframework.samples.foorder.model.TipoProducto;
@@ -21,14 +27,19 @@ import org.springframework.samples.foorder.service.TipoProductoService;
 import org.springframework.samples.foorder.service.exceptions.DuplicatedPedidoException;
 import org.springframework.samples.foorder.service.exceptions.PedidoPendienteException;
 import org.springframework.samples.foorder.service.exceptions.PlatoPedidoPendienteException;
+import org.springframework.samples.foorder.validators.ProductoValidator;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import lombok.extern.slf4j.Slf4j;
 @Slf4j
@@ -43,11 +54,14 @@ public class ProductoController {
 	private ProductoConverter productoConverter;
 	private TipoProductoFormatter tipoProductoFormatter;
 	private ProveedorFormatter proveedorFormatter;
+	private ProductoValidator productoValidator;
+	
+
 	
 	@Autowired
 	public ProductoController(ProductoService productoService, ProveedorService proveedorService,
 			TipoProductoService tipoProductoService, PedidoService pedidoService, ProductoConverter productoConverter, 
-			TipoProductoFormatter tipoProductoFormatter, ProveedorFormatter proveedorFormatter) {
+			TipoProductoFormatter tipoProductoFormatter, ProveedorFormatter proveedorFormatter, ProductoValidator productoValidator) {
 		super();
 		this.productoService = productoService;
 		this.proveedorService = proveedorService;
@@ -56,7 +70,13 @@ public class ProductoController {
 		this.productoConverter = productoConverter;
 		this.tipoProductoFormatter = tipoProductoFormatter;
 		this.proveedorFormatter = proveedorFormatter;
+		this.productoValidator = productoValidator;
 	}
+	@InitBinder("productodto")
+	public void initCamareroBinder(WebDataBinder dataBinder) {
+		dataBinder.setValidator(productoValidator);
+	}
+	
 
 	@ModelAttribute("tipoproducto") 				//Esto pertenece a TipoProducto
 	public Collection<TipoProducto> poblarTiposProducto() {
@@ -64,15 +84,21 @@ public class ProductoController {
 	}
 	
 	@GetMapping()
-	public String listadoProducto(ModelMap modelMap) {
-		String vista= "producto/listaProducto";
-		Iterable<Producto> producto = productoService.findAll();
-		Iterator<Producto> it_producto = producto.iterator();
-		
-		if (!(it_producto.hasNext())) {
-			modelMap.addAttribute("message", "No hay productos, los necesitas para poder cocinar, añade uno nuevo");
+	public String listadoProducto(@RequestParam Map<String, Object> params,ModelMap modelMap) {
+		int page = params.get("page") != null ? (Integer.valueOf(params.get("page").toString()) - 1) : 0;
+		PageRequest pageRequest = PageRequest.of(page, 10);
+		Page<Producto> pageProducto = productoService.getAll(pageRequest);
+		int totalPage = pageProducto.getTotalPages();
+		if(totalPage > 0) {
+			List<Integer> pages = IntStream.rangeClosed(1, totalPage).boxed().collect(Collectors.toList());
+			modelMap.addAttribute("pages", pages);
 		}
-		modelMap.addAttribute("producto",producto);
+		modelMap.addAttribute("list", pageProducto.getContent());
+		modelMap.addAttribute("current", page + 1);
+		modelMap.addAttribute("next", page + 2);
+		modelMap.addAttribute("prev", page);
+		modelMap.addAttribute("last", totalPage);
+		String vista= "producto/listaProducto";
 		return vista;	
 	}
 	
@@ -107,17 +133,31 @@ public class ProductoController {
 	@PostMapping(path="/save")
 	public String guardarProducto(@Valid ProductoDTO producto,BindingResult result,ModelMap modelMap) throws ParseException {
 		String vista= "producto/listaProducto";
-		final Producto productoFinal = productoConverter.convertProductoDTOToEntity(producto);
-		productoFinal.setTipoProducto(tipoProductoFormatter.parse(producto.getTipoproductodto(), Locale.ENGLISH));
-		productoFinal.setProveedor(proveedorFormatter.parse(producto.getProveedor(), Locale.ENGLISH));
+		this.productoValidator.validate(producto, result);
+		String message = "";
+		FieldError error=this.productoService.resultProductSave(producto, result);
+		if(error!=null) {
+			result.addError(error);
+		}
 		if(result.hasErrors()) {
-			
 			log.info(String.format("Product with name %s wasn't able to be created", producto.getName()));
+			Collection<TipoProducto> collectionTipoProducto = this.tipoProductoService.findAll();
+			List<String> collectionProveedor = this.proveedorService.findActivosName();
 			modelMap.addAttribute("producto", producto);
+			modelMap.addAttribute("listaProveedores", collectionProveedor);
+			modelMap.addAttribute("listaTipos", collectionTipoProducto);
+			modelMap.addAttribute("org.springframework.validation.BindingResult.producto", result);
 			return "producto/editProducto";
 		}else {
+			message="Guardado correctamente";
+			if(productoService.cantidadMaximaMayor25PorCiento(producto)) {
+				message="La cantidad de "+producto.getName()+" supera la cantidad máxima,intente gastarlo";
+			}
+			final Producto productoFinal = productoConverter.convertProductoDTOToEntity(producto);
+			productoFinal.setTipoProducto(tipoProductoFormatter.parse(producto.getTipoproductodto(), Locale.ENGLISH));
+			productoFinal.setProveedor(proveedorFormatter.parse(producto.getProveedor(), Locale.ENGLISH));
 			productoService.save(productoFinal);
-			vista="redirect:/producto?message=Guardado correctamente";
+			vista="redirect:/producto?message="+message;
 		}
 		return vista; 
 	}
@@ -157,16 +197,34 @@ public class ProductoController {
 		}
 	
 	@PostMapping(value = "/edit")
-	public String processUpdateProductoForm(@Valid ProductoDTO producto, BindingResult result,ModelMap modelMap) throws ParseException {
-		final Producto productoFinal = productoConverter.convertProductoDTOToEntity(producto);
-		productoFinal.setTipoProducto(tipoProductoFormatter.parse(producto.getTipoproductodto(), Locale.ENGLISH));
-		productoFinal.setProveedor(proveedorFormatter.parse(producto.getProveedor(), Locale.ENGLISH));
+	public String processUpdateProductoForm(@Param("nombreProducto") String nombreProducto, @Valid ProductoDTO producto, BindingResult result,ModelMap modelMap) throws ParseException {
+		FieldError error=this.productoService.resultProductEdit(nombreProducto, producto, result);
+		if(error!=null) {
+			result.addError(error);
+		}
+		this.productoValidator.validate(producto, result);
+		String message="";
 		if(result.hasErrors()) {
+			Collection<TipoProducto> collectionTipoProducto = this.tipoProductoService.findAll();
+			Collection<String> collectionProveedor = this.proveedorService.findAllNames();
+			producto.setName(nombreProducto);
 			modelMap.addAttribute("producto", producto);
+			modelMap.addAttribute("listaTipos", collectionTipoProducto);
+			modelMap.addAttribute("listaProveedores", collectionProveedor);
+			modelMap.addAttribute("org.springframework.validation.BindingResult.producto", result);
 			return "producto/editarProducto";
 		}else {
-			this.productoService.save(productoFinal);
-			return "redirect:/producto?message=Guardado Correctamente";
+			String vista="";
+			message="Guardado correctamente";
+			if(productoService.cantidadMaximaMayor25PorCiento(producto)) {
+				message="La cantidad de "+producto.getName()+" supera la cantidad máxima,intente gastarlo";
+			}
+			final Producto productoFinal = productoConverter.convertProductoDTOToEntity(producto);
+			productoFinal.setTipoProducto(tipoProductoFormatter.parse(producto.getTipoproductodto(), Locale.ENGLISH));
+			productoFinal.setProveedor(proveedorFormatter.parse(producto.getProveedor(), Locale.ENGLISH));
+			productoService.save(productoFinal);
+			vista="redirect:/producto?message="+message;
+			return vista;
 		}
 	}		
 		
