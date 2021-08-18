@@ -6,6 +6,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Page;
@@ -113,16 +115,13 @@ public class ProductoService {
 		return res;
 	}
 
-	public List<String> findAllNames() {
-		return productoRepository.findAllNames();
-	}
 	
 	@Transactional(readOnly = true)
 	public FieldError resultProductSave(ProductoDTO producto, BindingResult result) throws DataAccessException {
 		Boolean comprueba= false;
 		String productoMinus=producto.getName().toLowerCase();
-		for(String s : this.productoRepository.findAllNames()) {
-			if(s.toLowerCase().equals(productoMinus)) {
+		for(Producto p : this.productoRepository.findAll()) {
+			if(p.getName().toLowerCase().equals(productoMinus)&&producto.getProveedor().equals(p.getProveedor().getName())) {
 				comprueba=true;
 			}
 		}
@@ -135,20 +134,22 @@ public class ProductoService {
 	
 	
 	@Transactional(readOnly = true)
-	public FieldError resultProductEdit(String name, ProductoDTO producto, BindingResult result) throws DataAccessException {
+	public FieldError resultProductEdit(String name, String nombreProveedor,ProductoDTO producto, BindingResult result) throws DataAccessException {
 		Boolean comprueba= false;
 		String productoMinus=producto.getName().toLowerCase();
-		for(String s : this.productoRepository.findAllNames()) {
-			if(s.toLowerCase().equals(productoMinus)) {
+		for(Producto p : this.productoRepository.findAll()) {
+			if(p.getName().toLowerCase().equals(productoMinus)&&producto.getProveedor().equals(p.getProveedor().getName())) {
 				comprueba=true;
 			}
 		}
-		if(comprueba&&!name.toLowerCase().equals(productoMinus)) {
+		if(comprueba&&!(name.toLowerCase().equals(productoMinus)&&nombreProveedor.equals(producto.getProveedor()))) {
 			FieldError error= new FieldError("productodto", "name", producto.getName(), false, null, null, "este producto se encuentra en la lista");
 			return error;
 		}
 		return null;
 	}
+
+	
 
 	
 	
