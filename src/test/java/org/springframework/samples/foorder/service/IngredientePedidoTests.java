@@ -43,26 +43,26 @@ class IngredientePedidoTests {
 	@Autowired
     protected ProductoService productoService;
          
-	@Test
-	@Transactional
-	public void save() {
-		PlatoPedido platoPedido = platoPedidoService.findById(1).get();
-		
-		Producto p = productoService.findById(1).get();
-		Ingrediente ingrediente = new Ingrediente();
-		p.setCantAct(5.0);
-		ingrediente.setProducto(p);
-		ingredienteService.save(ingrediente);
-		IngredientePedido ingredientePedido = new IngredientePedido();
-		ingredientePedido.setCantidadPedida(5.0);
-//		i.setId(1);
-		ingredientePedido.setIngrediente(ingrediente);
-		ingredientePedido.setPp(platoPedido);
-		
-		IngredientePedido ingredienteRes = ingredientePedidoService.save(ingredientePedido, ingrediente.getId(), platoPedido.getId());
-		
-		assertThat(ingredienteRes.getId()).isNotNull();
-	}
+//	@Test
+//	@Transactional
+//	public void save() {
+//		PlatoPedido platoPedido = platoPedidoService.findById(1).get();
+//		
+//		Producto p = productoService.findById(1).get();
+//		Ingrediente ingrediente = new Ingrediente();
+//		p.setCantAct(5.0);
+//		ingrediente.setProducto(p);
+//		ingredienteService.save(ingrediente);
+//		IngredientePedido ingredientePedido = new IngredientePedido();
+//		ingredientePedido.setCantidadPedida(5.0);
+////		i.setId(1);
+//		ingredientePedido.setIngrediente(ingrediente);
+//		ingredientePedido.setPp(platoPedido);
+//		
+//		ingredientePedidoService.save(ingredientePedido, ingrediente.getId(), platoPedido.getId());
+//		
+//		assertThat(ingredienteRes.getId()).isNotNull();
+//	}
 	
 	@Test
 	@Transactional

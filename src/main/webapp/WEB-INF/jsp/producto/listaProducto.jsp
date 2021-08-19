@@ -1,3 +1,4 @@
+<meta http-equiv="Content-type" content="text/html; charset=ISO8859-1"> 
 <%@ page session="false" trimDirectiveWhitespaces="true" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>

@@ -10,10 +10,12 @@ import java.util.Optional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.foorder.model.Comanda;
 import org.springframework.samples.foorder.model.EstadoPlato;
 import org.springframework.samples.foorder.model.IngredientePedido;
 import org.springframework.samples.foorder.model.PlatoPedido;
 import org.springframework.samples.foorder.model.PlatoPedidoDTO;
+import org.springframework.samples.foorder.service.ComandaService;
 import org.springframework.samples.foorder.service.EstadoPlatoService;
 import org.springframework.samples.foorder.service.IngredientePedidoService;
 import org.springframework.samples.foorder.service.PlatoPedidoService;
@@ -41,12 +43,13 @@ public class PlatoPedidoController {
 	private EstadoPlatoFormatter estadoPlatoFormatter;
 	private PlatoFormatter platoFormatter;
 	private UserService userService;
+	private ComandaService comandaService;
 	
 	@Autowired
 	public PlatoPedidoController(PlatoPedidoService platoPedidoService,
 			IngredientePedidoService ingredientePedidoService,
 			EstadoPlatoService estadoPlatoService, PlatoPedidoConverter ppConverter,
-			EstadoPlatoFormatter estadoPlatoFormatter, PlatoFormatter platoFormatter, UserService userService) {
+			EstadoPlatoFormatter estadoPlatoFormatter, PlatoFormatter platoFormatter, UserService userService, ComandaService comandaService) {
 		super();
 		this.platoPedidoService = platoPedidoService;
 		this.ingredientePedidoService = ingredientePedidoService;
@@ -55,6 +58,7 @@ public class PlatoPedidoController {
 		this.estadoPlatoFormatter = estadoPlatoFormatter;
 		this.platoFormatter = platoFormatter;
 		this.userService=userService;
+		this.comandaService=comandaService;
 	}
 
 	@ModelAttribute("estadoplatopedido") // Esto pertenece a EstadoPlato
@@ -65,12 +69,13 @@ public class PlatoPedidoController {
 
 	@GetMapping()
 	public String listadoPlatosPedido(ModelMap modelMap) {
-		String authority = this.userService.findAuthoritiesByUsername(this.userService.getUserSession().getUsername());
+		String username= this.userService.getUserSession().getUsername();
+		String authority = this.userService.findAuthoritiesByUsername(username);
 		if(!authority.equals("cocinero")) {
 			return "errors/error-403";
 		}
 		String vista = "platosPedido/listaPlatosPedido";
-		Iterable<PlatoPedido> pp = platoPedidoService.platosPedidosDesponibles();
+		Iterable<PlatoPedido> pp = platoPedidoService.platosPedidosDisponibles();
 		modelMap.addAttribute("platopedido", pp);
 		return vista;
 	}
@@ -99,21 +104,33 @@ public class PlatoPedidoController {
 	public String initUpdatePPForm(@PathVariable("comandaId") int comandaId, @PathVariable("ppId") int ppId,
 			ModelMap model) {
 		String vista = "platosPedido/modificarIngredientes";
-		Collection<EstadoPlato> collectionEstadosPlato = estadoPlatoService.findAll();
+		String username= this.userService.getUserSession().getUsername();
+		String authority = this.userService.findAuthoritiesByUsername(username);
+		if(!authority.equals("camarero")) {
+			return "errors/error-403";
+		}else {
+			Optional<PlatoPedido> opPp = platoPedidoService.findById(ppId);
+			Optional<Comanda> comanda= comandaService.findById(comandaId);
+			if(comanda.isEmpty()) {
+				vista="redirect:/?message=Esa comanda no existe";
+			}else if(opPp.isEmpty()&&comanda.isPresent()) {
+				vista="redirect:/comanda/listaComandaActual/"+comandaId+"?message=Ese plato no existe";
+			}else {
+				Collection<EstadoPlato> collectionEstadosPlato = estadoPlatoService.findAll();
+				Collection<String> listaPlatos = new ArrayList<String>();
+				PlatoPedido pp = opPp.get();
+				listaPlatos.add(pp.getPlato().getName());
 
-		Collection<String> listaPlatos = new ArrayList<String>();
+				// Asignación de ingredientespedidos a plato pedido
+				Collection<IngredientePedido> ingredientes = ingredientePedidoService.CrearIngredientesPedidos(pp);
 
-		PlatoPedido pp = platoPedidoService.findById(ppId).get();
-		listaPlatos.add(pp.getPlato().getName());
-
-		// Asignación de ingredientespedidos a plato pedido
-		Collection<IngredientePedido> ingredientes = ingredientePedidoService.CrearIngredientesPedidos(pp);
-
-		model.addAttribute("comandaId", comandaId);
-		model.addAttribute("estadosPlato", collectionEstadosPlato);
-		model.addAttribute("listaPlatos", listaPlatos);
-		model.addAttribute("platopedidoId", ppId);
-		model.addAttribute("ingredientespedido", ingredientes);
+				model.addAttribute("comandaId", comandaId);
+				model.addAttribute("estadosPlato", collectionEstadosPlato);
+				model.addAttribute("listaPlatos", listaPlatos);
+				model.addAttribute("platopedidoId", ppId);
+				model.addAttribute("ingredientespedido", ingredientes);
+			}
+		}
 		return vista;
 	}
 
@@ -122,8 +139,8 @@ public class PlatoPedidoController {
 			@PathVariable("ingId") int ingId, @Valid IngredientePedido ingredientePedido, BindingResult result,
 			ModelMap modelMap) throws ParseException {
 			ingredientePedidoService.save(ingredientePedido, ingId, ppId);
-			log.info(String.format("IngredientOrder with ingredient %s and amount %f has been saved", ingredientePedido.getIngrediente().getProducto().getName(), ingredientePedido.getCantidadPedida()));
-			return "redirect:/platopedido/comanda/"+comandaId+"/"+ppId+"?message=añadido";
+			log.info(String.format("Ingrediente y su cantidad ha sido guardada"));
+			return "redirect:/platopedido/comanda/"+comandaId+"/"+ppId+"?message=Insertado";
 		
 	}
 

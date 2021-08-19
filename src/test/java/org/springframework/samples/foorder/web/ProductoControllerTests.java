@@ -187,8 +187,8 @@ class ProductoControllerTests {
 		given(this.tipoProductoService.findAll()).willReturn(new ArrayList<TipoProducto>());
 		given(this.proveedorService.findAllNames()).willReturn(lProveedor);
 		given(this.productoConverter.convertProductoDTOToEntity(productoConvertido)).willReturn(producto2);
-		given(this.tipoProductoFormatter.parse("Otros", Locale.ENGLISH)).willReturn(tipoproducto);
-		given(this.proveedorFormatter.parse("proveedor_2", Locale.ENGLISH)).willReturn(proveedor2);
+		given(this.tipoProductoFormatter.parse("Otros", Locale.ENGLISH)).willReturn(new TipoProducto());
+		given(this.proveedorFormatter.parse("proveedor_2", Locale.ENGLISH)).willReturn(new Proveedor());
 		
 		given(this.productoConverter.convertEntityToProductoDTO(any())).willReturn(new ProductoDTO());
 		PageRequest pageRequest = PageRequest.of(10, 10);

@@ -48,7 +48,7 @@ public class IngredientePedidoService {
 	}
 
 	@Transactional
-	public IngredientePedido save(IngredientePedido ingredientePedido, 
+	public void save(IngredientePedido ingredientePedido, 
 			Integer ingId, Integer ppId) {
 		ingredientePedido.setIngrediente(ingredienteService.findById(ingId).get());
 		ingredientePedido.setPp(platoPedidoService.findById(ppId).get());
@@ -59,7 +59,6 @@ public class IngredientePedidoService {
 		productoService.save(prod);
 		
 		ingredientePedidoRepository.save(ingredientePedido);
-		return ingredientePedido;
 	}
 	
 	@Transactional

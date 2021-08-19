@@ -41,7 +41,7 @@ public class ProductoValidator implements Validator{
 		Double cantMax= productoDTO.getCantMax();
 		if(productoDTO.getCantMin()!=null&&productoDTO.getCantMax()!=null&&productoDTO.getCantAct()>(cantMax+cantMax*25.0/100)) {
 			LOG.warn("actual supera mucho a la maxima");
-			errors.rejectValue("cantAct", "cantidad actual supera mucho a la máxima","cantidad actual supera mucho a la máxima");
+			errors.rejectValue("cantAct", "cantidad actual supera mucho a la m&aacutexima","cantidad actual supera mucho a la m&aacutexima");
 		}
 		
 		

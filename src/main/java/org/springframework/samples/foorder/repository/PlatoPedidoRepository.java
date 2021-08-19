@@ -10,7 +10,7 @@ import org.springframework.samples.foorder.model.PlatoPedido;
 public interface PlatoPedidoRepository extends CrudRepository<PlatoPedido, Integer>{
 
 	@Query("SELECT pp FROM PlatoPedido pp WHERE NOT(pp.comanda IS null)")
-	List<PlatoPedido> platosPedidosDesponibles() throws DataAccessException;
+	List<PlatoPedido> platosPedidosDisponibles() throws DataAccessException;
 	
 	Iterable<PlatoPedido> findByPlatoId(Integer id);
 	
