@@ -97,7 +97,7 @@
                                 <p class="mb-5 text-center"> Para poder iniciar sesión debe estar dado de alta como un trabajador
                                 de la empresa.</p>
                                 <p class="mb-5 text-center"> Si ya estás dado de alta como trabajador y no puede iniciar sesión,
-                                debe ponerse en contacto con el mánager de su empresa, y si no es posible, con el dueño Prince.  </p>
+                                debe ponerse en contacto con el mánager de su empresa, y si no es posible, con el propietario .  </p>
                             </div>
                         </div>
                 </div>

@@ -168,7 +168,7 @@ public class PlatoPedidoControllerTests {
 	@Test
 	void guardarIngrediente() throws Exception {
 		mockMvc.perform(post("/platopedido/{comandaId}/guardarIngrediente/{ppId}/{ingId}",TEST_COMANDA_ID,TEST_PLATOPEDIDO_ID,1).with(csrf()))
-			.andExpect(model().attribute("message", is("Añadido")));
+			.andExpect(model().attribute("message", is("agregado")));
 				
 	}
 	

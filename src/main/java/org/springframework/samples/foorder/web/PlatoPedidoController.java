@@ -123,7 +123,7 @@ public class PlatoPedidoController {
 			ModelMap modelMap) throws ParseException {
 			ingredientePedidoService.save(ingredientePedido, ingId, ppId);
 			log.info(String.format("IngredientOrder with ingredient %s and amount %f has been saved", ingredientePedido.getIngrediente().getProducto().getName(), ingredientePedido.getCantidadPedida()));
-			return "redirect:/platopedido/comanda/"+comandaId+"/"+ppId+"?message=añadido";
+			return "redirect:/platopedido/comanda/"+comandaId+"/"+ppId+"?message=agregado";
 		
 	}
 
