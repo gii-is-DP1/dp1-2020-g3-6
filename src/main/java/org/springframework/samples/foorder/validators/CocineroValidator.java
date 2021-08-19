@@ -47,7 +47,7 @@ public class CocineroValidator implements Validator{
 		}
 
 		if (!cocinero.getContrasena().matches(patterncontra)){
-			errors.rejectValue("contrasena", "la contraseña debe tener letras y números","la contraseña debe tener letras mayusculas, minusculas, números y entre 8 y 16 caracteres");
+			errors.rejectValue("contrasena", "la contrasena debe tener letras y números","la contrasena debe tener letras mayusculas, minusculas, números y entre 8 y 16 caracteres");
 		}
 		
 		if (!cocinero.getGmail().toLowerCase().matches(pattern)){

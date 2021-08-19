@@ -118,7 +118,6 @@ public class ComandaController {
 		return vista;
 	}
 
-	//falta añadir seguridad
 	@PostMapping(path="/listaComandaActual/new")
 	public String guardarComanda(@Valid Comanda comanda, BindingResult result,ModelMap modelMap,Principal user) {
 		if(result.hasErrors()) {
