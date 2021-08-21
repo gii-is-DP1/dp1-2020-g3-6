@@ -86,8 +86,9 @@ public class CamareroService {
 		if(authoritiesService.findAllUsernames().contains(camarero.getUsuario())) {
 			FieldError error= new FieldError("camarero", "usuario", camarero.getUsuario(), false, null, null, "este usuario esta repetido");
 			return error;
+		}else {
+			return null;
 		}
-		return null;
 	}
 	
 	@Transactional(readOnly = true)
@@ -95,8 +96,9 @@ public class CamareroService {
 		if(authoritiesService.findAllUsernames().contains(camarero.getUsuario())&&!this.CamareroConMismoUsuario(camarero)) {
 			FieldError error= new FieldError("camarero", "usuario", camarero.getUsuario(), false, null, null, "este usuario esta repetido");
 			return error;
+		}else {
+			return null;
 		}
-		return null;
 	}
 	
 	

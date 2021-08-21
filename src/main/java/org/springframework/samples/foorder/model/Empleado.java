@@ -3,6 +3,7 @@ package org.springframework.samples.foorder.model;
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 import lombok.Getter;
@@ -27,10 +28,12 @@ public class Empleado extends NamedEntity {
 	private String telefono;
     
     @Size(min = 3, max = 50)
+    @NotBlank
 	@Column(name = "usuario")
 	private String usuario;
     
     @Size(min = 3, max = 50)
+    @NotBlank
 	@Column(name = "contrasena")
 	private String contrasena;
 

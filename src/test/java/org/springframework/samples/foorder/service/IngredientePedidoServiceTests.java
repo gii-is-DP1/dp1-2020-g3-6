@@ -30,7 +30,7 @@ import org.springframework.samples.foorder.model.Producto;
 import org.springframework.stereotype.Service;
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
-class IngredientePedidoTests {        
+class IngredientePedidoServiceTests {        
 	@Autowired
 	protected IngredientePedidoService ingredientePedidoService;
 	

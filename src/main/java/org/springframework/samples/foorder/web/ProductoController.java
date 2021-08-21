@@ -189,7 +189,6 @@ public class ProductoController {
 		Producto producto =  productoService.findById(productoId).get();
 		ProductoDTO productoConvertido = productoConverter.convertEntityToProductoDTO(producto);
 		Collection<String> collectionProveedor = this.proveedorService.findAllNames();
-		productoConvertido.setTipoproductodto(producto.getTipoProducto().getName());
 		model.addAttribute("listaTipos", collectionTipoProducto);
 		model.addAttribute("listaProveedores", collectionProveedor);
 		model.addAttribute("producto", productoConvertido);

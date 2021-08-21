@@ -39,11 +39,11 @@ public class ManagerValidator implements Validator{
 			errors.rejectValue("telefono", "este Telefono no tiene una longitud valida","este Telefono no tiene una longitud valida");
 		}
 
-		if (manager.getUsuario().length()<3||manager.getApellido().length()>50  ){
+		if (manager.getUsuario().length()<3||manager.getUsuario().length()>50  ){
 			errors.rejectValue("usuario", "este usuario no tiene una longitud valida","este usuario no tiene una longitud valida");
 		}
 
-		if (manager.getContrasena().length()<3||manager.getApellido().length()>50  ){
+		if (manager.getContrasena().length()<3||manager.getContrasena().length()>50  ){
 			errors.rejectValue("contrasena", "este contrasena no tiene una longitud valida","este contrasena no tiene una longitud valida");
 		}
 

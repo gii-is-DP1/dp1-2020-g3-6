@@ -40,22 +40,20 @@ public class ManagerService {
 	}
 
 	@Transactional
-	public Manager save(Manager manager) {
+	public void save(Manager manager) {
 		User user = authoritiesService.crearUsuario(manager.getUsuario(), manager.getContrasena());
-		// creating user
 		if(manager.getId()!=null) {	
 			String antiguo = this.managerRepository.findById(manager.getId()).get().getUsuario();
 			if(!user.getUsername().equals(antiguo)) {
 				userService.deleteUser(userService.findUser(antiguo).get());
 			}
 		}	
-		// creating user
 		userService.saveUser(user);
-		// creating authorities
 		authoritiesService.saveAuthorities(manager.getUsuario(), "manager");
+		managerRepository.save(manager);
 		log.info(String.format("Manager with username %s been save correctly", manager.getUsuario(),
 				manager.getId()));
-		return managerRepository.save(manager);
+		
 	}
 
 	@Transactional
@@ -80,7 +78,7 @@ public class ManagerService {
 	@Transactional(readOnly = true)
 	public FieldError resultUserSave(Manager manager, BindingResult result) throws DataAccessException {
 		if(authoritiesService.findAllUsernames().contains(manager.getUsuario())) {
-			FieldError error= new FieldError("cocinero", "usuario", manager.getUsuario(), false, null, null, "este usuario esta repetido");
+			FieldError error= new FieldError("manager", "usuario", manager.getUsuario(), false, null, null, "este usuario esta repetido");
 			return error;
 		}
 		return null;
@@ -89,9 +87,10 @@ public class ManagerService {
 	@Transactional(readOnly = true)
 	public FieldError resultUserEdit(Manager manager, BindingResult result) throws DataAccessException {
 		if(authoritiesService.findAllUsernames().contains(manager.getUsuario())&&!this.managerConMismoUsuario(manager)) {
-			FieldError error= new FieldError("camarero", "usuario", manager.getUsuario(), false, null, null, "este usuario esta repetido");
+			FieldError error= new FieldError("manager", "usuario", manager.getUsuario(), false, null, null, "este usuario esta repetido");
 			return error;
+		}else {
+			return null;
 		}
-		return null;
 	}
 }

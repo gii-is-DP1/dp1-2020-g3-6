@@ -18,6 +18,7 @@ public class ProductoConverter {
 		ProductoDTO res = new ProductoDTO();
 		BeanUtils.copyProperties(producto, res);     //Obviar ids de relaciones en un futuro o establecer en null la relacion
 		res.setProveedor(producto.getProveedor().getName());
+		res.setTipoproductodto(producto.getTipoProducto().getName());
 		return res;	
 	}
 }

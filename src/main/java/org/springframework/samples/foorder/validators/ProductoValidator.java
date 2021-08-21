@@ -1,6 +1,9 @@
 package org.springframework.samples.foorder.validators;
 
 import org.springframework.samples.foorder.model.ProductoDTO;
+import org.springframework.samples.foorder.repository.TipoProductoRepository;
+import org.springframework.samples.foorder.service.ProductoService;
+import org.springframework.samples.foorder.service.ProveedorService;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
@@ -12,7 +15,6 @@ import org.apache.commons.logging.LogFactory;
 @Component
 public class ProductoValidator implements Validator{
 	private static final Log LOG = LogFactory.getLog(ProductoDTO.class);
-
 
 	@Override
 	public boolean supports(Class<?> clazz) {
@@ -43,9 +45,6 @@ public class ProductoValidator implements Validator{
 			LOG.warn("actual supera mucho a la maxima");
 			errors.rejectValue("cantAct", "cantidad actual supera mucho a la m&aacutexima","cantidad actual supera mucho a la m&aacutexima");
 		}
-		
-		
-
 	}
 
 }
