@@ -5,21 +5,30 @@ INSERT INTO authorities(id,username,authority) VALUES (1,'prince','propietario')
 INSERT INTO users(username,password,enabled) VALUES ('marcos','12345',TRUE);
 INSERT INTO authorities(id,username,authority) VALUES (2,'marcos','manager');
 
+INSERT INTO users(username,password,enabled) VALUES ('martin','12345',TRUE);
+INSERT INTO authorities(id,username,authority) VALUES (3,'martin','manager');
+
 INSERT INTO users(username,password,enabled) VALUES ('carlos','12345',TRUE);
-INSERT INTO authorities(id,username,authority) VALUES (3,'carlos','camarero');
+INSERT INTO authorities(id,username,authority) VALUES (4,'carlos','camarero');
 
 INSERT INTO users(username,password,enabled) VALUES ('carmen','12345',TRUE);
-INSERT INTO authorities(id,username,authority) VALUES (4,'carmen','camarero');
+INSERT INTO authorities(id,username,authority) VALUES (5,'carmen','camarero');
 
 INSERT INTO users(username,password,enabled) VALUES ('coral','12345',TRUE);
-INSERT INTO authorities(id,username,authority) VALUES (5,'coral','cocinero');
+INSERT INTO authorities(id,username,authority) VALUES (6,'coral','cocinero');
 
 INSERT INTO users(username,password,enabled) VALUES ('cobi','12345',TRUE);
-INSERT INTO authorities(id,username,authority) VALUES (6,'cobi','cocinero');
+INSERT INTO authorities(id,username,authority) VALUES (7,'cobi','cocinero');
+
+INSERT INTO users(username,password,enabled) VALUES ('prok','12345',TRUE);
+INSERT INTO authorities(id,username,authority) VALUES (8,'prok','propietario');
+
 
 --PERSONAS--
 INSERT INTO propietario(id,name,apellido,gmail,telefono,usuario,contrasena) VALUES (1,' Prince', 'Presley', 'princePR@gmail.com', 616161616, 'prince', '12345');
+INSERT INTO propietario(id,name,apellido,gmail,telefono,usuario,contrasena) VALUES (2,' Prok', 'Presley', 'prokPR@gmail.com', 616161616, 'prok', '12345');
 INSERT INTO manager(id,name,apellido,gmail,telefono,usuario,contrasena) VALUES (1, 'Marcos', 'Martin', 'marcosMA@gmail.com', 626262626, 'marcos', '12345');
+INSERT INTO manager(id,name,apellido,gmail,telefono,usuario,contrasena) VALUES (2, 'Martin', 'Marlos', 'martinMA@gmail.com', 626262626, 'martin', '12345');
 INSERT INTO camarero(id,name,apellido,gmail,telefono,usuario,contrasena) VALUES (1, 'Carlos', 'Catalan', 'carlosCA@gmail.com', 636363636, 'carlos', '12345');
 INSERT INTO camarero(id,name,apellido,gmail,telefono,usuario,contrasena) VALUES (2, 'Carmen', 'Casio', 'carmenCA@gmail.com', 646464646, 'carmen', '12345');
 INSERT INTO cocinero(id,name,apellido,gmail,telefono,usuario,contrasena) VALUES (1, 'Coral', 'Cohen', 'coralCO@gmail.com', 656565656, 'coral', '12345');

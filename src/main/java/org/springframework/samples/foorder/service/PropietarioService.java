@@ -82,7 +82,7 @@ public class PropietarioService {
 	@Transactional(readOnly = true)
 	public FieldError resultUserSave(Propietario propietario, BindingResult result) throws DataAccessException {
 		if(authoritiesService.findAllUsernames().contains(propietario.getUsuario())) {
-			FieldError error= new FieldError("camarero", "usuario", propietario.getUsuario(), false, null, null, "este usuario esta repetido");
+			FieldError error= new FieldError("propietario", "usuario", propietario.getUsuario(), false, null, null, "este usuario esta repetido");
 			return error;
 		}
 		return null;
@@ -91,7 +91,7 @@ public class PropietarioService {
 	@Transactional(readOnly = true)
 	public FieldError resultUserEdit(Propietario propietario, BindingResult result) throws DataAccessException {
 		if(authoritiesService.findAllUsernames().contains(propietario.getUsuario())&&!this.propietarioConMismoUsuario(propietario)) {
-			FieldError error= new FieldError("camarero", "usuario", propietario.getUsuario(), false, null, null, "este usuario esta repetido");
+			FieldError error= new FieldError("propietario", "usuario", propietario.getUsuario(), false, null, null, "este usuario esta repetido");
 			return error;
 		}
 		return null;

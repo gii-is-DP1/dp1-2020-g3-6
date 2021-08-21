@@ -1,27 +1,47 @@
 package org.springframework.samples.foorder.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.security.Principal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
+
+import javax.validation.constraints.AssertTrue;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.samples.foorder.model.Camarero;
 import org.springframework.samples.foorder.model.Comanda;
+import org.springframework.samples.foorder.model.PlatoPedido;
+import org.springframework.samples.foorder.model.User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
+@ExtendWith(MockitoExtension.class)
 class ComandaServiceTests {                
 	@Autowired
 	protected ComandaService comandaService;
 	@Autowired
+	protected PlatoPedidoService ppService;
+	@Autowired
 	protected CamareroService camareroService;
+	@Autowired
+	private UserService userService;
 	
+	private Principal principal;
 	@Test
 	void shouldFindComandasByDia() {
 		Collection<Comanda> comanda = comandaService.encontrarComandaDia("2021-02-09");
@@ -132,5 +152,43 @@ class ComandaServiceTests {
 		comanda.setFechaFinalizado(LocalDateTime.now());
 
 		assertThat(comandaService.encontrarComandaActual().size()).isEqualTo(found-1);
+	}
+	
+	@Test
+	void shouldInstanciateComanda() {
+		principal=Mockito.mock(Principal.class);
+		Comanda comanda = new Comanda();
+		comanda.setFechaCreado(LocalDateTime.now());
+		comanda.setFechaFinalizado(LocalDateTime.now().plusHours(1));
+		comanda.setMesa(17);
+		comanda.setPrecioTotal(45.00);
+		User user= new User();
+		user.setUsername("Pedro");
+		user.setPassword("123456");
+		Comanda com=this.comandaService.instanciarComanda(comanda, principal);
+
+		assertEquals(com.getMesa(), comanda.getMesa());
+	}
+	
+	@Test
+	void shouldFindAll() {
+		List<Comanda> list=(List<Comanda>) this.comandaService.findAll();
+		assertThat(list.size()).isEqualTo(2);
+	}
+	
+	@Test
+	public void shouldAnadirComandaAPlato(){
+		Optional<Comanda>opCom=this.comandaService.findById(1);
+		List<PlatoPedido>l=new ArrayList<PlatoPedido>(opCom.get().getPlatosPedidos());
+		PlatoPedido p1=l.get(0);
+		Integer mesa= p1.getComanda().getMesa();
+		this.comandaService.anadirComandaAPlato(p1, 1);
+		assertEquals(mesa, p1.getComanda().getMesa());
+	}
+	
+	@Test
+	public void shouldEstaFinalizado(){
+		Boolean res= this.comandaService.estaFinalizado(this.comandaService.findById(1).get());
+		assertTrue(res);
 	}
 }
