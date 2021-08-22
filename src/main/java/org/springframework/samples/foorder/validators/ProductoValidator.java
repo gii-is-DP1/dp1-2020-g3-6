@@ -1,9 +1,6 @@
 package org.springframework.samples.foorder.validators;
 
 import org.springframework.samples.foorder.model.ProductoDTO;
-import org.springframework.samples.foorder.repository.TipoProductoRepository;
-import org.springframework.samples.foorder.service.ProductoService;
-import org.springframework.samples.foorder.service.ProveedorService;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;

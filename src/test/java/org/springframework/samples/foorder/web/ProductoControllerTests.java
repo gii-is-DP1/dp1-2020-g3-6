@@ -289,6 +289,14 @@ class ProductoControllerTests {
 				.andExpect(view().name("redirect:/producto?message=Producto no encontrado"));
 	}
 	
+	@WithMockUser(value = "spring")
+	@Test
+	void testBorrarProductoPedidoPendienteException() throws Exception {
+		mockMvc.perform(get("/producto/delete/{productoId}", 1))
+				.andExpect(status().is3xxRedirection())
+				.andExpect(view().name("redirect:/producto?message=No se puede borrar porque hay un pedido pendiente con ese producto"));
+	}
+	
 	// Test positivo initUpdate producto.
 	
 	@WithMockUser(value = "spring")

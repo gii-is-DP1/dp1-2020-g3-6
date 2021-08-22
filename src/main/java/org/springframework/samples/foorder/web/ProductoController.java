@@ -171,9 +171,12 @@ public class ProductoController {
 				productoService.deleteById(productoId);
 				vista="redirect:/producto?message=Borrado Correctamente";
 				
-			}catch (PedidoPendienteException | PlatoPedidoPendienteException ex) {
+			}catch (PedidoPendienteException ex) {
 				ex.getMessage();
 				vista="redirect:/producto?message=No se puede borrar porque hay un pedido pendiente con ese producto";
+			}catch (PlatoPedidoPendienteException ex) {
+				ex.getMessage();
+				vista="redirect:/producto?message=No se puede borrar porque hay un plato pendiente con ese producto";
 			}
 		}
 		else {
