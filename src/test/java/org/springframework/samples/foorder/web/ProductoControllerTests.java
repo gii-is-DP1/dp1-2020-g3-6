@@ -289,6 +289,7 @@ class ProductoControllerTests {
 				.andExpect(view().name("redirect:/producto?message=Producto no encontrado"));
 	}
 	
+	
 	// Test positivo initUpdate producto.
 	
 	@WithMockUser(value = "spring")

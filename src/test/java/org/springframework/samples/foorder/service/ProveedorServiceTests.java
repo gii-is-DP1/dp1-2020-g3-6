@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -97,4 +98,19 @@ public class ProveedorServiceTests {
 		
 	}
 
+	@Test
+	public void findAllTest() {	
+		List<Proveedor> ls=(List<Proveedor>) proveedorService.findAll();
+		assertEquals(ls.size(), 4);
+		
+	}
+	
+	@Test
+	public void hideTest() {	
+		Proveedor prov= this.proveedorService.findById(1).get();
+		this.proveedorService.hide(prov);
+		assertEquals(prov.getActivo(), false);
+		
+	}
+	
 }

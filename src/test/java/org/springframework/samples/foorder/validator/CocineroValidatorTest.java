@@ -13,10 +13,15 @@ import org.junit.runner.RunWith;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.samples.foorder.model.Cocinero;
+import org.springframework.samples.foorder.validators.CamareroValidator;
+import org.springframework.samples.foorder.validators.CocineroValidator;
+import org.springframework.validation.BeanPropertyBindingResult;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 @RunWith(MockitoJUnitRunner.class)
-public class CocineroValidator {
+public class CocineroValidatorTest {
 	
 	private Validator createValidator() {
 		LocalValidatorFactoryBean localValidatorFactoryBean = 
@@ -68,6 +73,26 @@ public class CocineroValidator {
 		Set<ConstraintViolation<Cocinero>> constraintViolations =     
 				validator.validate(cocinero);
 		assertThat(constraintViolations.size()).isEqualTo(2);
+	}
+	
+	@Test
+	void shouldNotCreateCamareroShorterPhoneAndPass() {
+		LocaleContextHolder.setLocale(Locale.ENGLISH);
+		
+		Cocinero cocinero= new Cocinero();
+		cocinero.setName("Pedro");
+		cocinero.setApellido("cocinero");
+		cocinero.setUsuario("pedrito");
+		cocinero.setContrasena("");
+		cocinero.setTelefono("");
+		cocinero.setGmail("jmtr@gmail.com");
+		BindingResult errors = new BeanPropertyBindingResult(cocinero, "");
+		ValidationUtils.invokeValidator(new CocineroValidator(), cocinero, errors);
+		assertThat(errors.getAllErrors().size()).isEqualTo(3);
+		Validator validator = createValidator();
+		Set<ConstraintViolation<Cocinero>> constraintViolations =     
+				validator.validate(cocinero);
+		assertThat(constraintViolations.size()).isEqualTo(3);
 	}
 
 	

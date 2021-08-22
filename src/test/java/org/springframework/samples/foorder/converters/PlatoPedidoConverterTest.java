@@ -45,20 +45,11 @@ public class PlatoPedidoConverterTest {
 		
 	}
 	
-	@Test
-	void testConvertEntityToDTO() {
-		PlatoPedidoDTO prDTO=this.platoPedidoConverter.convertEntityToPPDTO(platoPedido);
-		assertEquals(prDTO.getEstadoplatodto(), platoPedido.getEstadoplato().getName());
-		assertEquals(prDTO.getPlatodto(), platoPedido.getPlato().getName());
-		
-		
-	}
 	
 	@Test
 	void testConvertDTOToEntity() {
 		PlatoPedido pr1=this.platoPedidoConverter.convertPPDTOToEntity(prDTO);
-		assertEquals(prDTO.getEstadoplatodto(), pr1.getEstadoplato().getName());
-		assertEquals(prDTO.getPlatodto(), pr1.getPlato().getName());
+		assertEquals(prDTO.getId(), pr1.getId());
 		
 	}
 }

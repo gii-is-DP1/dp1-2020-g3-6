@@ -13,10 +13,14 @@ import org.junit.runner.RunWith;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.samples.foorder.model.Manager;
+import org.springframework.samples.foorder.validators.ManagerValidator;
+import org.springframework.validation.BeanPropertyBindingResult;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 @RunWith(MockitoJUnitRunner.class)
-public class ManagerValidator {
+public class ManagerValidatorTest {
 	
 	private Validator createValidator() {
 		LocalValidatorFactoryBean localValidatorFactoryBean = 
@@ -69,6 +73,27 @@ public class ManagerValidator {
 				validator.validate(manager);
 		assertThat(constraintViolations.size()).isEqualTo(2);
 	}
+	
+	@Test
+	void shouldNotCreateCamareroShorterPhoneAndPass() {
+		LocaleContextHolder.setLocale(Locale.ENGLISH);
+		
+		Manager manager= new Manager();
+		manager.setName("Pedro");
+		manager.setApellido("manager");
+		manager.setUsuario("pedrito");
+		manager.setContrasena("");
+		manager.setTelefono("");
+		manager.setGmail("jmtr@gmail.com");
+		BindingResult errors = new BeanPropertyBindingResult(manager, "");
+		ValidationUtils.invokeValidator(new ManagerValidator(), manager, errors);
+		assertThat(errors.getAllErrors().size()).isEqualTo(3);
+		Validator validator = createValidator();
+		Set<ConstraintViolation<Manager>> constraintViolations =     
+				validator.validate(manager);
+		assertThat(constraintViolations.size()).isEqualTo(3);
+	}
+
 
 	
 }
