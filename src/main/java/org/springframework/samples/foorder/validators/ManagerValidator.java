@@ -22,10 +22,7 @@ public class ManagerValidator implements Validator{
 
 		Manager manager = (Manager) target;
 		String pattern = "^[a-z0-9!#$%&'+/=?^_`{|}~-]+(?:.[a-z0-9!#$%&'+/=?^_`{|}~-]+)@(?:[a-z0-9](?:[a-z0-9-][a-z0-9])?.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$" ;
-		// int[] miArray = new int[] {0,1,2,3,4,5,6,7,8,9};
 		String patterncontra= "^(?=\\w*\\d)(?=\\w*[A-Z])(?=\\w*[a-z])\\S{8,16}$";
-		String patternN= "^[0-9].+";
-		String patternletras= "^[a-zA-Z].+";
 
 		if (manager.getApellido().length()<3||manager.getApellido().length()>50  ){
 			errors.rejectValue("apellido", "este apellido no tiene una longitud valida","este apellido no tiene una longitud valida");

@@ -2,24 +2,18 @@ package org.springframework.samples.foorder.web;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
-import static org.hamcrest.Matchers.is;
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 import java.util.Set;
-
-import javax.validation.Valid;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -33,27 +27,17 @@ import org.springframework.samples.foorder.configuration.SecurityConfiguration;
 import org.springframework.samples.foorder.model.Authorities;
 import org.springframework.samples.foorder.model.Comanda;
 import org.springframework.samples.foorder.model.EstadoPlato;
-import org.springframework.samples.foorder.model.Ingrediente;
-import org.springframework.samples.foorder.model.IngredientePedido;
 import org.springframework.samples.foorder.model.Plato;
 import org.springframework.samples.foorder.model.PlatoPedido;
-import org.springframework.samples.foorder.model.Producto;
-import org.springframework.samples.foorder.model.Proveedor;
 import org.springframework.samples.foorder.model.User;
 import org.springframework.samples.foorder.service.ComandaService;
 import org.springframework.samples.foorder.service.EstadoPlatoService;
 import org.springframework.samples.foorder.service.IngredientePedidoService;
-import org.springframework.samples.foorder.service.IngredienteService;
 import org.springframework.samples.foorder.service.PlatoPedidoService;
 import org.springframework.samples.foorder.service.UserService;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
-import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.ui.ModelMap;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 
 
 @WebMvcTest(value = PlatoPedidoController.class, excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE,

@@ -1,23 +1,16 @@
 package org.springframework.samples.foorder.validators;
 
-import java.text.ParseException;
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.Locale;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.samples.foorder.model.Ingrediente;
 import org.springframework.samples.foorder.model.IngredientePedido;
 import org.springframework.samples.foorder.model.PlatoPedido;
-import org.springframework.samples.foorder.web.EstadoPlatoFormatter;
 
 public class PlatoPedidoDisponibleValidator implements ConstraintValidator<ValidatePlatoPedidoDisponible, PlatoPedido>{
 
-	@Autowired
-	private EstadoPlatoFormatter estadoPlatoFormatter;
 	@Override
 	public boolean isValid(PlatoPedido platoPedido, ConstraintValidatorContext context) {
 		Boolean res = false;
@@ -34,10 +27,6 @@ public class PlatoPedidoDisponibleValidator implements ConstraintValidator<Valid
 		} catch (Exception e) {
 			System.out.println(e.toString());
 		}
-		
-		
 		return res;
-		
-		
 	}
 }

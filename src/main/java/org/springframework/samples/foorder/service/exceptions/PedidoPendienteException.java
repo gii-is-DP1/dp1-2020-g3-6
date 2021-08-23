@@ -6,9 +6,9 @@
 package org.springframework.samples.foorder.service.exceptions;
 
 /**
- *
- * @author vicmonpui y alex hotdog
- */
+*
+* @author vicmonpui y alisanhos
+*/
 public class PedidoPendienteException extends Exception{
     
 }
