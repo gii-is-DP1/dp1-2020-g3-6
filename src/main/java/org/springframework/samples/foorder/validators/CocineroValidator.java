@@ -53,7 +53,5 @@ public class CocineroValidator implements Validator{
 		if (!cocinero.getGmail().toLowerCase().matches(pattern)){
 			errors.rejectValue("gmail", "este gmail no es valido","este gmail no es valido");
 		}
-
 	}
-
 }

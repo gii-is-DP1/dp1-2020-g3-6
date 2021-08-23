@@ -54,7 +54,5 @@ public class CamareroValidator implements Validator{
 		if (!camarero.getGmail().toLowerCase().matches(pattern)){
 			errors.rejectValue("gmail", "este gmail no es valido","este gmail no es valido");
 		}
-
 	}
-
 }

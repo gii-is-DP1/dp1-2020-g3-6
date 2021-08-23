@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ page session="false" trimDirectiveWhitespaces="true" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -16,7 +15,7 @@
         <tr>
             <th>Nombre</th>
             <th>Gmail</th>
-            <th>Teléfono</th>
+            <th>TelÃ©fono</th>
             <th>Acciones <th>
         </tr>
         </thead>

@@ -200,4 +200,14 @@ public class CamareroControllerTests {
 		.andExpect(view().name("camareros/editarCamareros"));
 
 	}
+	
+	@WithMockUser(value = "spring")
+	@Test
+	void crearCamarero() throws Exception {
+		mockMvc.perform(get("/camareros/new")
+				.with(csrf()))
+		.andExpect(status().is2xxSuccessful())
+		.andExpect(view().name("camareros/editCamarero"));
+	}
+	
 }

@@ -29,16 +29,16 @@ public class PlatoPedidoService {
 	}
 
 	@Transactional
-	public PlatoPedido save(PlatoPedido pp) {
+	public void save(PlatoPedido pp) {
 		if(pp.getComanda() != null & pp.getEstadoplato().getId() == 1) {
 //			log.info(String.format("PlateOrder with name %s has been created for table %s", pp.getPlato().getName(), pp.getComanda().getMesa().toString()));
 		}else if(pp.getComanda() != null){
 //			log.info(String.format("PlateOrder with name %s has been updated to %s", pp.getPlato().getName(), pp.getEstadoplato().getName()));
 		}
-		return platoPedidoRepository.save(pp);
+		platoPedidoRepository.save(pp);
 	}
 	
-	public Iterable<PlatoPedido> platosPedidosDesponibles() {
-		return platoPedidoRepository.platosPedidosDesponibles();
+	public Iterable<PlatoPedido> platosPedidosDisponibles() {
+		return platoPedidoRepository.platosPedidosDisponibles();
 	}
 }

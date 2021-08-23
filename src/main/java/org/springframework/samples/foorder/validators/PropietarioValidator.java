@@ -50,7 +50,5 @@ public class PropietarioValidator implements Validator{
 		if (!propietario.getGmail().toLowerCase().matches(pattern)){
 			errors.rejectValue("gmail", "este gmail no es valido","este gmail no es valido");
 		}
-
 	}
-
 }

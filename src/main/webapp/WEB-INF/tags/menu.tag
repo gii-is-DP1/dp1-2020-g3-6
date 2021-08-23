@@ -35,9 +35,9 @@
 				</foorder:menuItem>
 				
 				<foorder:menuItem active="${name eq 'Notificaciones Producto'}" url="/producto/notificaciones"
-					title="Notificaciones">
+					title="Alertas">
 					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
-					<span>Notificaciones</span>
+					<span>Alertas</span>
 				</foorder:menuItem>
 				
 				<foorder:menuItem active="${name eq 'platos'}" url="/platos"
@@ -112,12 +112,7 @@
 				</foorder:menuItem>
 				
  				</sec:authorize>
-
-
 			</ul>
-
-
-
 
 			<ul class="nav navbar-nav navbar-right">
 				<sec:authorize access="!isAuthenticated()">

@@ -30,10 +30,7 @@ public class PedidoServiceTests {
 	public void shouldSaveTest() {
 		int found = pedidoService.count();
 		
-		Pedido pedido = new Pedido();
-		pedido.setFechaPedido(LocalDate.now());
-		pedido.setHaLlegado(false);
-		pedido.setProveedor(proveedorService.findById(3).get());
+		Pedido pedido = new Pedido(LocalDate.now(), LocalDate.now(), 23., false, proveedorService.findById(3).get());
 		
 		try {
 			pedidoService.save(pedido);

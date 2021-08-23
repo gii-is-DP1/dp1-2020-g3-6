@@ -43,5 +43,4 @@ public class ProductoValidator implements Validator{
 			errors.rejectValue("cantAct", "cantidad actual supera mucho a la maxima","cantidad actual supera mucho a la maxima");
 		}
 	}
-
 }

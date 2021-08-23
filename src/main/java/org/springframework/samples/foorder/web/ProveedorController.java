@@ -38,7 +38,7 @@ public class ProveedorController {
 
 		if (!(it_proveedor.hasNext())) {
 			modelMap.addAttribute("message",
-					"No hay proveedores, necesitas alguno para obtener productos, añade uno nuevo");
+					"No hay proveedores, necesitas alguno para obtener productos, agrege uno nuevo");
 		}
 		modelMap.addAttribute("proveedor", proveedor);
 		return vista;
