@@ -72,13 +72,33 @@
     
     <nav aria-label="Pagination">
     	<ul class="pagination justify-content-center">
-			<c:forEach items="${pages}" var="page">
-				<a href="/producto?page=${page}"><c:out value="${page}"></c:out></a>
-			</c:forEach>    	
     	
+			<c:choose>
+				<c:when test="${prev>0}">
+					<li><a href="/producto?page=${prev}">«</a></li>
+				</c:when>
+			</c:choose>     	
+    		
+			<c:forEach items="${pages}" var="page">
+				<c:choose>
+					<c:when test="${current==page}">
+						<li><a class="active" href="/producto?page=${page}"><c:out value="${page}"></c:out></a></li>
+					</c:when>
+					<c:otherwise>
+	        			<li><a href="/producto?page=${page}"><c:out value="${page}"></c:out></a></li>
+	    			</c:otherwise>
+    			</c:choose>
+			</c:forEach>
+			
+			<c:choose>
+				<c:when test="${current<last}">
+					<li><a href="/producto?page=${next}">»</a></li>
+				</c:when>
+			</c:choose>    	
+    		
     	</ul>
   	</nav>
-  	
+  	<br>
   	<form method="get" action="/producto/new">
       	<button class="btn btn-default" type="submit">Crear Producto</button>
   	</form>
