@@ -154,7 +154,7 @@ public class ComandaControllerTests {
 		mockMvc.perform(get("/comanda/listaComandaActual/finalizarComanda/{comandaID}",TEST_COMANDA_ID))
 		.andExpect(status().is3xxRedirection())
 		.andExpect(view()
-		.name("redirect:/comanda/listaComandaActual?message=Esta comanda aún tiene platos por finalizar"));
+		.name("redirect:/comanda/listaComandaActual?message=Esta comanda aun tiene platos por finalizar"));
 	}
 	
 	@WithMockUser(value = "propietario")
@@ -170,7 +170,7 @@ public class ComandaControllerTests {
 	
 	@WithMockUser(value = "propietario")
 	@Test
-	@DisplayName("Vista de Camarero para la lista actual de Comandas con mensaje La comanda ya está finalizada")
+	@DisplayName("Vista de Camarero para la lista actual de Comandas con mensaje La comanda ya esta finalizada")
 	void finalizarComanda3Message() throws Exception {
 		comanda.setFechaFinalizado(LocalDateTime.now());
 		given(this.comandaService.findById(TEST_COMANDA_ID)).willReturn(Optional.of(comanda));
@@ -178,7 +178,7 @@ public class ComandaControllerTests {
 		mockMvc.perform(get("/comanda/listaComandaActual/finalizarComanda/{comandaID}",TEST_COMANDA_ID))
 		.andExpect(status().is3xxRedirection())
 		.andExpect(view()
-		.name("redirect:/comanda/listaComandaActual?message=La comanda ya está finalizada"));
+		.name("redirect:/comanda/listaComandaActual?message=La comanda ya esta finalizada"));
 	}	
 	
 	@WithMockUser(value = "propietario")

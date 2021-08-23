@@ -24,7 +24,7 @@ public class LineaPedidoServiceTests {
 	
 	//AñadirLineaPedido
 	@Test
-	public void añadirLineaPedidoAPedido() {
+	public void agregarLineaPedidoAPedido() {
 
 		Producto producto = productoService.findById(5).get();
 		Pedido pedido1 = pedidoService.findById(1).get();

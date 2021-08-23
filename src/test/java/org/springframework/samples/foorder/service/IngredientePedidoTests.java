@@ -55,7 +55,6 @@ class IngredientePedidoTests {
 		ingredienteService.save(ingrediente);
 		IngredientePedido ingredientePedido = new IngredientePedido();
 		ingredientePedido.setCantidadPedida(5.0);
-//		i.setId(1);
 		ingredientePedido.setIngrediente(ingrediente);
 		ingredientePedido.setPp(platoPedido);
 		

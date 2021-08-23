@@ -10,13 +10,13 @@ public class PlatoPedidoConverter {
 	
 	public PlatoPedido convertPPDTOToEntity(PlatoPedidoDTO pp) {
 		PlatoPedido res = new PlatoPedido();
-		BeanUtils.copyProperties(pp, res);     //Obviar ids de relaciones en un futuro o establecer en null la relacion
+		BeanUtils.copyProperties(pp, res);
 		return res;	
 	}
 	
 	public PlatoPedidoDTO convertEntityToPPDTO(PlatoPedido pp) {
 		PlatoPedidoDTO res = new PlatoPedidoDTO();
-		BeanUtils.copyProperties(pp, res);     //Obviar ids de relaciones en un futuro o establecer en null la relacion
+		BeanUtils.copyProperties(pp, res);
 		return res;	
 	}
 }

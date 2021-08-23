@@ -28,9 +28,5 @@ public class Plato extends NamedEntity{
 	
 	@OneToMany(cascade = CascadeType.REMOVE,mappedBy = "plato")
 	private Set<Ingrediente> ingredientes;
-
 	
-//	@OneToMany(cascade = CascadeType.REMOVE,mappedBy = "plato")
-//	private Set<PlatoPedido> platopedidos;
-
 }

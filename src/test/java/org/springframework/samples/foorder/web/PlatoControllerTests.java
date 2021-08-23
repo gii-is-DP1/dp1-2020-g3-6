@@ -193,7 +193,6 @@ class PlatoControllerTests {
 		.andExpect(model().attributeExists("ingredientes"))
 		.andExpect(view().name("platos/platosDetails"));
 	}
-	//comprobar en tutoria
 
 
 	@WithMockUser(value = "spring")
