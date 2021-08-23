@@ -20,7 +20,6 @@ public class PropietarioValidator implements Validator{
 
 		Propietario propietario = (Propietario) target;
 		String pattern = "^[a-z0-9!#$%&'+/=?^_`{|}~-]+(?:.[a-z0-9!#$%&'+/=?^_`{|}~-]+)@(?:[a-z0-9](?:[a-z0-9-][a-z0-9])?.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$" ;
-		// int[] miArray = new int[] {0,1,2,3,4,5,6,7,8,9};
 		String patterncontra= "^(?=\\w*\\d)(?=\\w*[A-Z])(?=\\w*[a-z])\\S{8,16}$";
 
 		if (propietario.getApellido().length()<3||propietario.getApellido().length()>50  ){

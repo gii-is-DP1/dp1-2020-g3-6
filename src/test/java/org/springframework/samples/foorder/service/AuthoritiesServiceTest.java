@@ -1,14 +1,9 @@
 package org.springframework.samples.foorder.service;
 
-
-
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import java.text.ParseException;
 import java.util.List;
-import java.util.Locale;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -23,8 +18,6 @@ import org.springframework.stereotype.Service;
 public class AuthoritiesServiceTest {
     @Autowired
 	private AuthoritiesService authoritiesService;
-    @Autowired
-	private UserService userService;
 	
     @Test
 	void shouldCrearUsuarioSuccess() {
@@ -42,7 +35,6 @@ public class AuthoritiesServiceTest {
    		Assertions.assertDoesNotThrow(() -> {
    			this.authoritiesService.saveAuthorities(username, role);
 		});
-   	
    	}
     
     @Test

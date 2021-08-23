@@ -12,11 +12,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
-import javax.validation.constraints.AssertTrue;
-
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,8 +35,6 @@ class ComandaServiceTests {
 	protected PlatoPedidoService ppService;
 	@Autowired
 	protected CamareroService camareroService;
-	@Autowired
-	private UserService userService;
 	
 	private Principal principal;
 	@Test

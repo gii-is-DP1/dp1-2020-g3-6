@@ -151,7 +151,7 @@ public class ProductoController {
 		}else {
 			message="Guardado correctamente";
 			if(productoService.cantidadMaximaMayor25PorCiento(producto)) {
-				message="La cantidad de "+producto.getName()+" supera la cantidad m&aacutexima,intente gastarlo";
+				message="La cantidad de "+producto.getName()+" supera la cantidad maxima,intente gastarlo";
 			}
 			final Producto productoFinal = productoConverter.convertProductoDTOToEntity(producto);
 			productoFinal.setTipoProducto(tipoProductoFormatter.parse(producto.getTipoproductodto(), Locale.ENGLISH));

@@ -8,10 +8,6 @@
 <foorder:layout pageName="propietarios">
 	<h3><span class="message-span" id="message"></span></h3>
     <h2>Propietario</h2>
-    
-    <form method="get" action="/propietarios/new">
-      	<button class="btn btn-default" type="submit">Crear propietario</button>
-  		</form>
 
     <table id="propietariosTable" class="table table-striped">
         <thead>
@@ -58,6 +54,9 @@
         </c:forEach>
         </tbody>
     </table>
+    <form method="get" action="/propietarios/new">
+      	<button class="btn btn-default" type="submit">Crear propietario</button>
+  	</form>
 </foorder:layout>
 
 <script>

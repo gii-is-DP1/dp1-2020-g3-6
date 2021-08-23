@@ -12,7 +12,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.context.i18n.LocaleContextHolder;
-import org.springframework.samples.foorder.model.Camarero;
 import org.springframework.samples.foorder.model.ProductoDTO;
 import org.springframework.samples.foorder.validators.ProductoValidator;
 import org.springframework.validation.BeanPropertyBindingResult;

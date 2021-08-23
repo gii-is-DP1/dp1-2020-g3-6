@@ -56,9 +56,8 @@
         <c:out value="${message}"></c:out>
          </table>
     	<form method="get" action="/camareros/new">
-      	<button class="btn btn-default" type="submit">Crear camarero</button>
+      		<button class="btn btn-default" type="submit">Crear camarero</button>
   		</form>
-  		
         </tbody>
 </foorder:layout>
 

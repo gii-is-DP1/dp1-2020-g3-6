@@ -37,8 +37,6 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler{
 	 * appropriate URL according to his/her role.
 	 */
 	protected String determineTargetUrl(Authentication authentication) {
-		
-		String url = "";
 
 		Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
 

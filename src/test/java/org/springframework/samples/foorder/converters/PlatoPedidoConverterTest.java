@@ -7,12 +7,10 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.samples.foorder.model.Comanda;
 import org.springframework.samples.foorder.model.EstadoPlato;
 import org.springframework.samples.foorder.model.Plato;
 import org.springframework.samples.foorder.model.PlatoPedido;
 import org.springframework.samples.foorder.model.PlatoPedidoDTO;
-import org.springframework.samples.foorder.model.Proveedor;
 import org.springframework.samples.foorder.web.PlatoPedidoConverter;
 
 @ExtendWith(MockitoExtension.class)

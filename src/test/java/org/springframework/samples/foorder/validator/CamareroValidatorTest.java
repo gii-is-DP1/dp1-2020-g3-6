@@ -8,15 +8,12 @@ import java.util.Set;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.samples.foorder.model.Camarero;
-import org.springframework.samples.foorder.model.Cocinero;
 import org.springframework.samples.foorder.validators.CamareroValidator;
-import org.springframework.samples.foorder.validators.ProductoValidator;
 import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ValidationUtils;
