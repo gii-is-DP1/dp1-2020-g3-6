@@ -15,7 +15,6 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-//@ValidatePlatoPedidoDisponible
 @Table(name = "platopedido")
 public class PlatoPedido extends BaseEntity{
 	@ManyToOne

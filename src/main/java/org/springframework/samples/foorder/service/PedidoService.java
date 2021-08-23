@@ -85,7 +85,8 @@ public class PedidoService {
 		LineaPedido lineaPedido = new LineaPedido();
 		for(Producto p : listaProducto) {
 			lineaPedido = lineaPedidoService.anadirLineaPedido(p, pedido);
-			lineaPedidoService.save(lineaPedido);
+			if(lineaPedido.getCantidad()>0)
+				lineaPedidoService.save(lineaPedido);
 		}
 	}
 	

@@ -10,7 +10,7 @@ public class PlatoPedidoConverter {
 	
 	public PlatoPedido convertPPDTOToEntity(PlatoPedidoDTO pp) {
 		PlatoPedido res = new PlatoPedido();
-		BeanUtils.copyProperties(pp, res);     //Obviar ids de relaciones en un futuro o establecer en null la relacion
+		BeanUtils.copyProperties(pp, res);
 		return res;	
 	}
 	

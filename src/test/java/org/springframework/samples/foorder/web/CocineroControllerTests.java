@@ -59,7 +59,6 @@ public class CocineroControllerTests {
 		cocinero.setName("aaaass");
 		cocinero.setTelefono("123456789");
 		cocinero.setUsuario("jose");
-		//cocinero.getUsuario().se
 		given(this.cocineroService.findById(TEST_COCINERO_ID)).willReturn(Optional.of(cocinero));
 		
 		given(this.cocineroService.findAll()).willReturn(new ArrayList<Cocinero>());

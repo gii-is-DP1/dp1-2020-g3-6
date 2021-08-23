@@ -47,14 +47,11 @@ public class CocineroValidator implements Validator{
 		}
 
 		if (!cocinero.getContrasena().matches(patterncontra)){
-			errors.rejectValue("contrasena", "la contrasena debe tener letras y números","la contrasena debe tener letras mayusculas, minusculas, números y entre 8 y 16 caracteres");
+			errors.rejectValue("contrasena", "la contrasena debe tener letras y numeros","la contrasena debe tener letras mayusculas, minusculas, numeros y entre 8 y 16 caracteres");
 		}
 		
 		if (!cocinero.getGmail().toLowerCase().matches(pattern)){
 			errors.rejectValue("gmail", "este gmail no es valido","este gmail no es valido");
 		}
-
 	}
-
 }
-

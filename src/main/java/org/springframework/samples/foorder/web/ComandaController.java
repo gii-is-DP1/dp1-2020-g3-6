@@ -83,14 +83,14 @@ public class ComandaController {
 		if(comanda.isPresent()) {
 			Comanda res = comanda.get();
 			if(comandaService.estaFinalizado(res)) {
-				message="Esta comanda aún tiene platos por finalizar";
+				message="Esta comanda aun tiene platos por finalizar";
 			}
 			else if(res.getFechaFinalizado() == null) {
 				res.setFechaFinalizado(LocalDateTime.now());
 				message="La comanda se ha finalizado correctamente";
 				comandaService.save(res);
 			}else {
-				message="La comanda ya está finalizada";
+				message="La comanda ya esta finalizada";
 			}
 			vista="redirect:/comanda/listaComandaActual?message="+message;
 		}else {
