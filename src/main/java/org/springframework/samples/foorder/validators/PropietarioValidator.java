@@ -35,16 +35,16 @@ public class PropietarioValidator implements Validator{
 			errors.rejectValue("telefono", "este Telefono no tiene una longitud valida","este Telefono no tiene una longitud valida");
 		}
 
-		if (propietario.getUsuario().length()<3||propietario.getApellido().length()>50  ){
+		if (propietario.getUsuario().length()<3||propietario.getUsuario().length()>50  ){
 			errors.rejectValue("usuario", "este usuario no tiene una longitud valida","este usuario no tiene una longitud valida");
 		}
 
-		if (propietario.getContrasena().length()<3||propietario.getApellido().length()>50  ){
+		if (propietario.getContrasena().length()<3||propietario.getContrasena().length()>50  ){
 			errors.rejectValue("contrasena", "este contrasena no tiene una longitud valida","este contrasena no tiene una longitud valida");
 		}
 		
 		if (!propietario.getContrasena().matches(patterncontra)){
-			errors.rejectValue("contrasena", "la contraseña debe tener letras y numeros","la contraseña debe tener letras mayusculas, minusculas, numeros y entre 8 y 16 caracteres");
+			errors.rejectValue("contrasena", "la contrasena debe tener letras y numeros","la contrasena debe tener letras mayusculas, minusculas, numeros y entre 8 y 16 caracteres");
 		}
 		
 		if (!propietario.getGmail().toLowerCase().matches(pattern)){

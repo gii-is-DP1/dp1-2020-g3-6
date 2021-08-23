@@ -14,9 +14,4 @@ public class PlatoPedidoConverter {
 		return res;	
 	}
 	
-	public PlatoPedidoDTO convertEntityToPPDTO(PlatoPedido pp) {
-		PlatoPedidoDTO res = new PlatoPedidoDTO();
-		BeanUtils.copyProperties(pp, res);
-		return res;	
-	}
 }

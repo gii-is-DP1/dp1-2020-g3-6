@@ -151,7 +151,7 @@ public class ProductoController {
 		}else {
 			message="Guardado correctamente";
 			if(productoService.cantidadMaximaMayor25PorCiento(producto)) {
-				message="La cantidad de "+producto.getName()+" supera la cantidad maxima,intente gastarlo";
+				message="La cantidad de "+producto.getName()+" supera la cantidad m&aacutexima,intente gastarlo";
 			}
 			final Producto productoFinal = productoConverter.convertProductoDTOToEntity(producto);
 			productoFinal.setTipoProducto(tipoProductoFormatter.parse(producto.getTipoproductodto(), Locale.ENGLISH));
@@ -171,9 +171,12 @@ public class ProductoController {
 				productoService.deleteById(productoId);
 				vista="redirect:/producto?message=Borrado Correctamente";
 				
-			}catch (PedidoPendienteException | PlatoPedidoPendienteException ex) {
+			}catch (PedidoPendienteException ex) {
 				ex.getMessage();
 				vista="redirect:/producto?message=No se puede borrar porque hay un pedido pendiente con ese producto";
+			}catch (PlatoPedidoPendienteException ex) {
+				ex.getMessage();
+				vista="redirect:/producto?message=No se puede borrar porque hay un plato pendiente con ese producto";
 			}
 		}
 		else {
@@ -189,7 +192,6 @@ public class ProductoController {
 		Producto producto =  productoService.findById(productoId).get();
 		ProductoDTO productoConvertido = productoConverter.convertEntityToProductoDTO(producto);
 		Collection<String> collectionProveedor = this.proveedorService.findAllNames();
-		productoConvertido.setTipoproductodto(producto.getTipoProducto().getName());
 		model.addAttribute("listaTipos", collectionTipoProducto);
 		model.addAttribute("listaProveedores", collectionProveedor);
 		model.addAttribute("producto", productoConvertido);

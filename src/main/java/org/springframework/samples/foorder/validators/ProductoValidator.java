@@ -13,7 +13,6 @@ import org.apache.commons.logging.LogFactory;
 public class ProductoValidator implements Validator{
 	private static final Log LOG = LogFactory.getLog(ProductoDTO.class);
 
-
 	@Override
 	public boolean supports(Class<?> clazz) {
 		return ProductoDTO.class.isAssignableFrom(clazz);
@@ -43,9 +42,6 @@ public class ProductoValidator implements Validator{
 			LOG.warn("actual supera mucho a la maxima");
 			errors.rejectValue("cantAct", "cantidad actual supera mucho a la maxima","cantidad actual supera mucho a la maxima");
 		}
-		
-		
-
 	}
 
 }
