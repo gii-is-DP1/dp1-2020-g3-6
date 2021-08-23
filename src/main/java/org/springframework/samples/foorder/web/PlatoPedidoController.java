@@ -111,9 +111,9 @@ public class PlatoPedidoController {
 		}else {
 			Optional<PlatoPedido> opPp = platoPedidoService.findById(ppId);
 			Optional<Comanda> comanda= comandaService.findById(comandaId);
-			if(comanda.isEmpty()) {
+			if(!comanda.isPresent()) {
 				vista="redirect:/?message=Esa comanda no existe";
-			}else if(opPp.isEmpty()&&comanda.isPresent()) {
+			}else if(!opPp.isPresent() && comanda.isPresent()) {
 				vista="redirect:/comanda/listaComandaActual/"+comandaId+"?message=Ese plato no existe";
 			}else {
 				Collection<EstadoPlato> collectionEstadosPlato = estadoPlatoService.findAll();
