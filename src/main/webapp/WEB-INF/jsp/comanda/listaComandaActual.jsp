@@ -5,7 +5,17 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="foorder" tagdir="/WEB-INF/tags"%>
-
+<script>
+function validarsize(){
+	var mesa = document.forms["comanda"]["mesa"].value;
+	if(!(mesa-mesa == 0)){
+        alert("La mesa no es valida");
+        return false;
+    }
+	
+	return true;
+} 
+</script>
 <foorder:layout pageName="Comanda Actual">
 	<h3><span class="message-span" id="message"></span></h3>
 	<h2>Comandas</h2>
@@ -51,7 +61,7 @@
 	<div class="btn-line-comanda">
 		<form:form name="new_comanda" modelAttribute="new_comanda"
 			id="add-comanda-form" class="btn-line"
-			action="${fn:escapeXml(newURL)}">
+			action="${fn:escapeXml(newURL)}" onsubmit="return validarsize();">
 			<foorder:inputField label="Mesa" name="mesa" />
 			<hr>
 			<button class="btn btn-default" type="submit">Nueva comanda</button>

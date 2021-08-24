@@ -23,8 +23,12 @@ public class ProductoValidator implements Validator{
 	
 		
 		ProductoDTO productoDTO = (ProductoDTO) target;
-
 		
+		if((productoDTO.getName()!=null)) {
+			if (productoDTO.getName().length()<3||productoDTO.getName().length()>50){
+				errors.rejectValue("name", "Este nombre no tiene una longitud valida","este nombre no tiene una longitud valida");
+			}
+		}
 		if(StringUtils.isEmpty(productoDTO.getName())) {
 			LOG.warn("el nombre esta vacio");
 			errors.rejectValue("name","no puede estar vacio" ,"no puede estar vacio");

@@ -14,7 +14,7 @@ import javax.validation.Payload;
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = (NumeroMesaValidator.class))
 public @interface NumeroMesaConstraint {
-	String message() default "El numero de mesa debe estar entre 1 y 20";
+	String message() default "El número de mesa no es válido";
 	Class<?>[] groups() default {};
 	Class<? extends Payload>[] payload() default {};
 }

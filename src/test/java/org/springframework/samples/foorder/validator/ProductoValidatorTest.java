@@ -52,6 +52,27 @@ public class ProductoValidatorTest {
 	}
 	
 	@Test
+	void shouldNotCreateproductoNameSmallerThanThree() {
+		LocaleContextHolder.setLocale(Locale.ENGLISH);
+		ProductoDTO producto= new ProductoDTO();
+		producto.setName("a");
+		producto.setProveedor(null);
+		producto.setTipoproductodto(null);
+		producto.setCantMin(12.);
+		producto.setCantAct(100.);
+		producto.setCantMax(25.);
+		
+		BindingResult errors = new BeanPropertyBindingResult(producto, "");
+		ValidationUtils.invokeValidator(new ProductoValidator(), producto, errors);
+		Validator validator = createValidator();
+		Set<ConstraintViolation<ProductoDTO>> constraintViolations =     
+				validator.validate(producto);
+		//son 6 porque tambien se cuentan las validaciones de modelos
+		assertThat(constraintViolations.size()).isEqualTo(2);
+		assertThat(errors.getAllErrors().size()).isEqualTo(4);
+	}
+	
+	@Test
 	void cantidadActualEsMayorUn25PorCientoQueLaMaxima() {
 		LocaleContextHolder.setLocale(Locale.ENGLISH);
 		ProductoDTO producto= new ProductoDTO();

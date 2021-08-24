@@ -14,6 +14,19 @@ function validarsize(){
 	var cantMax = document.forms["producto"]["cantMax"].value;
 	var proveedor = document.forms["producto"]["proveedor"].value;
 	
+	if(!(cantMin-cantMin == 0.0)){
+        alert("La cantidad mínima tiene que ser un número");
+        return false;
+	}
+	if(!(cantMax-cantMax == 0.0)){
+        alert("La cantidad máxima tiene que ser un número");
+        return false;
+	}
+	if(!(cantAct-cantAct == 0.0)){
+        alert("La cantidad actual tiene que ser un número");
+        return false;
+	}
+	
 	return true;
 } 
 </script>

@@ -122,7 +122,11 @@ public class ComandaController {
 	public String guardarComanda(@Valid Comanda comanda, BindingResult result,ModelMap modelMap,Principal user) {
 		if(result.hasErrors()) {
 			modelMap.addAttribute("new_comanda", comanda);
-			modelMap.addAttribute("message",result.getAllErrors().get(0).getDefaultMessage());
+			if(result.getAllErrors().size() > 1) {
+				modelMap.addAttribute("message",result.getAllErrors().get(1).getDefaultMessage());
+			}else {
+				modelMap.addAttribute("message",result.getAllErrors().get(0).getDefaultMessage());
+			}
 			Collection<Comanda> list_comanda = comandaService.encontrarComandaActual();
 			modelMap.addAttribute("list_comanda",list_comanda);
 			return "comanda/listaComandaActual";
