@@ -1,0 +1,23 @@
+package org.springframework.samples.foorder.repository;
+
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.dao.DataAccessException;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.samples.foorder.model.Proveedor;
+
+public interface ProveedorRepository extends  CrudRepository<Proveedor, Integer>{
+	
+	@Query("SELECT p.name FROM Proveedor p WHERE p.activo=true")
+	List<String> findActivosName() throws DataAccessException; 
+	
+	@Query("SELECT p.name FROM Proveedor p ORDER BY p.id")
+	List<String> findAllNames() throws DataAccessException; 
+	
+	Iterable<Proveedor> findByActivoTrue() throws DataAccessException; 
+	
+	Optional<Proveedor> findByName(String nombre) throws DataAccessException; 
+	
+}

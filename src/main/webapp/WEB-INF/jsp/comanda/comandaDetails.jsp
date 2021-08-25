@@ -4,9 +4,10 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-<%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags"%>
+<%@ taglib prefix="foorder" tagdir="/WEB-INF/tags"%>
 
-<petclinic:layout pageName="Info comanda">
+<foorder:layout pageName="Info comanda">
+<h3><span class="message-span" id="message"></span></h3>
 	<h2>
 		Comanda mesa
 		<c:out value="${comanda.mesa}"></c:out>
@@ -46,7 +47,7 @@
 
 				<div class="form-group has-feedback">
 					<div class="control-group">
-						<petclinic:selectField name="platodto" label="platos"
+						<foorder:selectField name="platodto" label="platos"
 							names="${listaPlatos}" size="6" />
 					</div>
 				</div>
@@ -60,4 +61,15 @@
 			</form:form>
 		</div>
 	</div>
-</petclinic:layout>
+</foorder:layout>
+<script>
+
+var queryString = window.location.search;
+var urlParams = new URLSearchParams(queryString);
+var message = urlParams.get('message');
+
+	
+$('#message').text(message).text();
+
+
+</script>

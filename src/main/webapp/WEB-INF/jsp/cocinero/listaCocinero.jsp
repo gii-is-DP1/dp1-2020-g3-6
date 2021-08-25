@@ -3,9 +3,10 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="foorder" tagdir="/WEB-INF/tags" %>
 
-<petclinic:layout pageName="cocinero">
+<foorder:layout pageName="cocinero">
+	<h3><span class="message-span" id="message"></span></h3>
     <h2>Cocinero</h2>
 
     <table id="cocineroTable" class="table table-striped">
@@ -52,7 +53,19 @@
         </c:forEach>
         </tbody>
     </table>
-        <form method="get" action="/cocinero/new">
-      	<button class="btn btn-default" type="submit">Crear cocinero</button>
-  		</form>
-</petclinic:layout>
+    <form method="get" action="/cocinero/new">
+    	<button class="btn btn-default" type="submit">Crear cocinero</button>
+  	</form>
+</foorder:layout>
+
+<script>
+
+var queryString = window.location.search;
+var urlParams = new URLSearchParams(queryString);
+var message = urlParams.get('message');
+
+	
+$('#message').text(message).text();
+
+
+</script>

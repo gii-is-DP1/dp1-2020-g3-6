@@ -4,21 +4,21 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="foorder" tagdir="/WEB-INF/tags" %>
 
-<petclinic:layout pageName="owners">
+<foorder:layout pageName="owners">
     <h2>
         <c:if test="${owner['new']}">New </c:if> Owner
     </h2>
     <form:form modelAttribute="owner" class="form-horizontal" id="add-owner-form">
         <div class="form-group has-feedback">
-            <petclinic:inputField label="First Name" name="firstName"/>
-            <petclinic:inputField label="Last Name" name="lastName"/>
-            <petclinic:inputField label="Address" name="address"/>
-            <petclinic:inputField label="City" name="city"/>
-            <petclinic:inputField label="Telephone" name="telephone"/>
-            <petclinic:inputField label="Username" name="user.username"/>
-            <petclinic:inputField label="Password" name="user.password"/>
+            <foorder:inputField label="First Name" name="firstName"/>
+            <foorder:inputField label="Last Name" name="lastName"/>
+            <foorder:inputField label="Address" name="address"/>
+            <foorder:inputField label="City" name="city"/>
+            <foorder:inputField label="Telephone" name="telephone"/>
+            <foorder:inputField label="Username" name="user.username"/>
+            <foorder:inputField label="Password" name="user.password"/>
         </div>
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
@@ -33,4 +33,4 @@
             </div>
         </div>
     </form:form>
-</petclinic:layout>
+</foorder:layout>

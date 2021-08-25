@@ -1,13 +1,13 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ page session="false" trimDirectiveWhitespaces="true" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="foorder" tagdir="/WEB-INF/tags" %>
 
-<petclinic:layout pageName="proveedor">
+<foorder:layout pageName="proveedor">
+	<h3><span class="message-span" id="message"></span></h3>
     <h2>Proveedor</h2>
 
     <table id="proveedorTable" class="table table-striped">
@@ -15,7 +15,7 @@
         <tr>
             <th>Nombre</th>
             <th>Gmail</th>
-            <th>Teléfono</th>
+            <th>TelÃ©fono</th>
             <th>Acciones <th>
         </tr>
         </thead>
@@ -29,7 +29,6 @@
                  	<c:out value="${proveedor.gmail} "/>
                 </td>
                 <td>
-                   
                  	<c:out value="${proveedor.telefono} "/>
                 </td>
 				<td>
@@ -51,4 +50,16 @@
         <form method="get" action="/proveedor/new">
       	<button class="btn btn-default" type="submit">Crear proveedor</button>
   		</form>
-</petclinic:layout>
+</foorder:layout>
+
+<script>
+
+var queryString = window.location.search;
+var urlParams = new URLSearchParams(queryString);
+var message = urlParams.get('message');
+
+	
+$('#message').text(message).text();
+
+
+</script>

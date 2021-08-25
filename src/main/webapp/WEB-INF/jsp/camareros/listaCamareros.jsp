@@ -3,11 +3,14 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="foorder" tagdir="/WEB-INF/tags" %>
 
-<petclinic:layout pageName="camareros">
+<script src="http://code.jquery.com/jquery-3.3.1.js"></script>
+
+
+<foorder:layout pageName="camareros">
+	<h3><span class="message-span" id="message"></span></h3>
     <h2>Camarero</h2>
-
     <table id="camarerosTable" class="table table-striped">
         <thead>
         <tr>
@@ -41,29 +44,31 @@
                    <spring:url value="/camareros/delete/{camareroId}" var="camareroURL">
                    		  <spring:param name="camareroId" value="${camarero.id}"/>
                    </spring:url>
-                   <a href="${fn:escapeXml(camareroURL)}"><span class="glyphicon glyphicon-trash" aria-hidden="true">&nbsp;</a>
+                   <a href="${fn:escapeXml(camareroURL)}"><span class="glyphicon glyphicon-trash" aria-hidden="true">&nbsp;</span></a>
                    
                     <spring:url value="/camareros/edit/{camareroId}" var="camareroEditUrl">
     		  			<spring:param name="camareroId" value="${camarero.id}"/>
   					</spring:url>
-                	<a href="${fn:escapeXml(camareroEditUrl)}"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></a>
+                	<a href="${fn:escapeXml(camareroEditUrl)}"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
                 </td>
-      
-<!--
-                <td> 
-                    <c:out value="${owner.user.username}"/> 
-                </td>
-                <td> 
-                   <c:out value="${owner.user.password}"/> 
-                </td> 
--->
-                
             </tr>
         </c:forEach>
+        <c:out value="${message}"></c:out>
          </table>
     	<form method="get" action="/camareros/new">
-      	<button class="btn btn-default" type="submit">Crear camarero</button>
+      		<button class="btn btn-default" type="submit">Crear camarero</button>
   		</form>
-  		
         </tbody>
-</petclinic:layout>
+</foorder:layout>
+
+<script>
+
+var queryString = window.location.search;
+var urlParams = new URLSearchParams(queryString);
+var message = urlParams.get('message');
+
+	
+$('#message').text(message).text();
+
+
+</script>

@@ -4,16 +4,16 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="foorder" tagdir="/WEB-INF/tags" %>
 
 
-<petclinic:layout pageName="lineaPedido">
+<foorder:layout pageName="lineaPedido">
     <h2>LineaPedido</h2>
     <form:form modelAttribute="lineaPedido" class="form-horizontal" id="add-proveedor-form" action="/lineaPedido/save">
         <div class="form-group has-feedback">
-            <petclinic:inputField label="producto" name="producto"/>
-            <petclinic:inputField label="cantidad" name="cantidad"/>
-            <petclinic:inputField label="pedido" name="pedido"/>
+            <foorder:inputField label="producto" name="producto"/>
+            <foorder:inputField label="cantidad" name="cantidad"/>
+            <foorder:inputField label="pedido" name="pedido"/>
         </div>
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
@@ -23,4 +23,4 @@
             </div>
         </div>
     </form:form>
-</petclinic:layout>
+</foorder:layout>
